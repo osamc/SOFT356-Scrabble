@@ -1,0 +1,15 @@
+<p>room works!</p>
+
+<div class="input-group mb-3 col-sm-4">
+    <input type="text" class="form-control" placeholder="Message" #message>
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="sendMessage(message.value)">Send Message</button>
+      </div>
+</div>
+
+<div>
+    <div *ngFor="let message of websocket.activeRoom.messages">
+        <h4>{{message.from}}: {{message.contents}}</h4>
+    </div>
+    
+</div>
