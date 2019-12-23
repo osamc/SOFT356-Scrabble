@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-const port = 9000;
+const port = 80;
 
 //Locate the build folder of the angular app
 const angularApp = __dirname + '/dist/soft356scrabble/';
