@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 })
 
 //Create app and listen on port
-let server = app.listen(port, '0.0.0.0', () => {
+let server = app.listen(port, () => {
     console.log(`listening on port ${port}!`);
 });
 

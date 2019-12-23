@@ -18,7 +18,7 @@ export class WebsocketService {
 
   constructor(private router: Router) {
     //we connect to the socket io server
-    this.socket = io('http://localhost:9000'); 
+    this.socket = io('/'); 
 
     //Whenever we get a rooms message,
     //we want to update our internal representation
