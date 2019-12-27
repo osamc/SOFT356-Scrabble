@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Player } from '../models/player';
 import {v4 as uuid} from 'uuid';
-import {environment} from 'src/environments/environment'
 import {AppConstant} from 'src/environments/constants'
 
 @Injectable({
@@ -34,6 +33,10 @@ export class ApiService {
 
   public getPlayerCount() {
     return this.http.get(this.base + "/getPlayerCount");
+  }
+
+  public updatePlayer(player: Player) {
+    return this.http.post(this.base + '/updatePlayer', player);
   }
 
 

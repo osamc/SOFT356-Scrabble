@@ -21,8 +21,19 @@ var ObjectId = require('mongodb').ObjectId;
      return await schemas.player.count();
  }
 
+ async function updatePlayer(player) {
+    var update = {playerName: player.playerName, 
+    socketId: player.socketId,
+    activeRoomId: player.activeRoomId};
+    console.log(update);
+    return await schemas.player.update({"playerId" : player.playerId}, update, {upsert: true} ,function(err, doc) {
+        return doc;
+    });
+ }
+
  module.exports.getPlayer = getPlayer;
  module.exports.getPlayers = getPlayers;
  module.exports.getPlayerCount = getPlayerCount;
  module.exports.createPlayer = createPlayer;
  module.exports.deletePlayer = deletePlayer;
+ module.exports.updatePlayer = updatePlayer;

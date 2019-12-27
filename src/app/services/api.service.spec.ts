@@ -83,7 +83,34 @@ describe('ApiService', () => {
         })
       })
     })
-    
+  });
+
+  it('Should be able to update a player', (done) => {
+    console.log("The api should be able to update the player");
+    const service: ApiService = TestBed.get(ApiService);
+
+    service.createPlayer('test').subscribe(result => {
+      let castResult = <Player> result;
+
+      service.getPlayer(castResult.playerId).subscribe(before => {
+        let beforePlayer = <Player> before;
+        let oldName = beforePlayer.playerName;
+        beforePlayer.playerName = "test2";
+        service.updatePlayer(beforePlayer).subscribe(() => {
+          service.getPlayer(beforePlayer.playerId).subscribe(after => {
+            let afterPlayer = <Player> after;
+            console.log("Player before: ");
+            console.log(JSON.stringify(beforePlayer));
+            console.log("Player after: ");
+            console.log(JSON.stringify(afterPlayer));
+            expect(afterPlayer.playerName !== oldName).toBeTruthy();
+            expect(afterPlayer.playerName === 'test2');
+            accountsCreated.push(afterPlayer);
+            done();
+          })
+        });
+      });
+    }); 
 
   })
 

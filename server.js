@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
 //Create app and listen on port
 let server = app.listen(port, () => {
     console.log(`listening on port ${port}!`);
+    mongoose.set('useFindAndModify', false);
 
     mongoose.connect(dbConnection, {useNewUrlParser: true, useUnifiedTopology: true}).then((test) => {
         console.log("Connected to DB");
@@ -43,7 +44,6 @@ let io = require('socket.io').listen(server);
 //can be replaced by db eventually
 const rooms = [];
 const players = {};
-
 
 app.post("/createPlayer", (req, res) => {
     var player = req.body;
@@ -70,9 +70,17 @@ app.get('/getPlayerCount', (req, res) => {
 
 app.delete('/deletePlayer/:id', (req, res) => {
     db.deletePlayer(req.params.id).then(val => {
-        res.send(val.deletedCount())
+        res.send(val);
     });
 });
+
+app.post('/updatePlayer', (req, res) => {
+    console.log("update: ");
+    console.log(req.body);
+    db.updatePlayer(req.body).then(() => {
+        res.send();
+    })
+})
 
 //we want to enable cors for testing
 io.set('origins', '*:*');
