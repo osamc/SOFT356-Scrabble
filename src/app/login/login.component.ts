@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
+import { ApiService } from '../services/api.service';
+import { Player } from '../models/player';
 
 
 
@@ -10,26 +12,16 @@ import {Md5} from 'ts-md5/dist/md5';
 })
 export class LoginComponent implements OnInit {
 
-  md5: Md5;;
-  create: boolean = false;
+  constructor(private api: ApiService) {}
 
-  constructor() { 
-    this.md5 = new Md5();
-    console.log(this.md5.appendStr('hello').end());
+  ngOnInit() {}
+
+  createPlayer(name: string) {
+    this.api.createPlayer(name).subscribe(res => {
+      console.log(res);
+    });
   }
 
-  ngOnInit() {
-  }
-
-
-
-  createAccount(name: string) {
-    console.log(name);
-  }
-
-  login(name: string, hash: string) {
-
-  }
 
 
 

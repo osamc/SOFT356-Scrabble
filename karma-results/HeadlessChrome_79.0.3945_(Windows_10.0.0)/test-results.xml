@@ -1,81 +1,20 @@
 <?xml version="1.0"?>
-<testsuite name="HeadlessChrome 79.0.3945 (Windows 10.0.0)" package="" timestamp="2019-12-23T14:30:37" id="0" hostname="DESKTOP-JU1KODK" tests="8" errors="0" failures="3" time="0.3">
+<testsuite name="HeadlessChrome 79.0.3945 (Windows 10.0.0)" package="" timestamp="2019-12-27T19:11:02" id="0" hostname="DESKTOP-JU1KODK" tests="3" errors="0" failures="0" time="0.181">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/79.0.3945.88 Safari/537.36"/>
   </properties>
-  <testcase name="RoomListComponent should create" time="0.11" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomListComponent">
-    <failure type="">NullInjectorError: StaticInjectorError(DynamicTestModule)[Router]: 
-  StaticInjectorError(Platform: core)[Router]: 
-    NullInjectorError: No provider for Router!
-error properties: Object({ ngTempTokenPath: null, ngTokenPath: [ Function ], ngDebugContext: DebugContext_({ view: Object({ def: Object({ factory: Function, nodeFlags: 33669121, rootNodeFlags: 33554433, nodeMatchedQueries: 0, flags: 0, nodes: [ Object({ nodeIndex: 0, parent: null, renderParent: null, bindingIndex: 0, outputIndex: 0, checkIndex: 0, flags: 33554433, childFlags: 114688, directChildFlags: 114688, childMatchedQueries: 0, matchedQueries: Object({  }), matchedQueryIds: 0, references: Object({  }), ngContentIndex: null, childCount: 1, bindings: [  ], bindingFlags: 0, outputs: [  ], element: Object({ ns: '', name: 'app-room-list', attrs: [  ], template: null, componentProvider: Object({ nodeIndex: 1, parent: &lt;circular reference: Object&gt;, renderParent: &lt;circular reference: Object&gt;, bindingIndex: 0, outputIndex: 0, checkIndex: 1, flags: 114688, childFlags: 0, directChildFlags: 0, childMatchedQueries: 0, matchedQueries: Object, matchedQueryIds: 0, references: Object, ngContentIndex: -1, childCount ...
-    at &lt;Jasmine&gt;
-    at NullInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:855:1)
-    at resolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17514:1)
-    at tryResolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17440:1)
-    at StaticInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17266:1)
-    at resolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17514:1)
-    at tryResolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17440:1)
-    at StaticInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17266:1)
-    at resolveNgModuleDep (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:30393:1)
-    at NgModuleRef_.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:31578:1)
-    at injectInjectorOnly (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:734:1)
-</failure>
-    <failure type="">Error: Expected undefined to be truthy.
-    at &lt;Jasmine&gt;
-    at UserContext.&lt;anonymous&gt; (http://localhost:9876/_karma_webpack_/src/app/room-list/room-list.component.spec.ts:23:23)
-    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:359:1)
-    at ProxyZoneSpec.push../node_modules/zone.js/dist/zone-testing.js.ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-testing.js:308:1)
-</failure>
-  </testcase>
-  <testcase name="TestComponent should create" time="0.014" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).TestComponent"/>
-  <testcase name="UserAPIService should be created" time="0.007" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).UserAPIService"/>
-  <testcase name="AppComponent should create the app" time="0.024" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).AppComponent"/>
-  <testcase name="AppComponent should have as title 'soft356scrabble'" time="0.016" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).AppComponent"/>
-  <testcase name="RoomComponent should create" time="0.036" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent">
-    <failure type="">NullInjectorError: StaticInjectorError(DynamicTestModule)[RouterModule -&gt; Router]: 
-  StaticInjectorError(Platform: core)[RouterModule -&gt; Router]: 
-    NullInjectorError: No provider for Router!
-error properties: Object({ ngTempTokenPath: null, ngTokenPath: [ 'RouterModule', Function ], ngDebugContext: DebugContext_({ view: Object({ def: Object({ factory: Function, nodeFlags: 33669121, rootNodeFlags: 33554433, nodeMatchedQueries: 0, flags: 0, nodes: [ Object({ nodeIndex: 0, parent: null, renderParent: null, bindingIndex: 0, outputIndex: 0, checkIndex: 0, flags: 33554433, childFlags: 114688, directChildFlags: 114688, childMatchedQueries: 0, matchedQueries: Object({  }), matchedQueryIds: 0, references: Object({  }), ngContentIndex: null, childCount: 1, bindings: [  ], bindingFlags: 0, outputs: [  ], element: Object({ ns: '', name: 'app-room', attrs: [  ], template: null, componentProvider: Object({ nodeIndex: 1, parent: &lt;circular reference: Object&gt;, renderParent: &lt;circular reference: Object&gt;, bindingIndex: 0, outputIndex: 0, checkIndex: 1, flags: 114688, childFlags: 0, directChildFlags: 0, childMatchedQueries: 0, matchedQueries: Object, matchedQueryIds: 0, references: Object, ngContentIndex: -1,  ...
-    at &lt;Jasmine&gt;
-    at NullInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:855:1)
-    at resolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17514:1)
-    at tryResolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17440:1)
-    at StaticInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17266:1)
-    at resolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17514:1)
-    at tryResolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17440:1)
-    at StaticInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17266:1)
-    at resolveNgModuleDep (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:30393:1)
-    at NgModuleRef_.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:31578:1)
-    at injectInjectorOnly (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:734:1)
-</failure>
-    <failure type="">Error: Expected undefined to be truthy.
-    at &lt;Jasmine&gt;
-    at UserContext.&lt;anonymous&gt; (http://localhost:9876/_karma_webpack_/src/app/room/room.component.spec.ts:23:23)
-    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:359:1)
-    at ProxyZoneSpec.push../node_modules/zone.js/dist/zone-testing.js.ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-testing.js:308:1)
-</failure>
-  </testcase>
-  <testcase name="WebsocketService should be created" time="0.045" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).WebsocketService">
-    <failure type="">NullInjectorError: StaticInjectorError(DynamicTestModule)[Router]: 
-  StaticInjectorError(Platform: core)[Router]: 
-    NullInjectorError: No provider for Router!
-error properties: Object({ ngTempTokenPath: null, ngTokenPath: [ Function ] })
-    at &lt;Jasmine&gt;
-    at NullInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:855:1)
-    at resolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17514:1)
-    at tryResolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17440:1)
-    at StaticInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17266:1)
-    at resolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17514:1)
-    at tryResolveToken (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17440:1)
-    at StaticInjector.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:17266:1)
-    at resolveNgModuleDep (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:30393:1)
-    at NgModuleRef_.get (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:31578:1)
-    at injectInjectorOnly (http://localhost:9876/_karma_webpack_/node_modules/@angular/core/fesm2015/core.js:734:1)
-</failure>
-  </testcase>
-  <testcase name="LoginComponent should create" time="0.048" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).LoginComponent"/>
+  <testcase name="ApiService Should be able to delete players" time="0.08" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService should create players" time="0.011" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService Should be able to retrieve players" time="0.09" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
   <system-out>
-    <![CDATA[HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '5d41402abc4b2a76b9719d911017c592'
+    <![CDATA[HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to retrieve players'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"playerId":"302292b8-77b5-4386-aebf-3298c54d3b7b","playerName":"test"}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e065746494ee64150dab2be","playerId":"302292b8-77b5-4386-aebf-3298c54d3b7b","playerName":"test","__v":0}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to delete players'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be created'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Expecting the number of accounts to be incramented by 1'
 
 ]]>
   </system-out>

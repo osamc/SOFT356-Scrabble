@@ -2,14 +2,22 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-app.use(cors());
+const db = require("./server/database")
+const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
+
+
+const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/test?retryWrites=true&w=majority"
 const port = process.env.PORT || 9000;
 
 //Locate the build folder of the angular app
 const angularApp = __dirname + '/dist/soft356scrabble/';
-
 //We want to use our angular app
 app.use(express.static(angularApp));
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Example get request
 app.get('/example', (req, res) => res.send('Hello World!'));
@@ -22,6 +30,10 @@ app.get('/', (req, res) => {
 //Create app and listen on port
 let server = app.listen(port, () => {
     console.log(`listening on port ${port}!`);
+
+    mongoose.connect(dbConnection, {useNewUrlParser: true, useUnifiedTopology: true}).then((test) => {
+        console.log("Connected to DB");
+    });
 });
 
 //Initialise socket io
@@ -31,6 +43,36 @@ let io = require('socket.io').listen(server);
 //can be replaced by db eventually
 const rooms = [];
 const players = {};
+
+
+app.post("/createPlayer", (req, res) => {
+    var player = req.body;
+    db.createPlayer(player).then(res.send(player));
+});
+
+app.get('/getPlayer/:id', (req, res) => {
+    db.getPlayer(req.params.id).then(val => {
+        res.send(val);
+    });
+});
+
+app.get('/getPlayers', (req, res) => {
+    db.getPlayers().then(val => {
+        res.send(val);
+    });
+});
+
+app.get('/getPlayerCount', (req, res) => {
+    db.getPlayerCount().then(val => {
+        res.send(val);
+    });
+});
+
+app.delete('/deletePlayer/:id', (req, res) => {
+    db.deletePlayer(req.params.id).then(val => {
+        res.send(val.deletedCount())
+    });
+});
 
 //we want to enable cors for testing
 io.set('origins', '*:*');
