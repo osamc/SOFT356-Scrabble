@@ -3,7 +3,8 @@ var expect = require('chai').expect;
 
 describe('Game Test', () => {
 
-    it('should do something', (done) => {
+    it('dummy test', (done) => {
+        console.log('dummy');
         expect(2).equal(2);
         done();
     })

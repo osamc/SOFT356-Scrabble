@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.001" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-12-29T01:58:00" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Game Test" timestamp="2019-12-29T01:58:00" tests="1" file="E:\SOFT356-Scrabble\server\gameLogic\test.js" failures="0" time="0.001">
+    <testcase name="Game Test should do something" time="0.001" classname="should do something">
+    </testcase>
+  </testsuite>
+</testsuites>
