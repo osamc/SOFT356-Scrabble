@@ -6,7 +6,6 @@ const db = require("./server/database")
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 
-
 const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/test?retryWrites=true&w=majority"
 const port = process.env.PORT || 9000;
 
@@ -43,7 +42,6 @@ let io = require('socket.io').listen(server);
 //Variables for keeping track of rooms and players,
 //can be replaced by db eventually
 const rooms = [];
-const players = {};
 
 app.post("/createPlayer", (req, res) => {
     var player = req.body;
@@ -87,16 +85,12 @@ io.set('origins', '*:*');
 
 io.on('connection', socket => {
     
-    let previousId;
     let player = {};
    
     function updateRooms() {
         io.emit('rooms', rooms);
     }
 
-    function updatePlayer() {
-        socket.emit('player', player);
-    }
     
     function leave(){
         if (player.activeRoom) {
@@ -127,7 +121,7 @@ io.on('connection', socket => {
         if(room.players.filter(p => p === socket.id).length > 0) {
             socket.emit('joinFailed', 'true');
         } else {
-            room.players.push(socket.id);
+            room.players.push(player);
             player.activeRoom = roomId;
             socket.join(roomId);
             updateRooms();
@@ -135,6 +129,10 @@ io.on('connection', socket => {
         }
 
     });
+
+    socket.on('startGame', roomId => {
+
+    })
 
     socket.on('leaveRoom', any => {
         leave();
@@ -145,14 +143,16 @@ io.on('connection', socket => {
         socket.to(player.activeRoom).emit('message', message);
     })
 
+
+    socket.on('setPlayer', toSet => {
+        toSet.socketId = socket.id;
+        player = toSet;
+        socket.emit('rooms', rooms);
+    })
+
     //Once we connect we want to get a list of all rooms
     io.emit('rooms', rooms);
 
-    player.playerId = socket.id;
-    
-    players[player.playerId] = player;
-
-    updatePlayer();
     console.log('Socket' + socket.id + 'has connected');
 
 })

@@ -16,7 +16,6 @@ export class RoomListComponent implements OnInit {
 
   ngOnInit() {
     this.webSockets.init();
-    console.log(this.webSockets.player);
   }
 
 

@@ -23,7 +23,7 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     junitReporter: {
-      outputDir: 'karma-results',
+      outputDir: 'tests',
       outputFile: 'test-results.xml'
     },
     port: 9876,
