@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "test": " mocha '.\\server\\gameLogic\\test.js'",
+    "test": " ng test & mocha '.\\server\\gameLogic\\test.js' --reporter mocha-junit-reporter --reporter-options mochaFile=tests/mocha/test-results.xml",
     "testkarma": "ng test",
     "testmocha": "mocha '.\\server\\gameLogic\\test.js'",
     "lint": "ng lint",
