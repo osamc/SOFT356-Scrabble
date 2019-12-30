@@ -98,7 +98,7 @@ describe('Game Logic Test', () => {
         expect(board[5][1].type).equal('letter');
         expect(board[5][1].multiplier).equal(3);
         expect(board[7][7].type).equal('centre');
-        expect(board[7][7].multiplier).equal(0);
+        expect(board[7][7].multiplier).equal(2);
 
         done();
     });
@@ -188,6 +188,101 @@ describe('Game Logic Test', () => {
 
     });
 
+    it('The game should be able to find a word if placed on board', (done) =>{
+        let players = [1,2];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [ {letter: 'l', value: 1},  {letter: 'a', value: 1},  {letter: 'm', value: 3},  {letter: 'b', value: 3},  {letter: 's', value: 1}];
+        let moves = [ {x: 11, y:3}, {x: 11, y:4}, {x: 11, y:5}, {x: 11, y:6}, {x: 11, y:7}];
+
+        let words = game.findWords(setup, tiles, moves);
+        let strings = game.convertTilesToStrings(words);
+
+        expect(strings[0]).equal('lambs');
+
+        done();
+    });
+
+    it('The game should be able to find multiple words if tiles already exist', (done) => {
+        let players = [1,2];
+        let setup = game.initialSetup(players, 8);
+
+        game.placeTile(setup, {letter: 'm', value: 3}, 7, 7);
+        game.placeTile(setup, {letter: 'a', value: 1}, 8, 7);
+        game.placeTile(setup, {letter: 's', value: 1}, 9, 7);
+        game.placeTile(setup, {letter: 'k', value: 5}, 10, 7);
+
+        let tiles = [ {letter: 'l', value: 1},  {letter: 'a', value: 1},  {letter: 'm', value: 3},  {letter: 'b', value: 3},  {letter: 's', value: 1}];
+        let moves = [ {x: 11, y:3}, {x: 11, y:4}, {x: 11, y:5}, {x: 11, y:6}, {x: 11, y:7}];
+
+        let words = game.findWords(setup, tiles, moves);
+        let strings = game.convertTilesToStrings(words);
+
+        expect(strings.includes('lambs')).equal(true);
+        expect(strings.includes('masks')).equal(true);
+        done();
+
+    });
+
+    it('The game should be able to determine the score of a word', (done) => {
+        let players = [1,2];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [ {letter: 'm', value: 3},  
+            {letter: 'a', value: 1},  
+            {letter: 's', value: 1},  
+            {letter: 'k', value: 5}];
+
+        let moves = [ {x: 7, y:7}, 
+            {x: 7, y:8}, 
+            {x: 7, y:9}, 
+            {x: 7, y:10}];
+
+        let words = game.findWords(setup, tiles, moves);
+
+        let score = game.determineScore(words);
+
+        //The sum of mask point wise is 10, 
+        //however 7,7 (the centre) counts
+        //as a double word
+        expect(score).equal(20);
+
+        done();
+    });
+
+
+    it('The game should be able to determine scores of multiple words', (done) => {
+        let players = [1,2];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [ {letter: 'm', value: 3},  
+            {letter: 'a', value: 1},  
+            {letter: 's', value: 1},  
+            {letter: 'k', value: 5}];
+
+        let moves = [ {x: 7, y:7}, 
+            {x: 8, y:7}, 
+            {x: 9, y:7}, 
+            {x: 10, y:7}];
+
+        for(let i = 0; i < tiles.length; i++) {
+            game.playTile(setup, tiles[i], moves[i].x, moves[i].y);
+        }
+
+        tiles = [ {letter: 'l', value: 1},  {letter: 'a', value: 1},  {letter: 'm', value: 3},  {letter: 'b', value: 3},  {letter: 's', value: 1}];
+        moves = [ {x: 11, y:3}, {x: 11, y:4}, {x: 11, y:5}, {x: 11, y:6}, {x: 11, y:7}];
+
+        let words = game.findWords(setup, tiles, moves);
+
+        console.log(game.convertTilesToStrings(words));
+
+        let score = game.determineScore(words);
+
+        expect(score).equal(32);
+        done();
+
+
+    })
 
 
 
