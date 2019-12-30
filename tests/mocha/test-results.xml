@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.047000000000000014" tests="10" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-12-30T01:02:44" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Game Logic Test" timestamp="2019-12-30T01:02:44" tests="10" file="E:\SOFT356-Scrabble\server\gameLogic\test.js" failures="0" time="0.047000000000000014">
+    <testcase name="Game Logic Test The game should be able to produce default pool options" time="0.003" classname="The game should be able to produce default pool options">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to generate a tile pool based on default options" time="0.01" classname="The game should be able to generate a tile pool based on default options">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to shuffle a group of tiles" time="0.012" classname="The game should be able to shuffle a group of tiles">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to deal a hand of X size" time="0.002" classname="The game should be able to deal a hand of X size">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to allow the player draw X number of tile" time="0.011" classname="The game should be able to allow the player draw X number of tile">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to create the game board" time="0.002" classname="The game should be able to create the game board">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to be setup" time="0.002" classname="The game should be able to be setup">
+    </testcase>
+    <testcase name="Game Logic Test The game shoud allow you to check if a tile placement valid is correct" time="0.001" classname="The game shoud allow you to check if a tile placement valid is correct">
+    </testcase>
+    <testcase name="Game Logic Test The game should allow you to place a tile" time="0.001" classname="The game should allow you to place a tile">
+    </testcase>
+    <testcase name="Game Logic Test The game should be able to check if a move is valid (tile placement wise)" time="0.003" classname="The game should be able to check if a move is valid (tile placement wise)">
+    </testcase>
+  </testsuite>
+</testsuites>
