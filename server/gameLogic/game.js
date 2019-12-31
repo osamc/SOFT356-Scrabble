@@ -1,3 +1,5 @@
+const fs = require('fs');
+let dictionary;
 
 //Function used to generate pool
 function generatePool(poolOptions) {
@@ -189,22 +191,19 @@ function initialSetup(players, handSize) {
     let pool = generatePool(options);
     shuffleTiles(pool);
 
-    let hands = [];
-
     players.forEach(player => {
-        let hand = dealHand(handSize, pool);
-        hands.push(hand);
+        player.hand = dealHand(handSize, pool);
     });
 
     let board = createBoard();
 
     game.players = players;
-    game.hands = hands;
     game.board = board;
     game.pool = pool;
-    game.activePlayer = 0;
+    game.activePlayer = players[0].playerId;
     game.firstTurn = true;
     game.handSize = handSize;
+    game.dictionary = getDictionary();
 
     return game;
 }
@@ -527,32 +526,69 @@ function makeMove(game, moveRequest) {
     moveRes.valid = false;
 
     if(checkMove(game, tiles, moves)) {
-        moveRes.words = findWords(game, tiles, moves);
+
+        let words = findWords(game, tiles, moves);
+        let wordsAsStrings = convertTilesToStrings(words);
+
+        for(let i = 0; i < wordsAsStrings.length; i++) {
+            let valid = checkWordValidity(game, wordsAsStrings[i]);
+            if (!valid) {
+                moveRes.valid = false;
+                moveRes.reason = "The word : " + wordsAsStrings[i] + " is not a valid word";
+                return moveRes; 
+            }
+        }
+
+        moveRes.words = wordsAsStrings;
         moveRes.score = determineScore(words);
-
-        //check words exist
-
         moveRes.valid = true;
+
+    } else {
+        moveRes.valid = false;
+        moveRes.reason = "the move was invalid";
+        return moveRes;
     }
 
     if (moveRes.valid) {
+        
         for(let i = 0; i < tiles.length; i++) {
-            playTile(setup, tiles[i], moves[i].x, moves[i].y);
+            playTile(game, tiles[i], moves[i].x, moves[i].y);
         }
 
-        let playerToUpdate = game.players.find(player => {
-            player.playerId == game.activePlayer;
-        });
+        let playerToUpdate = game.players.find(player => player.playerId === game.activePlayer);
 
-        playerToUpdate.score += score;
-        playerToUpdate.words.concat(words);
+        playerToUpdate.score += moveRes.score;
+        
+        if (playerToUpdate.words.length == 0) {
+            playerToUpdate.words = moveRes.words;
+        } else {
+            playerToUpdate.words.concat(moveRes.words);
+        }
+        
 
         drawTiles(game.pool, playerToUpdate.hand, game.handSize);
     
     }
     
+    game.firstTurn = false;
+
     return moveRes;
  
+}
+
+function getDictionary() {
+
+    let dictionary = fs.readFileSync('server/gameLogic/dict.txt','utf-8');
+
+    //split on new line and make all things lower case
+    dictionary = dictionary.split(/[\r\n]+/).map(w => w.toLocaleLowerCase());
+        
+    return dictionary;
+  
+}
+
+function checkWordValidity(game, word) {
+    return game.dictionary.includes(word);
 }
 
 module.exports.generatePool = generatePool;
@@ -569,3 +605,6 @@ module.exports.findWords = findWords;
 module.exports.convertTilesToStrings = convertTilesToStrings;
 module.exports.determineScore = determineScore;
 module.exports.playTile = playTile;
+module.exports.getDictionary = getDictionary;
+module.exports.checkWordValidity = checkWordValidity;
+module.exports.makeMove = makeMove;
