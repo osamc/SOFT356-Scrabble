@@ -17,7 +17,7 @@ describe('Game Logic Test', () => {
     it('The game should be able to generate a tile pool based on default options', (done) => {
         console.log('creating default tile pool');
         let pool = game.generatePool(game.createPoolOptions()); 
-        expect(pool.length).equal(99);
+        expect(pool.length).equal(98);
         expect(pool[0].letter).equal('a');
         done();
     });
@@ -109,7 +109,7 @@ describe('Game Logic Test', () => {
 
         expect(setup.players.length).equal(players.length);
         expect(setup.players[0].hand.length).equal(8);
-        expect(setup.pool.length).equal((99 - 24));
+        expect(setup.pool.length).equal((98 - 24));
         done();
     });
 
@@ -371,10 +371,87 @@ describe('Game Logic Test', () => {
 
     });
 
+    it('The game should be able to change turn to the next player', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        expect(setup.activePlayer).equal('1');
+        game.changeTurn(setup);
+        expect(setup.activePlayer).equal('2');
+        game.changeTurn(setup);
+        expect(setup.activePlayer).equal('1');
+    });
+
+    it('The game should be able to rotate between 3 players', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []},   {hand: {}, playerId: '3', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        expect(setup.activePlayer).equal('1');
+        game.changeTurn(setup);
+        expect(setup.activePlayer).equal('2');
+        game.changeTurn(setup);
+        expect(setup.activePlayer).equal('3');
+        game.changeTurn(setup);
+        expect(setup.activePlayer).equal('1');
+    });
+
+    it('The game should allow for players to exchange tiles', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []},   {hand: {}, playerId: '3', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = JSON.parse(JSON.stringify(setup.players[0].hand));
+
+        let poolSize = setup.pool.length;
+
+        let player = setup.players[0];
+
+        console.log('Hand before')
+        console.log(JSON.stringify(player.hand));
+
+        game.exchangeTiles(setup, tiles);
+
+        console.log('Hand after')
+        console.log(JSON.stringify(player.hand));
+       
+        //We expect the hand to be different, it's very unlikely we'll get the same 8 tiles
+        expect(JSON.stringify(player.hand) != JSON.stringify(tiles)).equal(true); 
+        expect(poolSize).equal(setup.pool.length);
+        expect(player.hand.length).equal(setup.handSize);
+
+    });
+
+    it('The game should determine a move that has a different number of locations and tiles invalid', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []},   {hand: {}, playerId: '3', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [];
+        let moves = [];
+        let testWord = 'mask';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x: 7 + i, y: 7});
+        }
+
+        moves.pop();
+
+        let moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+
+        let res = game.makeMove(setup, moveRequest);
+
+    });
+
+
 
 });
 
 function getTile(game, letter) {
     let options = game.createPoolOptions();
-    return {letter: letter, value: options[letter + 'Value']};
+    return {letter: letter, value: options[letter + 'Value']}; 
 }

@@ -30,6 +30,8 @@ function shuffleTiles(tileGroup) {
 function dealHand(handSize, pool) {
     let hand =  [];
 
+    //Assuming the pool is already shuffled,
+    //we just need to remove x number of tiles from the pool
     for(let i = 0; i < handSize; i++) {
         hand.push(pool.pop());
     }
@@ -38,6 +40,7 @@ function dealHand(handSize, pool) {
 
 }
 
+//Drawing tiles should fill up the hand of the player
 function drawTiles(pool, hand, handSize) {
     let numberOfTiles = handSize - hand.length;
     for(let i = 0; i < numberOfTiles; i++) {
@@ -95,7 +98,7 @@ function createPoolOptions() {
         oValue: 1,
     
         pCount: 2,
-        pCount: 3,
+        pValue: 3,
     
         qCount: 1,
         qValue: 1,
@@ -184,6 +187,8 @@ function createBoard() {
     return board;
 }
 
+//The initial game setup should create a board,
+//hands for players and assign the active player
 function initialSetup(players, handSize) {
     let game = {};
 
@@ -204,21 +209,29 @@ function initialSetup(players, handSize) {
     game.firstTurn = true;
     game.handSize = handSize;
     game.dictionary = getDictionary();
+    game.def = options;
 
     return game;
 }
 
+//To play this board game tiles need to be placed 
+//this is done so words and scores can be determined
 function placeTile(game, tile, x, y)  {
     if (checkPlacement(game, tile, x, y)) {
         game.board[y][x].tile = tile;
     }
 }
 
+//To actually play a tile, 
+//we place it and then toggle the
+//bonus/multiplier off
 function playTile(game, tile, x ,y) {
     placeTile(game, tile, x, y);
     game.board[y][x].used = true;
 }
 
+//If a board tile has an empty object, 
+//then no tile has been placed in that spot
 function checkPlacement(game, tile, x ,y) {
     // If the tile in the board is an empty object, then it's free
     if (JSON.stringify(game.board[y][x].tile) == '{}') {
@@ -228,10 +241,13 @@ function checkPlacement(game, tile, x ,y) {
     }
 }
 
+//Check if a tile exists
 function checkIfTileExists(boardTile) {
     return JSON.stringify(boardTile.tile) != '{}';
 }
 
+
+//Determines if placements on the board are valid
 function checkMove(game, tiles, moves) {
     //clone the game
     let newGame = JSON.parse(JSON.stringify(game));
@@ -371,6 +387,7 @@ function checkMove(game, tiles, moves) {
 
 }
 
+//Determine if a move is being played vertically
 function determineIfMoveIsVertical(moves) {
    
     //Check to see if moves are in a single line
@@ -386,23 +403,33 @@ function determineIfMoveIsVertical(moves) {
     return (new Set(xVals).size == 1);
 }
 
+//Determine all the words created by the move
 function findWords(game, tiles, moves) {
 
     let foundWords = [];
 
     let isVertical = determineIfMoveIsVertical(moves);
 
+    //We want to clone the board to place the tiles,
+    //this is done so that if we have to back out later on
+    //no changes have been made
     let newGame = JSON.parse(JSON.stringify(game));
     for(let i = 0; i < moves.length; i++){
         placeTile(newGame, tiles[i], moves[i].x, moves[i].y);
     }
 
+    //Depending on the dimensionality of the move,
+    //we want to check for words in two different ways
+    //luckily we can assign functions to variables in js
     let mainCheck = isVertical ? findWordsVert : findWordsHoriz;
     let subsCheck = isVertical ? findWordsHoriz : findWordsVert;
 
+    //Get the main word
     let mainWord = mainCheck(newGame, moves[0]);
     foundWords.push(mainWord);
 
+    //Then for each tile we check the perpendicular direction
+    //to look for any additional words created
     for(let i = 1; i < moves.length; i++) {
         let subWord = subsCheck(newGame, moves[i]);
         if (subWord.length > 1) {
@@ -415,6 +442,9 @@ function findWords(game, tiles, moves) {
 
 }
 
+//We move to the topmost tile in the line that either has an empty tile
+//or the border above it, then we just progress down to create the word
+//until we his the border of an empty tile
 function findWordsVert(game, pos) {
     let topMost = pos.y;
 
@@ -433,6 +463,7 @@ function findWordsVert(game, pos) {
 
 }
 
+//Same as find words vert but moving left to right instead
 function findWordsHoriz(game, pos) {
     let leftMost = pos.x;
 
@@ -450,10 +481,12 @@ function findWordsHoriz(game, pos) {
     return word;
 }
 
+//Quick method for cloning objects using the JSON library
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
+//Convert a collection of tiles into a string
 function getStringFromTiles(tiles) {
     let word = "";
 
@@ -464,6 +497,7 @@ function getStringFromTiles(tiles) {
     return word;
 }
 
+//convert a collection of collections of tiles into words
 function convertTilesToStrings(tilesArr) {
     let words = [];
     for(let i = 0; i < tilesArr.length; i++) {
@@ -473,15 +507,19 @@ function convertTilesToStrings(tilesArr) {
 }
 
 
+//Determine the score of a set of tiles
 function determineScore(words) {
 
     let score = 0;
 
+    //For each word we want to calculate the score
     for(let i = 0; i < words.length; i++) {
 
         let wordMulti = 1;
         let wordScore = 0;
 
+        //iterate over each letter and work out it's score
+        //and determine if there is a world mulitplier
         for(let c = 0; c < words[i].length; c++) {
             let boardTile = words[i][c];
 			let letterMulti = 1;
@@ -506,6 +544,7 @@ function determineScore(words) {
             }
         };
 
+        //Add the score on and iterate again
         score += (wordMulti * wordScore);
 
     }
@@ -515,12 +554,27 @@ function determineScore(words) {
 }
 
 
+//Make a move puts all of these actions together
+//to ensure that a move is valid and rewards the player
+//with the points they obtained
 function makeMove(game, moveRequest) {
     
     let tiles = moveRequest.tiles;
     let moves = moveRequest.moves;
-
     let moveRes = {};
+
+    if (tiles.length != moves.length) {
+        moveRes.valid = false;
+        moveRes.reason = "The number of moves doesn't match the number of tiles";
+        return moveRes;
+    }
+
+    //Cheating counter measure or to minimise data being sent
+    for(let i = 0; i < tiles; i++) {
+        tiles[i].value = game.def[tiles[i].letter + 'Value'];
+        moveRes.reason = "Values don't match up";
+    }
+
     moveRes.score = 0;
     moveRes.words = [];
     moveRes.valid = false;
@@ -557,6 +611,10 @@ function makeMove(game, moveRequest) {
 
         let playerToUpdate = game.players.find(player => player.playerId === game.activePlayer);
 
+        if (tiles.length == game.handSize) {
+            moveRes.score += 50;
+        }
+
         playerToUpdate.score += moveRes.score;
         
         if (playerToUpdate.words.length == 0) {
@@ -576,6 +634,7 @@ function makeMove(game, moveRequest) {
  
 }
 
+//Method for creating the dictionary from a local file
 function getDictionary() {
 
     let dictionary = fs.readFileSync('server/gameLogic/dict.txt','utf-8');
@@ -587,8 +646,44 @@ function getDictionary() {
   
 }
 
+//Check if a word is contained in the dictionary
 function checkWordValidity(game, word) {
     return game.dictionary.includes(word);
+}
+
+//Change the active player
+function changeTurn(game) {
+
+    let players = game.players;
+    let active = game.activePlayer;
+
+    //find the index of the active player
+    let indexOfPlayer = players.map(p => p.playerId).indexOf(active);
+
+    //If we're at the outer boundary, we just loop over to the beginning
+    if (indexOfPlayer == players.length - 1) {
+        game.activePlayer = game.players[0].playerId;
+    } else {
+        //else we just move to the next player
+        game.activePlayer = game.players[indexOfPlayer + 1].playerId;
+    }
+}
+
+//Allow the player to exchange tiles
+function exchangeTiles(game, tiles) {
+    let player = game.players.find(player => player.playerId === game.activePlayer);
+    
+    for(let i = 0; i < tiles.length; i++) {
+        for(let j = 0; j < player.hand.length; j++) {
+            if (player.hand[j].letter == tiles[i].letter) {
+                game.pool.push(cloneObject(player.hand[j]));
+                shuffleTiles(game.pool);
+                player.hand[j] = game.pool.pop();
+                break;
+            }
+        }
+    }
+
 }
 
 module.exports.generatePool = generatePool;
@@ -608,3 +703,5 @@ module.exports.playTile = playTile;
 module.exports.getDictionary = getDictionary;
 module.exports.checkWordValidity = checkWordValidity;
 module.exports.makeMove = makeMove;
+module.exports.changeTurn = changeTurn;
+module.exports.exchangeTiles = exchangeTiles;
