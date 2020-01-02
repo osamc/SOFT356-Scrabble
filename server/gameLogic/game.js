@@ -227,7 +227,19 @@ function placeTile(game, tile, x, y)  {
 //bonus/multiplier off
 function playTile(game, tile, x ,y) {
     placeTile(game, tile, x, y);
+    let player = game.activePlayer;
+    player = game.players.filter(p => p.playerId === player)[0];
+
     game.board[y][x].used = true;
+ 
+    for(let i = 0; i < player.hand.length; i++) {
+        if (tile.letter == player.hand[i].letter) {
+            player.hand.splice(i, 1);
+            return;
+        }
+    }
+
+    
 }
 
 //If a board tile has an empty object, 
@@ -264,6 +276,7 @@ function checkMove(game, tiles, moves) {
         }
 
         if (!centreUsed) {
+            console.log('Centre not used');
             return false
         }
     }
@@ -275,6 +288,7 @@ function checkMove(game, tiles, moves) {
         let move = moves[i];
 
         if (!checkPlacement(newGame, tile, move.x, move.y)) {
+            console.log('Placement of ' + move.x + ", " + move.y + 'was taken');
             return false;
         } 
         
@@ -294,6 +308,9 @@ function checkMove(game, tiles, moves) {
     //If the size of both is not one, then we have tiles
     //not placed in a horizontal or vertical line
     if (new Set(xVals).size != 1 && new Set(yVals).size != 1) {
+        console.log('The number of dimensions wasn\'t 1');
+        console.log(new Set(xVals).size);
+        console.log(new Set(yVals).size);
         return false;
     }
 
@@ -306,7 +323,8 @@ function checkMove(game, tiles, moves) {
         for(let i = 1; i < yVals.length; i++) {
             if(yVals[i] - yVals[i - 1] != 1) {
                 let missingVal = yVals[i] - 1;
-                if (!checkIfTileExists(newGame.board[missingVal][xVals[0]])) {
+                if (!checkIfTileExists(newGame.board[missingVal][xVals[i]])) {
+                    console.log('There wasn\t a tile on ' + xVals[i] + ', ' + missingVal);
                     return false;
                 }
             }
@@ -317,7 +335,8 @@ function checkMove(game, tiles, moves) {
         for(let i = 1; i < xVals.length; i++) {
             if(xVals[i] - xVals[i - 1] != 1) {
                 let missingVal = xVals[i] - 1;
-                if (!checkIfTileExists(newGame.board[yVals[0]][missingVal])) {
+                if (!checkIfTileExists(newGame.board[yVals[i]][missingVal])) {
+                    console.log('There wasn\t a tile on ' + missingVal + ', ' + yVals[i]);
                     return false;
                 }
             }
@@ -426,17 +445,22 @@ function findWords(game, tiles, moves) {
 
     //Get the main word
     let mainWord = mainCheck(newGame, moves[0]);
-    foundWords.push(mainWord);
+
+    if (mainWord.length > 1) {
+        foundWords.push(mainWord);
+    }
 
     //Then for each tile we check the perpendicular direction
     //to look for any additional words created
-    for(let i = 1; i < moves.length; i++) {
+    for(let i = 0; i < moves.length; i++) {
         let subWord = subsCheck(newGame, moves[i]);
         if (subWord.length > 1) {
             foundWords.push(subWord);
         }
         
     }
+
+    console.log(convertTilesToStrings(foundWords));
 
     return foundWords;
 
@@ -561,7 +585,15 @@ function makeMove(game, moveRequest) {
     
     let tiles = moveRequest.tiles;
     let moves = moveRequest.moves;
+    let from = moveRequest.from;
     let moveRes = {};
+
+
+    if (from !== game.activePlayer) {
+        moveRes.valid = false;
+        moveRes.reason = "You are not the active player";
+        return moveRes;
+    }
 
     if (tiles.length != moves.length) {
         moveRes.valid = false;
@@ -608,7 +640,7 @@ function makeMove(game, moveRequest) {
         for(let i = 0; i < tiles.length; i++) {
             playTile(game, tiles[i], moves[i].x, moves[i].y);
         }
-
+        
         let playerToUpdate = game.players.find(player => player.playerId === game.activePlayer);
 
         if (tiles.length == game.handSize) {
@@ -623,7 +655,7 @@ function makeMove(game, moveRequest) {
             playerToUpdate.words.concat(moveRes.words);
         }
         
-
+        
         drawTiles(game.pool, playerToUpdate.hand, game.handSize);
     
     }

@@ -10,6 +10,7 @@ import { ApiService } from './services/api.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { GameComponent } from './game/game.component';
+import { ToasterComponent } from './toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { GameComponent } from './game/game.component';
     RoomListComponent,
     RoomComponent,
     LoginComponent,
-    GameComponent
+    GameComponent,
+    ToasterComponent
   ],
   imports: [
     BrowserModule,

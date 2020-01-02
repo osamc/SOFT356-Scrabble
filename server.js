@@ -5,6 +5,8 @@ const app = express();
 const db = require("./server/database")
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
+const game = require('./server/gameLogic/game');
+
 
 const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/test?retryWrites=true&w=majority"
 const port = process.env.PORT || 9000;
@@ -45,6 +47,7 @@ const rooms = [];
 
 app.post("/createPlayer", (req, res) => {
     var player = req.body;
+    player.words = [];
     db.createPlayer(player).then(res.send(player));
 });
 
@@ -73,8 +76,6 @@ app.delete('/deletePlayer/:id', (req, res) => {
 });
 
 app.post('/updatePlayer', (req, res) => {
-    console.log("update: ");
-    console.log(req.body);
     db.updatePlayer(req.body).then(() => {
         res.send();
     })
@@ -91,6 +92,30 @@ io.on('connection', socket => {
         io.emit('rooms', rooms);
     }
 
+    function updateGame(room) {
+
+        for (let i = 0; i < room.game.players.length; i++) {
+            let clientInfo = JSON.parse(JSON.stringify(room.game));
+
+            clientInfo.hand = clientInfo.players.filter(p => p.playerId === room.players[i].playerId)[0].hand;
+
+            for(let j = 0; j < clientInfo.players.length; j++) {
+                delete clientInfo.players[j].hand;
+            }
+
+            delete clientInfo.dictionary;
+            delete clientInfo.def;
+            delete clientInfo.pool;
+            delete clientInfo.firstTurn;
+            delete clientInfo.handSize;
+        
+            clientInfo.yourTurn = (clientInfo.activePlayer === room.game.players[i].playerId);
+            
+            io.to(room.players[i].socketId).emit('setup', clientInfo);
+
+        }
+    }
+
     
     function leave(){
         if (player.activeRoom) {
@@ -105,15 +130,14 @@ io.on('connection', socket => {
     }
 
     socket.on('createRoom', room => {
+        room.messages = [];
         rooms.push(room)
         updateRooms();
     });
 
     socket.on('joinRoom', roomId => {
-        
-        leave();
-        
-        //console.log(socket.id + ': join room: ' + roomId )
+        leave(); 
+
         let room = rooms.find(o => {
            return o.id == roomId;
         });
@@ -131,8 +155,34 @@ io.on('connection', socket => {
     });
 
     socket.on('startGame', roomId => {
+        let room = rooms.find(o => o.id === roomId);
+        room.game = game.initialSetup(room.players, 8);
 
-    })
+        try {
+           updateGame(room);
+        } catch (err) {
+            console.log(err);
+        }
+    });
+
+    socket.on('makeMove', moveReq => {
+        let room = rooms.find(r => r.id == moveReq.roomId);
+        let res = game.makeMove(room.game, moveReq);
+        let toBroadcast =  room.game.players.find(player => player.playerId === moveReq.from);
+
+        console.log(res);
+
+        if (res.valid) {
+            game.changeTurn(room.game);
+
+            let message = {contents: 'Player: ' + toBroadcast.playerName + " has played: " + res.words.join(', ') + " to score: " + res.score + " points.", from: "Server" };
+            io.to(moveReq.roomId).emit('message', message);
+            
+        }
+
+        updateGame(room);
+
+    });
 
     socket.on('leaveRoom', any => {
         leave();
@@ -140,12 +190,15 @@ io.on('connection', socket => {
 
 
     socket.on('messageRoom', message => {
+        console.log(player.activeRoom);
+        console.log(message);
         socket.to(player.activeRoom).emit('message', message);
     })
 
 
     socket.on('setPlayer', toSet => {
         toSet.socketId = socket.id;
+        toSet.score = 0;
         player = toSet;
         socket.emit('rooms', rooms);
     })

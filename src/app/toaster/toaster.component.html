@@ -1,0 +1,21 @@
+
+<div class="toaster">
+   
+   <br>
+    <div *ngFor="let toast of toaster.toasts"  [ngClass]="{'alert': true, 'alert-primary': toast.type === 'primary',
+    'alert-success': toast.type === 'success', 
+    'alert-info': toast.type === 'info', 
+    'alert-warning': toast.type === 'warning', 
+    'alert-danger': toast.type === 'danger',
+    'customToast': true}"  [ngStyle]="{'animation': toast.delete ? 'fadeout 0.5s' : 'fadein 2s'}">
+
+    <button class="btn" (click)="toaster.dismissToast(toast)"
+    [ngClass]="{'btn-primary': toast.type === 'primary',
+    'btn-success': toast.type === 'success', 
+    'btn-info': toast.type === 'info', 
+    'btn-warning': toast.type === 'warning', 
+    'btn-danger': toast.type === 'danger'}" style="padding-right: 10px;">&times;</button>
+    {{toast.message}}
+   </div>
+   
+</div>

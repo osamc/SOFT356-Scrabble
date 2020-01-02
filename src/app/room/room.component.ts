@@ -17,7 +17,6 @@ export class RoomComponent implements OnInit, AfterViewInit{
   constructor(public websocket: WebsocketService) { }
 
   ngOnInit() {
-    this.websocket.activeRoom = <Room> {messages: []};
   }
 
   ngAfterViewInit(): void {
@@ -33,7 +32,7 @@ export class RoomComponent implements OnInit, AfterViewInit{
   }
 
   toggleChat() {
-    let chatbar = document.getElementById('myChatBar')
+    let chatbar = document.getElementById('myChatbar')
     let main = document.getElementById('main'); 
    
     if (this.showChat) {
@@ -43,12 +42,16 @@ export class RoomComponent implements OnInit, AfterViewInit{
     } else {
       chatbar.style.width = "25%";
       chatbar.style.padding = "1rem";
-      main.style.marginLeft = '25%';
     }
 
     this.showChat = !this.showChat;
 
   }
 
+
+  startGame() {
+
+    this.websocket.startGame();
+  }
 
 }

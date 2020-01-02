@@ -9,6 +9,7 @@ describe('Game Logic Test', () => {
     it('The game should be able to produce default pool options', (done) => {
         console.log('creating default pool options');
         let options = game.createPoolOptions();
+        //These are the standard values in a scrabble game
         expect(options.zValue).equal(10);
         expect(options.fValue).equal(4);
         done();
@@ -17,16 +18,18 @@ describe('Game Logic Test', () => {
     it('The game should be able to generate a tile pool based on default options', (done) => {
         console.log('creating default tile pool');
         let pool = game.generatePool(game.createPoolOptions()); 
+        //We should have 98 tiles, in a standard game
+        //there are 100 but we don't support blank tiles
         expect(pool.length).equal(98);
         expect(pool[0].letter).equal('a');
         done();
     });
 
     it('The game should be able to shuffle a group of tiles', (done) => {
-        console.log('creating default pool');
+        //creating pool
         let pool = game.generatePool(game.createPoolOptions());
-        console.log('shuffling said pool');
-        //We use parse and stringify to clone an item
+        
+        //Shuffling pool
         let shuffled = game.shuffleTiles(JSON.parse(JSON.stringify(pool)));
 
         expect(pool).not.equal(shuffled, "Pool and shuffled is the same");
@@ -47,8 +50,6 @@ describe('Game Logic Test', () => {
         expect(poolSize - handSize).equal(pool.length);
         expect(hand.length).equal(handSize);
         
-        console.log('Created hand:');
-        console.log(JSON.stringify(hand));
         done();
     });
 
@@ -161,6 +162,7 @@ describe('Game Logic Test', () => {
         tiles.push({letter: 'e', value: 3});
         tiles.push({letter: 'e', value: 3});
 
+        //This move is valid as these are all in one line
         let moves = [];
         moves.push({x: 7, y: 7});
         moves.push({x: 8, y: 7});
@@ -172,6 +174,8 @@ describe('Game Logic Test', () => {
         expect(isValid).equal(true)
 
         moves = [];
+
+        //this is not as there would be a break
         moves.push({x: 7, y: 7});
         moves.push({x: 9, y: 7});
         moves.push({x: 10, y: 7});
@@ -192,6 +196,7 @@ describe('Game Logic Test', () => {
         let players = [{hand: {}, id: 'i'}];
         let setup = game.initialSetup(players, 8);
 
+        //This set of tiles and moves should create the word lambs
         let tiles = [ {letter: 'l', value: 1},  {letter: 'a', value: 1},  {letter: 'm', value: 3},  {letter: 'b', value: 3},  {letter: 's', value: 1}];
         let moves = [ {x: 11, y:3}, {x: 11, y:4}, {x: 11, y:5}, {x: 11, y:6}, {x: 11, y:7}];
 
@@ -212,6 +217,8 @@ describe('Game Logic Test', () => {
         game.placeTile(setup, {letter: 's', value: 1}, 9, 7);
         game.placeTile(setup, {letter: 'k', value: 5}, 10, 7);
 
+        //after placing the tiles above, playing these tiles should result in both
+        //words: lambs and masks
         let tiles = [ {letter: 'l', value: 1},  {letter: 'a', value: 1},  {letter: 'm', value: 3},  {letter: 'b', value: 3},  {letter: 's', value: 1}];
         let moves = [ {x: 11, y:3}, {x: 11, y:4}, {x: 11, y:5}, {x: 11, y:6}, {x: 11, y:7}];
 
@@ -276,6 +283,8 @@ describe('Game Logic Test', () => {
 
         console.log(game.convertTilesToStrings(words));
 
+        //For this we have two seperate words, so we should get a combined
+        //score for them both
         let score = game.determineScore(words);
 
         expect(score).equal(32);
@@ -286,6 +295,7 @@ describe('Game Logic Test', () => {
 
     it('The game should read in the dictionary correctly', () => {
         let dict = game.getDictionary();
+        //should be that length
         expect(dict.length).equal(279496);
     });
 
@@ -293,6 +303,7 @@ describe('Game Logic Test', () => {
         let players = [{hand: {}, id: 'i'}];
         let setup = game.initialSetup(players, 8);
         
+        //Check if some words are in the dictionary
         expect(game.checkWordValidity(setup, 'test')).equal(true);
         expect(game.checkWordValidity(setup, 'tfest')).equal(false);
         expect(game.checkWordValidity(setup, 'dictionary')).equal(true);
@@ -315,9 +326,11 @@ describe('Game Logic Test', () => {
         let moveRequest = {};
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
 
         let res = game.makeMove(setup, moveRequest);
 
+        //The response of should contain the info from the move
         expect(res.valid).equal(true);
         expect(res.score).equal(8);
         expect(res.words[0]).equal('test');
@@ -341,8 +354,11 @@ describe('Game Logic Test', () => {
         let moveRequest = {};
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
 
         let res = game.makeMove(setup, moveRequest);
+
+        console.log(res);
 
         setup.activePlayer = '2';
 
@@ -357,8 +373,11 @@ describe('Game Logic Test', () => {
 
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
 
         let res2 = game.makeMove(setup, moveRequest);
+
+        console.log(res2);
 
         expect(setup.players[0].score).equal(20);
         expect(setup.players[0].words.length).equal(1);
@@ -408,13 +427,7 @@ describe('Game Logic Test', () => {
 
         let player = setup.players[0];
 
-        console.log('Hand before')
-        console.log(JSON.stringify(player.hand));
-
         game.exchangeTiles(setup, tiles);
-
-        console.log('Hand after')
-        console.log(JSON.stringify(player.hand));
        
         //We expect the hand to be different, it's very unlikely we'll get the same 8 tiles
         expect(JSON.stringify(player.hand) != JSON.stringify(tiles)).equal(true); 
@@ -447,7 +460,122 @@ describe('Game Logic Test', () => {
 
     });
 
+    it('The game should not be able to process move requests if they are not the active player', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
 
+        let tiles = [];
+        let moves = [];
+        let testWord = 'mask';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x: 7 + i, y: 7});
+        }
+
+        let moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = '2';
+
+        let res = game.makeMove(setup, moveRequest);
+
+        expect(res.valid).equal(false);
+        expect(res.reason).equal('You are not the active player');
+
+    });
+
+    it('The game should remove tiles from the players hand once they\'re played', () => {
+        let players = [{hand: {}, id: 'i'}];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [ {letter: 'm', value: 3},  
+            {letter: 'a', value: 1},  
+            {letter: 's', value: 1},  
+            {letter: 'k', value: 5}];
+
+        let moves = [ {x: 7, y:7}, 
+            {x: 8, y:7}, 
+            {x: 9, y:7}, 
+            {x: 10, y:7}];
+
+        for(let i = 0; i < tiles.length; i++) {
+            game.playTile(setup, tiles[i], moves[i].x, moves[i].y);
+        }
+
+        expect(setup.handSize == players[0].hand.length).equal(false);
+    });
+
+    it('The game should not allow moves that have diagonal placements', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [];
+        let moves = [];
+        let testWord = 'mask';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x: 7 + i, y: 7 + i});
+        }
+
+        let moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
+
+        let res = game.makeMove(setup, moveRequest);
+
+        expect(res.valid).equal(false);
+    });
+
+    it('The game should work if a player decides to play 1 letter', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        let tiles = [];
+        let moves = [];
+        let testWord = 'wee';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x: 7, y: 7 + i});
+        }
+
+        let moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
+
+        let res = game.makeMove(setup, moveRequest);
+        game.changeTurn(setup);
+
+        tiles = [];
+        moves = [];
+
+        testWord = 'w';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x: 8, y: 9});
+        }
+
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
+
+        let res2 = game.makeMove(setup, moveRequest);
+        console.log(res2);
+
+        //THis is because we made the word ew
+        expect(res.valid).equal(true);
+
+
+
+    });
 
 });
 

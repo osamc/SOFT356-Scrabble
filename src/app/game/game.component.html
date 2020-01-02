@@ -1,1 +1,40 @@
-<p>game works!</p>
+
+<div *ngIf="websocket.activeRoom.game">
+    <div class="game">
+        <div style="display: inline">
+    
+            {{'Your turn? : ' + websocket.activeRoom.game.yourTurn}}
+        
+            <table id="board">
+                <tr *ngFor="let row of websocket.activeRoom.game.board; let y = index">
+                   <td *ngFor="let tile of row; let x = index" class="tile {{tile.type + '' + tile.multiplier}}" (click)="placeTile(x,y)">
+                        <div class="gamePiece" *ngIf="tile.tile.letter">
+                            <p class="tileLetter">{{tile.tile.letter}}</p>  <p class="tileValue">{{tile.tile.value}}</p>
+                        </div>
+                   </td>
+                </tr>
+            </table>
+        
+        
+            <div class="hand"> 
+                <div *ngFor="let tile of websocket.activeRoom.game.hand; let i = index;" (click)="selectTile(tile)" [ngClass]="{'selected': tile.selected, 'inplay' : tile.used, 'gamePiece': true, 'inhand' : true }">
+                  <p class="tileLetter">{{tile.letter}}</p>  <p class="tileValue">{{tile.value}}</p>
+                </div>    
+            </div>
+            
+        
+            <button class="btn btn-primary" (click)="makeMove()">Play</button>
+        
+        
+        </div>
+    </div>
+    
+    <div class="scores">
+    
+        <table> 
+            <tr *ngFor="let player of websocket.activeRoom.game.players">{{player.playerName}} : {{player.score}}</tr>
+        </table>
+    </div>
+    
+    
+</div>

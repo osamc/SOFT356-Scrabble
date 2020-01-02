@@ -1,7 +1,6 @@
 import { Message } from './message';
 import { Player } from './player';
-import { boardTile } from './game/boardTile';
-import { letterTile } from './game/letterTile';
+import { Game } from './game';
 
 export enum GameState {
     STARTED,
@@ -17,9 +16,7 @@ export class Room {
     messages?: Message[] = [];
     maxPlayers?: Number = 8;
     players?: Player[] = [];
-    gameState?: GameState;
-    board?: boardTile[]
-    tilePool?: letterTile[];
-    gameHands?: {};
+
+    game?: Game;
 
 }

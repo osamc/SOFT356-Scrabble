@@ -12,10 +12,12 @@ import { PersistanceService } from './persistance.service';
   providedIn: "root"
 })
 export class WebsocketService {
+
   socket: SocketIOClient.Socket;
   rooms: Room[];
   activeRoom: Room;
   player: Player;
+  test: boolean = false;
 
   initiated: boolean = false;
   private base: string = AppConstant.BASE_URL;
@@ -47,8 +49,9 @@ export class WebsocketService {
         // once we get ajoin message we want to navigate to the room component
         this.socket.on('joinSuccess', player => {
           this.player = player;
-          const room = this.rooms.filter(o => o.id === player.activeRoom)[0];
+          let room = this.rooms.filter(o => o.id === player.activeRoom)[0];
           this.activeRoom = room;
+          this.test = true;
           this.router.navigateByUrl('room/' + player.activeRoom);
         });
       }).subscribe();
@@ -59,6 +62,14 @@ export class WebsocketService {
           this.activeRoom.messages.push(message);
         });
       }).subscribe();
+
+      const gameListener = new Observable(obs => {
+        this.socket.on('setup', game => {
+          this.activeRoom.game = game;
+        });
+      }).subscribe();
+
+     
       this.initiated = true;
     }
   }
@@ -67,6 +78,13 @@ export class WebsocketService {
   createRoom(roomName: string, playerNumber: number) {
     const room: Room = { id: roomName, maxPlayers: 4, messages: [], players: [] };
     this.socket.emit('createRoom', room);
+  }
+
+  startGame() {
+    if (this.activeRoom){
+      console.log(this.activeRoom.id);
+      this.socket.emit('startGame', this.activeRoom.id);
+    }
   }
 
   // Wrapper for joining a room
@@ -84,6 +102,13 @@ export class WebsocketService {
   setPlayer(player: Player) {
     this.player = player;
     this.socket.emit('setPlayer', player);
+  }
+
+
+  sendMove(move: any) {
+    move.from = this.player.playerId;
+    console.log(move);
+    this.socket.emit('makeMove', move);
   }
 
   disconnect() {

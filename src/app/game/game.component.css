@@ -1,0 +1,83 @@
+.tile {
+	width: 50px;
+	height: 50px;
+	margin: 3px;
+	border: 1px solid black;
+	text-align: center;
+    vertical-align: middle;
+	padding: 5px;
+	user-select: none;
+}
+
+
+
+.tileLetter {
+    text-transform: capitalize;
+    font-size: 25px;
+    display: inline-block;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-right: 5px;
+}
+
+
+.tileValue {
+    display: inline-block;
+    font-size: 10px;
+    text-align: right;
+}
+
+
+.selected {
+	opacity: 0.5;
+	background-color: #7cf3fc !important;
+}
+
+.inplay {
+	background-color: #fc7c7c !important;
+}
+
+.gamePiece {
+	width: 40px;
+	height: 40px;
+	background-color: #f2e1c7;
+    border-radius: 5px;
+	display: inline-block;
+	user-select: none;
+    
+}
+
+.inhand {
+	margin: 5px;
+}
+
+.game {
+	float: left;
+}
+
+.scores {
+	display: inline-block;
+	position: relative;
+	margin-left: 100px;
+}
+
+
+.word2 {
+	background-color: #D1A592;
+}
+
+.word3 {
+	background-color: #DE674C;
+}
+
+.letter2 {
+	background-color: #C9D9E1;
+}
+
+.letter3 {
+	background-color: #00468b;	
+}
+
+.none0 {
+	background-color: #C8C1A4;
+}
