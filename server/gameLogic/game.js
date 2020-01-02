@@ -477,13 +477,13 @@ function findWords(game, tiles, moves) {
 function findWordsVert(game, pos) {
     let topMost = pos.y;
 
-    while ((topMost - 1) == 0 || checkIfTileExists(game.board[topMost - 1][pos.x])) {
+    while ((topMost - 1) != -1 && checkIfTileExists(game.board[topMost - 1][pos.x])) {
         topMost--;
     } 
 
     let word = [];
 
-    while((topMost + 1) == 15 || checkIfTileExists(game.board[topMost][pos.x])) {
+    while((topMost + 1) != 15 && checkIfTileExists(game.board[topMost][pos.x])) {
         word.push(cloneObject(game.board[topMost][pos.x]));
         topMost++;
     }
@@ -496,13 +496,13 @@ function findWordsVert(game, pos) {
 function findWordsHoriz(game, pos) {
     let leftMost = pos.x;
 
-    while ((leftMost - 1) == 0 || checkIfTileExists(game.board[pos.y][leftMost - 1])) {
+    while ((leftMost - 1) != -1 && checkIfTileExists(game.board[pos.y][leftMost - 1])) {
         leftMost--;
     } 
 
     let word = [];
 
-    while((leftMost + 1) == 15 || checkIfTileExists(game.board[pos.y][leftMost])) {
+    while((leftMost + 1) != 15 && checkIfTileExists(game.board[pos.y][leftMost])) {
         word.push(cloneObject(game.board[pos.y][leftMost]));
         leftMost++;
     }

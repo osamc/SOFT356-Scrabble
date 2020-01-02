@@ -42,6 +42,7 @@ export class GameComponent implements OnInit {
     moveRequest.moves = moves;
     moveRequest.tiles = tiles;
     moveRequest.roomId = this.websocket.activeRoom.id;
+    moveRequest.moveType = 'playTile';
 
     console.log(moveRequest);
 

@@ -609,7 +609,57 @@ describe('Game Logic Test', () => {
 
         expect(players[0].hand.length).equal(4);
 
-    })
+    });
+
+    it ('The game shoud allow for tiles on the boarder extremes', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+        setup.firstTurn = false;
+
+        let tiles = [];
+        let moves = [];
+        let testWord = 'mask';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x:11 + i, y: 14});
+        }
+
+        let moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
+        let res = game.makeMove(setup, moveRequest);
+
+    });
+
+    it ('The game shoud allow for tiles on the boarder minimums', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+        setup.firstTurn = false;
+
+        let tiles = [];
+        let moves = [];
+        let testWord = 'mask';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x:0, y: 0 + i});
+        }
+
+        let moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
+        let res = game.makeMove(setup, moveRequest);
+
+    });
 
 });
 
