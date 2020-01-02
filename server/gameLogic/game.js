@@ -6,15 +6,15 @@ function generatePool(poolOptions) {
 
     let tilePool = [];
 
-    for(let i = 0; i < 26; i++) {
+    for (let i = 0; i < 26; i++) {
         let letter = (i + 10).toString(36);
         let letterCount = poolOptions[letter + 'Count'];
         let letterValue = poolOptions[letter + 'Value'];
-        
-        for(let j = 0; j < letterCount; j++) {
-          tilePool.push({'letter': letter, value: letterValue});
+
+        for (let j = 0; j < letterCount; j++) {
+            tilePool.push({ 'letter': letter, value: letterValue });
         }
-        
+
     }
 
     return tilePool;
@@ -28,11 +28,11 @@ function shuffleTiles(tileGroup) {
 
 //deals a hand
 function dealHand(handSize, pool) {
-    let hand =  [];
+    let hand = [];
 
     //Assuming the pool is already shuffled,
     //we just need to remove x number of tiles from the pool
-    for(let i = 0; i < handSize; i++) {
+    for (let i = 0; i < handSize; i++) {
         hand.push(pool.pop());
     }
 
@@ -44,8 +44,8 @@ function dealHand(handSize, pool) {
 function drawTiles(pool, hand, handSize) {
     let numberOfTiles = handSize - hand.length;
 
-    for(let i = 0; i < numberOfTiles; i++) {
-        let tile =  pool.pop();
+    for (let i = 0; i < numberOfTiles; i++) {
+        let tile = pool.pop();
         if (typeof tile !== 'undefined') {
             hand.push(tile);
         }
@@ -58,79 +58,79 @@ function createPoolOptions() {
     let poolOptions = {
         aCount: 9,
         aValue: 1,
-    
+
         bCount: 2,
         bValue: 3,
-    
+
         cCount: 2,
         cValue: 3,
-    
+
         dCount: 4,
         dValue: 2,
-    
+
         eCount: 12,
         eValue: 1,
-    
+
         fCount: 2,
         fValue: 4,
-    
+
         gCount: 3,
         gValue: 2,
-    
+
         hCount: 2,
         hValue: 4,
-    
+
         iCount: 9,
         iValue: 1,
-    
+
         jCount: 1,
         jValue: 8,
-    
+
         kCount: 1,
         kValue: 5,
-    
+
         lCount: 4,
         lValue: 1,
-    
+
         mCount: 2,
         mValue: 3,
-    
+
         nCount: 6,
         nValue: 1,
-    
+
         oCount: 8,
         oValue: 1,
-    
+
         pCount: 2,
         pValue: 3,
-    
+
         qCount: 1,
         qValue: 1,
-    
+
         rCount: 6,
         rValue: 1,
-    
+
         sCount: 4,
         sValue: 1,
-    
+
         tCount: 6,
         tValue: 1,
-    
+
         uCount: 4,
         uValue: 1,
-    
+
         vCount: 2,
         vValue: 4,
-    
+
         wCount: 2,
         wValue: 4,
-    
+
         xCount: 1,
         xValue: 8,
-    
+
         yCount: 2,
         yValue: 4,
-    
+
         zCount: 1,
         zValue: 10,
     };
@@ -140,43 +140,43 @@ function createPoolOptions() {
 
 //create the board
 function createBoard() {
-	//Define the board array
+    //Define the board array
     let board = [];
-	//define the size
+    //define the size
     let boardSize = 15;
-    
-	//Define the tiles
-    let wordx2 = {type: 'word', multiplier: 2, tile: {}, used: false};
-    let wordx3 = {type: 'word', multiplier: 3, tile: {}, used: false};
 
-    let letterx2 = {type: 'letter', multiplier: 2, tile: {}, used: false};
-    let letterx3 = {type: 'letter', multiplier: 3, tile: {}, used: false};
+    //Define the tiles
+    let wordx2 = { type: 'word', multiplier: 2, tile: {}, used: false };
+    let wordx3 = { type: 'word', multiplier: 3, tile: {}, used: false };
 
-    let normal = {type: 'none', multiplier: 0, tile: {}, used: false};
-    let centre = {type: 'centre', multiplier: 2, tile: {}, used: false};
+    let letterx2 = { type: 'letter', multiplier: 2, tile: {}, used: false };
+    let letterx3 = { type: 'letter', multiplier: 3, tile: {}, used: false };
 
-	//Create board
-    for(let i = 0; i < boardSize; i++) {
+    let normal = { type: 'none', multiplier: 0, tile: {}, used: false };
+    let centre = { type: 'centre', multiplier: 2, tile: {}, used: false };
+
+    //Create board
+    for (let i = 0; i < boardSize; i++) {
         //Create a row
         let row = [];
 
-        for(let j = 0; j < boardSize; j++) {
-            if((i == 0 || i == 14) && (j == 0 || j == 7 || j == 14) 
-            || i == 7 && (j == 0 || j == 14)) {
+        for (let j = 0; j < boardSize; j++) {
+            if ((i == 0 || i == 14) && (j == 0 || j == 7 || j == 14)
+                || i == 7 && (j == 0 || j == 14)) {
                 row.push(JSON.parse(JSON.stringify(wordx3)));
             } else if ((i == 1 || i == 13) && (j == 1 || j == 13)
-            || (i == 2 || i == 12) && (j == 2 || j == 12)
-            || (i == 3 || i == 11) && (j == 3 || j == 11) 
-            || (i == 4 || i == 10) && (j == 4 || j == 10)) {
+                || (i == 2 || i == 12) && (j == 2 || j == 12)
+                || (i == 3 || i == 11) && (j == 3 || j == 11)
+                || (i == 4 || i == 10) && (j == 4 || j == 10)) {
                 row.push(JSON.parse(JSON.stringify(wordx2)));
-            } else if ((i == 0 || i == 14)&& (j == 3 || j == 11)
-            || (i == 2 || i == 12) && (j == 6 || j == 8)
-            || (i == 3 || i == 11) && (j == 0 || j == 7 || j == 14)
-            || (i == 6 || i == 8) && (j == 2 || j == 6 || j == 8 || j == 12)
-            || i == 7 && (j == 3 || j == 11)) {
+            } else if ((i == 0 || i == 14) && (j == 3 || j == 11)
+                || (i == 2 || i == 12) && (j == 6 || j == 8)
+                || (i == 3 || i == 11) && (j == 0 || j == 7 || j == 14)
+                || (i == 6 || i == 8) && (j == 2 || j == 6 || j == 8 || j == 12)
+                || i == 7 && (j == 3 || j == 11)) {
                 row.push(JSON.parse(JSON.stringify(letterx2)));
             } else if ((i == 1 || i == 13) && (j == 5 || j == 9)
-            || (i == 5 || i == 9) && (j == 1 || j == 5 || j == 9 || j == 13)) {
+                || (i == 5 || i == 9) && (j == 1 || j == 5 || j == 9 || j == 13)) {
                 row.push(JSON.parse(JSON.stringify(letterx3)));
             } else if (i == 7 && j == 7) {
                 row.push(JSON.parse(JSON.stringify(centre)));
@@ -215,13 +215,14 @@ function initialSetup(players, handSize) {
     game.dictionary = getDictionary();
     game.def = options;
     game.turns = [];
+    game.state = 'active';
 
     return game;
 }
 
 //To play this board game tiles need to be placed 
 //this is done so words and scores can be determined
-function placeTile(game, tile, x, y)  {
+function placeTile(game, tile, x, y) {
     if (checkPlacement(game, tile, x, y)) {
         game.board[y][x].tile = tile;
     }
@@ -230,26 +231,26 @@ function placeTile(game, tile, x, y)  {
 //To actually play a tile, 
 //we place it and then toggle the
 //bonus/multiplier off
-function playTile(game, tile, x ,y) {
+function playTile(game, tile, x, y) {
     placeTile(game, tile, x, y);
     let player = game.activePlayer;
     player = game.players.filter(p => p.playerId === player)[0];
 
     game.board[y][x].used = true;
- 
-    for(let i = 0; i < player.hand.length; i++) {
+
+    for (let i = 0; i < player.hand.length; i++) {
         if (tile.letter == player.hand[i].letter) {
             player.hand.splice(i, 1);
             return;
         }
     }
 
-    
+
 }
 
 //If a board tile has an empty object, 
 //then no tile has been placed in that spot
-function checkPlacement(game, tile, x ,y) {
+function checkPlacement(game, tile, x, y) {
     // If the tile in the board is an empty object, then it's free
     if (JSON.stringify(game.board[y][x].tile) == '{}') {
         return true;
@@ -271,10 +272,10 @@ function checkMove(game, tiles, moves) {
 
     //if it's the first turn, the centre
     //square must be used
-    if(game.firstTurn) {
+    if (game.firstTurn) {
         let centreUsed = false;
 
-        for(let i = 0; i < moves.length; i++) {
+        for (let i = 0; i < moves.length; i++) {
             if (moves[i].x == 7 && moves[i].y == 7) {
                 centreUsed = true;
             }
@@ -288,23 +289,23 @@ function checkMove(game, tiles, moves) {
 
 
     //We should check to see if positions are placeable
-    for(let i = 0; i < tiles.length; i++) {
+    for (let i = 0; i < tiles.length; i++) {
         let tile = tiles[i];
         let move = moves[i];
 
         if (!checkPlacement(newGame, tile, move.x, move.y)) {
             console.log('Placement of ' + move.x + ", " + move.y + 'was taken');
             return false;
-        } 
-        
+        }
+
     }
-   
+
     //Check to see if moves are in a single line
     var xVals = [];
     var yVals = [];
 
     //Collect all x and y values
-    for(let i = 0; i < moves.length; i++) {
+    for (let i = 0; i < moves.length; i++) {
         xVals.push(moves[i].x);
         yVals.push(moves[i].y);
     }
@@ -320,13 +321,13 @@ function checkMove(game, tiles, moves) {
     }
 
     let moveIsVertical = (new Set(xVals).size == 1);
-    
+
 
     if (moveIsVertical) {
-        yVals.sort(function(a, b){return a - b});
+        yVals.sort(function (a, b) { return a - b });
 
-        for(let i = 1; i < yVals.length; i++) {
-            if(yVals[i] - yVals[i - 1] != 1) {
+        for (let i = 1; i < yVals.length; i++) {
+            if (yVals[i] - yVals[i - 1] != 1) {
                 let missingVal = yVals[i] - 1;
                 if (!checkIfTileExists(newGame.board[missingVal][xVals[i]])) {
                     console.log('There wasn\'t a tile on ' + xVals[i] + ', ' + missingVal);
@@ -336,9 +337,9 @@ function checkMove(game, tiles, moves) {
         }
 
     } else {
-        xVals.sort(function(a, b){return a - b});
-        for(let i = 1; i < xVals.length; i++) {
-            if(xVals[i] - xVals[i - 1] != 1) {
+        xVals.sort(function (a, b) { return a - b });
+        for (let i = 1; i < xVals.length; i++) {
+            if (xVals[i] - xVals[i - 1] != 1) {
                 let missingVal = xVals[i] - 1;
                 if (!checkIfTileExists(newGame.board[yVals[i]][missingVal])) {
                     console.log('There wasn\t a tile on ' + missingVal + ', ' + yVals[i]);
@@ -350,7 +351,7 @@ function checkMove(game, tiles, moves) {
 
     //If we get to here, then we want to place the tiles and make
     //sure that it has joined on to something
-    for(let i = 0; i < moves.length; i++){
+    for (let i = 0; i < moves.length; i++) {
         placeTile(newGame, tiles[i], moves[i].x, moves[i].y);
     }
 
@@ -363,29 +364,29 @@ function checkMove(game, tiles, moves) {
 
                 let toCheck = [];
                 //up
-                toCheck.push({x : i, y: j + 1});
+                toCheck.push({ x: i, y: j + 1 });
                 //down
-                toCheck.push({x : i, y: j - 1});
+                toCheck.push({ x: i, y: j - 1 });
                 //left
-                toCheck.push({x : i - 1, y: j});
+                toCheck.push({ x: i - 1, y: j });
                 //right
-                toCheck.push({x : i + 1, y: j});
+                toCheck.push({ x: i + 1, y: j });
 
                 //Check to make sure all positions are posible tile positions
                 for (let k = toCheck.length - 1; k >= 0; k--) {
-                    if (toCheck[k].x < 0 || toCheck[k].x == 15 
+                    if (toCheck[k].x < 0 || toCheck[k].x == 15
                         || toCheck[k].y < 0 || toCheck[k].y == 15) {
-                            toCheck.splice(k, 1);
-                    } 
+                        toCheck.splice(k, 1);
+                    }
                 }
 
 
                 let validPosition = false;
 
-                for(let k = 0; k < toCheck.length; k++) {
+                for (let k = 0; k < toCheck.length; k++) {
 
                     validPosition = checkIfTileExists(newGame.board[toCheck[k].y][toCheck[k].x]);
-                    
+
                     if (validPosition) {
                         break;
                     }
@@ -413,13 +414,13 @@ function checkMove(game, tiles, moves) {
 
 //Determine if a move is being played vertically
 function determineIfMoveIsVertical(moves) {
-   
+
     //Check to see if moves are in a single line
     var xVals = [];
     var yVals = [];
 
     //Collect all x and y values
-    for(let i = 0; i < moves.length; i++) {
+    for (let i = 0; i < moves.length; i++) {
         xVals.push(moves[i].x);
         yVals.push(moves[i].y);
     }
@@ -438,7 +439,7 @@ function findWords(game, tiles, moves) {
     //this is done so that if we have to back out later on
     //no changes have been made
     let newGame = JSON.parse(JSON.stringify(game));
-    for(let i = 0; i < moves.length; i++){
+    for (let i = 0; i < moves.length; i++) {
         placeTile(newGame, tiles[i], moves[i].x, moves[i].y);
     }
 
@@ -457,12 +458,12 @@ function findWords(game, tiles, moves) {
 
     //Then for each tile we check the perpendicular direction
     //to look for any additional words created
-    for(let i = 0; i < moves.length; i++) {
+    for (let i = 0; i < moves.length; i++) {
         let subWord = subsCheck(newGame, moves[i]);
         if (subWord.length > 1) {
             foundWords.push(subWord);
         }
-        
+
     }
 
     console.log(convertTilesToStrings(foundWords));
@@ -479,11 +480,11 @@ function findWordsVert(game, pos) {
 
     while ((topMost - 1) != -1 && checkIfTileExists(game.board[topMost - 1][pos.x])) {
         topMost--;
-    } 
+    }
 
     let word = [];
 
-    while((topMost + 1) != 15 && checkIfTileExists(game.board[topMost][pos.x])) {
+    while ((topMost + 1) != 15 && checkIfTileExists(game.board[topMost][pos.x])) {
         word.push(cloneObject(game.board[topMost][pos.x]));
         topMost++;
     }
@@ -498,11 +499,11 @@ function findWordsHoriz(game, pos) {
 
     while ((leftMost - 1) != -1 && checkIfTileExists(game.board[pos.y][leftMost - 1])) {
         leftMost--;
-    } 
+    }
 
     let word = [];
 
-    while((leftMost + 1) != 15 && checkIfTileExists(game.board[pos.y][leftMost])) {
+    while ((leftMost + 1) != 15 && checkIfTileExists(game.board[pos.y][leftMost])) {
         word.push(cloneObject(game.board[pos.y][leftMost]));
         leftMost++;
     }
@@ -529,7 +530,7 @@ function getStringFromTiles(tiles) {
 //convert a collection of collections of tiles into words
 function convertTilesToStrings(tilesArr) {
     let words = [];
-    for(let i = 0; i < tilesArr.length; i++) {
+    for (let i = 0; i < tilesArr.length; i++) {
         words.push(getStringFromTiles(tilesArr[i]));
     }
     return words;
@@ -542,17 +543,17 @@ function determineScore(words) {
     let score = 0;
 
     //For each word we want to calculate the score
-    for(let i = 0; i < words.length; i++) {
+    for (let i = 0; i < words.length; i++) {
 
         let wordMulti = 1;
         let wordScore = 0;
 
         //iterate over each letter and work out it's score
         //and determine if there is a world mulitplier
-        for(let c = 0; c < words[i].length; c++) {
+        for (let c = 0; c < words[i].length; c++) {
             let boardTile = words[i][c];
-			let letterMulti = 1;
-			
+            let letterMulti = 1;
+
             if (!boardTile.used) {
                 switch (boardTile.type) {
                     case "centre":
@@ -565,9 +566,9 @@ function determineScore(words) {
                     case "none":
                     default:
                         break;
-    
+
                 };
-				wordScore += (letterMulti * boardTile.tile.value);
+                wordScore += (letterMulti * boardTile.tile.value);
             } else {
                 wordScore += boardTile.tile.value;
             }
@@ -587,11 +588,9 @@ function determineScore(words) {
 //to ensure that a move is valid and rewards the player
 //with the points they obtained
 function makeMove(game, moveRequest) {
-    let moveType = moveRequest.type;
+    let moveType = moveRequest.moveType;
     let from = moveRequest.from;
     let moveFunction;
-
-    console.log(moveRequest);
 
     if (from !== game.activePlayer) {
         let moveRes = {};
@@ -600,7 +599,7 @@ function makeMove(game, moveRequest) {
         return moveRes;
     }
 
-    switch(moveType) {
+    switch (moveType) {
         case 'playTile':
             moveFunction = playTileMove;
             break;
@@ -608,19 +607,19 @@ function makeMove(game, moveRequest) {
             moveFunction = exchangeTileMove;
             break;
         case 'pass':
-        default: 
+        default:
             moveFunction = passMove;
             break;
     }
 
     let res = moveFunction(game, moveRequest);
-    
+
     if (res.valid) {
         game.turns.push(moveRequest);
-    } 
+    }
 
     return res;
- 
+
 }
 
 function playTileMove(game, moveRequest) {
@@ -638,7 +637,7 @@ function playTileMove(game, moveRequest) {
     }
 
     //Cheating counter measure or to minimise data being sent
-    for(let i = 0; i < tiles; i++) {
+    for (let i = 0; i < tiles; i++) {
         tiles[i].value = game.def[tiles[i].letter + 'Value'];
         moveRes.reason = "Values don't match up";
     }
@@ -647,17 +646,17 @@ function playTileMove(game, moveRequest) {
     moveRes.words = [];
     moveRes.valid = false;
 
-    if(checkMove(game, tiles, moves)) {
+    if (checkMove(game, tiles, moves)) {
 
         let words = findWords(game, tiles, moves);
         let wordsAsStrings = convertTilesToStrings(words);
 
-        for(let i = 0; i < wordsAsStrings.length; i++) {
+        for (let i = 0; i < wordsAsStrings.length; i++) {
             let valid = checkWordValidity(game, wordsAsStrings[i]);
             if (!valid) {
                 moveRes.valid = false;
                 moveRes.reason = "The word : " + wordsAsStrings[i] + " is not a valid word";
-                return moveRes; 
+                return moveRes;
             }
         }
 
@@ -672,11 +671,11 @@ function playTileMove(game, moveRequest) {
     }
 
     if (moveRes.valid) {
-        
-        for(let i = 0; i < tiles.length; i++) {
+
+        for (let i = 0; i < tiles.length; i++) {
             playTile(game, tiles[i], moves[i].x, moves[i].y);
         }
-        
+
         let playerToUpdate = game.players.find(player => player.playerId === game.activePlayer);
 
         if (tiles.length == game.handSize) {
@@ -684,18 +683,18 @@ function playTileMove(game, moveRequest) {
         }
 
         playerToUpdate.score += moveRes.score;
-        
+
         if (playerToUpdate.words.length == 0) {
             playerToUpdate.words = moveRes.words;
         } else {
             playerToUpdate.words.concat(moveRes.words);
         }
-        
-        
+
+
         drawTiles(game.pool, playerToUpdate.hand, game.handSize);
-    
+
     }
-    
+
     game.firstTurn = false;
 
     return moveRes;
@@ -704,25 +703,25 @@ function playTileMove(game, moveRequest) {
 function exchangeTileMove(game, moveRequest) {
     let tiles = moveRequest.tiles;
     exchangeTiles(game, tiles);
-    
-    return {valid: true};
+
+    return { valid: true };
 
 }
 
 function passMove(game, moveRequest) {
-    return {valid: true};
+    return { valid: true };
 }
 
 //Method for creating the dictionary from a local file
 function getDictionary() {
 
-    let dictionary = fs.readFileSync('server/gameLogic/dict.txt','utf-8');
+    let dictionary = fs.readFileSync('server/gameLogic/dict.txt', 'utf-8');
 
     //split on new line and make all things lower case
     dictionary = dictionary.split(/[\r\n]+/).map(w => w.toLocaleLowerCase());
-        
+
     return dictionary;
-  
+
 }
 
 //Check if a word is contained in the dictionary
@@ -751,9 +750,9 @@ function changeTurn(game) {
 //Allow the player to exchange tiles
 function exchangeTiles(game, tiles) {
     let player = game.players.find(player => player.playerId === game.activePlayer);
-    
-    for(let i = 0; i < tiles.length; i++) {
-        for(let j = 0; j < player.hand.length; j++) {
+
+    for (let i = 0; i < tiles.length; i++) {
+        for (let j = 0; j < player.hand.length; j++) {
             if (player.hand[j].letter == tiles[i].letter) {
                 game.pool.push(cloneObject(player.hand[j]));
                 shuffleTiles(game.pool);
@@ -761,6 +760,37 @@ function exchangeTiles(game, tiles) {
                 break;
             }
         }
+    }
+
+}
+
+
+function determineEnd(game) {
+    let numberOfPlayers = game.players.length;
+    //We want to go get the last x number of moves
+    //where x is the number of players * 2
+    let indexToSplice = (game.turns.length) - (2 * numberOfPlayers);
+    indexToSplice = indexToSplice < 0 ? 0 : indexToSplice;
+    let turns = cloneObject(game.turns).splice(indexToSplice, 2 * numberOfPlayers);
+    let gameEnd = false;
+   
+    //iterate through the number ofplayers and grab their last two turns
+    //if they're both a pass then the game should end
+    for (let i = 0; i < numberOfPlayers; i++) {
+        let m1 = turns[0 + i];   
+        let m2 = turns[0 + i + numberOfPlayers];
+
+        if (m1 && m2) {
+            if (m1.moveType === 'pass' && m2.moveType === 'pass')  {
+                gameEnd = true;
+                break;
+            }
+        }
+
+    }
+
+    if (gameEnd) {
+        game.state = 'end';
     }
 
 }
@@ -784,3 +814,4 @@ module.exports.checkWordValidity = checkWordValidity;
 module.exports.makeMove = makeMove;
 module.exports.changeTurn = changeTurn;
 module.exports.exchangeTiles = exchangeTiles;
+module.exports.determineEnd = determineEnd;

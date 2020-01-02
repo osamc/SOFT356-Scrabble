@@ -327,7 +327,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res = game.makeMove(setup, moveRequest);
@@ -357,7 +357,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res = game.makeMove(setup, moveRequest);
@@ -378,7 +378,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res2 = game.makeMove(setup, moveRequest);
@@ -390,9 +390,6 @@ describe('Game Logic Test', () => {
 
         expect(setup.players[1].score).equal(32);
         expect(setup.players[1].words.length).equal(2);
-
-        console.log(setup.players);
-
 
     });
 
@@ -461,7 +458,7 @@ describe('Game Logic Test', () => {
         let moveRequest = {};
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res = game.makeMove(setup, moveRequest);
@@ -486,7 +483,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = '2';
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res = game.makeMove(setup, moveRequest);
@@ -538,7 +535,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -563,7 +560,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res = game.makeMove(setup, moveRequest);
@@ -582,7 +579,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
 
         let res2 = game.makeMove(setup, moveRequest);
@@ -630,7 +627,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -655,12 +652,93 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
-        moveRequest.type = 'playTile';
+        moveRequest.moveType = 'playTile';
 
         let res = game.makeMove(setup, moveRequest);
 
     });
 
+    it ('The game should end if a player passes two times in a row', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        let moveRequest = {};
+        moveRequest.from = setup.activePlayer;
+        moveRequest.moveType = 'pass';
+
+        let res = game.makeMove(setup, moveRequest);
+
+        game.changeTurn(setup);
+        moveRequest = {};
+        moveRequest.from = setup.activePlayer;
+        moveRequest.moveType = 'pass';
+
+        res = game.makeMove(setup, moveRequest);
+        
+        game.changeTurn(setup);
+        moveRequest = {};
+        moveRequest.from = setup.activePlayer;
+        moveRequest.moveType = 'pass';
+
+        res = game.makeMove(setup, moveRequest);
+
+        game.determineEnd(setup);
+
+        expect(setup.state).equal('end');
+
+    });
+
+    it ('Should end the game if a player passes twice in a row more than 3 turns', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+
+        let moveRequest = {};
+        
+        for(let i = 0; i < 10; i++) {
+
+            game.changeTurn(setup);
+            moveRequest = {};
+            moveRequest.from = setup.activePlayer;
+            moveRequest.moveType = 'pass';
+    
+            res = game.makeMove(setup, moveRequest);
+        }
+
+        game.changeTurn(setup);
+
+        let tiles = [];
+        let moves = [];
+        let testWord = 'mask';
+
+        for(let i = 0; i < testWord.length; i++) {
+            tiles.push(getTile(game, testWord[i]));
+            moves.push({x: 7 + i, y: 7});
+        }
+
+        moveRequest = {};
+        moveRequest.moves = moves;
+        moveRequest.tiles = tiles;
+        moveRequest.from = setup.activePlayer;
+        moveRequest.moveType = 'playTile';
+
+        game.changeTurn(setup);
+        game.makeMove(setup, moveRequest);
+
+        moveRequest = {};
+        moveRequest.from = setup.activePlayer;
+        moveRequest.moveType = 'pass';
+
+        game.makeMove(setup, moveRequest);
+
+        game.determineEnd(setup);
+
+        expect(setup.state).equal('end');
+    });
+
+
+    
 });
 
 function getTile(game, letter) {

@@ -1,36 +1,35 @@
 <?xml version="1.0"?>
-<testsuite name="HeadlessChrome 79.0.3945 (Windows 10.0.0)" package="" timestamp="2020-01-02T15:41:33" id="0" hostname="DESKTOP-JU1KODK" tests="7" errors="0" failures="0" time="0.777">
+<testsuite name="HeadlessChrome 79.0.3945 (Windows 10.0.0)" package="" timestamp="2020-01-02T17:35:09" id="0" hostname="DESKTOP-JU1KODK" tests="7" errors="0" failures="0" time="0.909">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/79.0.3945.88 Safari/537.36"/>
   </properties>
-  <testcase name="ApiService Should be able to retrieve players" time="0.298" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ToasterService should be created" time="0.009" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterService"/>
+  <testcase name="ApiService Should be able to delete players" time="0.342" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService Should be able to retrieve players" time="0.053" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
   <testcase name="ApiService should create players" time="0.014" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="ApiService Should be able to delete players" time="0.267" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="ApiService Should be able to update a player" time="0.118" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="PersistanceService Should be able to retrieve and store a player" time="0.012" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).PersistanceService"/>
-  <testcase name="ToasterService should be created" time="0.008" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterService"/>
-  <testcase name="ToasterComponent should create" time="0.06" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterComponent"/>
+  <testcase name="ApiService Should be able to update a player" time="0.299" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="PersistanceService Should be able to retrieve and store a player" time="0.037" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).PersistanceService"/>
+  <testcase name="ToasterComponent should create" time="0.155" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterComponent"/>
   <system-out>
-    <![CDATA[HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to retrieve players'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{playerId: '54483308-8ae4-43f0-8864-a96b4e403a3d', playerName: 'test', words: []}
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"playerId":"54483308-8ae4-43f0-8864-a96b4e403a3d","playerName":"test","words":[]}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e0e0f2d2d8ac0075c3ee50f","playerId":"54483308-8ae4-43f0-8864-a96b4e403a3d","playerName":"test","__v":0}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be created'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Expecting the number of accounts to be incramented by 1'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to delete players'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The api should be able to update the player'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e0e0f2e2d8ac0075c3ee512","playerId":"7c3c313c-b4fa-4f53-8f0f-1c0966a10189","playerName":"test2","__v":0}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e0e0f2e2d8ac0075c3ee512","playerId":"7c3c313c-b4fa-4f53-8f0f-1c0966a10189","playerName":"test2","__v":0,"activeRoomId":null,"socketId":null}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be stored in storage'
+    <![CDATA[HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be stored in storage'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player we stored:'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{playerId: 'test', playerName: 'another'}
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player from storage:'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{playerId: 'test', playerName: 'another'}
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'deleted all test accounts'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to delete players'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to retrieve players'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{playerId: '337214f4-1e39-4a88-834f-421f3c0ed732', playerName: 'test', words: []}
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"playerId":"337214f4-1e39-4a88-834f-421f3c0ed732","playerName":"test","words":[]}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e0e29ce89631270ecf8e3c1","playerId":"337214f4-1e39-4a88-834f-421f3c0ed732","playerName":"test","__v":0}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be created'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Expecting the number of accounts to be incramented by 1'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The api should be able to update the player'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e0e29ce89631270ecf8e3c3","playerId":"ac1a63d8-be3e-464a-a5d0-86098ab62f8e","playerName":"test2","__v":0}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"_id":"5e0e29ce89631270ecf8e3c3","playerId":"ac1a63d8-be3e-464a-a5d0-86098ab62f8e","playerName":"test2","__v":0,"activeRoomId":null,"socketId":null}'
 
 ]]>
   </system-out>

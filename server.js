@@ -174,7 +174,7 @@ io.on('connection', socket => {
 
         if (res.valid) {
             game.changeTurn(room.game);
-
+            
             let message = {contents: 'Player: ' + toBroadcast.playerName + " has played: " + res.words.join(', ') + " to score: " + res.score + " points.", from: "Server" };
             io.to(moveReq.roomId).emit('message', message);
             
