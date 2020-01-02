@@ -56,6 +56,7 @@ describe('ApiService', () => {
     const service: ApiService = TestBed.get(ApiService);
     service.createPlayer('test').subscribe(res => {
       let player = <Player> res;
+      console.log(res);
       accountsCreated.push(player);
       service.getPlayer(player.playerId).subscribe(got => {
         console.log("Player before: ");

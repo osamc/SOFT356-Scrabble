@@ -327,6 +327,8 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -355,6 +357,8 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -374,6 +378,8 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
 
         let res2 = game.makeMove(setup, moveRequest);
 
@@ -455,6 +461,8 @@ describe('Game Logic Test', () => {
         let moveRequest = {};
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
+        moveRequest.type = 'playTile';
+
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -478,6 +486,8 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = '2';
+        moveRequest.type = 'playTile';
+
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -500,11 +510,14 @@ describe('Game Logic Test', () => {
             {x: 9, y:7}, 
             {x: 10, y:7}];
 
+        players[0].hand.length = 4;
+
         for(let i = 0; i < tiles.length; i++) {
             game.playTile(setup, tiles[i], moves[i].x, moves[i].y);
         }
 
         expect(setup.handSize == players[0].hand.length).equal(false);
+
     });
 
     it('The game should not allow moves that have diagonal placements', () => {
@@ -525,6 +538,7 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
 
         let res = game.makeMove(setup, moveRequest);
 
@@ -549,6 +563,8 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
 
         let res = game.makeMove(setup, moveRequest);
         game.changeTurn(setup);
@@ -566,6 +582,8 @@ describe('Game Logic Test', () => {
         moveRequest.moves = moves;
         moveRequest.tiles = tiles;
         moveRequest.from = setup.activePlayer;
+        moveRequest.type = 'playTile';
+
 
         let res2 = game.makeMove(setup, moveRequest);
         console.log(res2);
@@ -573,9 +591,25 @@ describe('Game Logic Test', () => {
         //THis is because we made the word ew
         expect(res.valid).equal(true);
 
-
-
     });
+
+    it ('The game should not give out empty tiles when there are no tiles left', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+        setup.pool.length = 2;
+        players[0].hand.length = 2;
+
+        console.log(JSON.stringify(setup.players[0]));
+        console.log(setup.pool);
+
+        game.drawTiles(setup.pool, players[0].hand, setup.handSize);
+
+        console.log(JSON.stringify(players[0].hand));
+
+        expect(players[0].hand.length).equal(4);
+
+    })
 
 });
 

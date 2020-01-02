@@ -43,8 +43,12 @@ function dealHand(handSize, pool) {
 //Drawing tiles should fill up the hand of the player
 function drawTiles(pool, hand, handSize) {
     let numberOfTiles = handSize - hand.length;
+
     for(let i = 0; i < numberOfTiles; i++) {
-        hand.push(pool.pop());
+        let tile =  pool.pop();
+        if (typeof tile !== 'undefined') {
+            hand.push(tile);
+        }
     }
     return hand;
 }
@@ -210,6 +214,7 @@ function initialSetup(players, handSize) {
     game.handSize = handSize;
     game.dictionary = getDictionary();
     game.def = options;
+    game.turns = [];
 
     return game;
 }
@@ -324,7 +329,7 @@ function checkMove(game, tiles, moves) {
             if(yVals[i] - yVals[i - 1] != 1) {
                 let missingVal = yVals[i] - 1;
                 if (!checkIfTileExists(newGame.board[missingVal][xVals[i]])) {
-                    console.log('There wasn\t a tile on ' + xVals[i] + ', ' + missingVal);
+                    console.log('There wasn\'t a tile on ' + xVals[i] + ', ' + missingVal);
                     return false;
                 }
             }
@@ -582,18 +587,49 @@ function determineScore(words) {
 //to ensure that a move is valid and rewards the player
 //with the points they obtained
 function makeMove(game, moveRequest) {
-    
-    let tiles = moveRequest.tiles;
-    let moves = moveRequest.moves;
+    let moveType = moveRequest.type;
     let from = moveRequest.from;
-    let moveRes = {};
+    let moveFunction;
 
+    console.log(moveRequest);
 
     if (from !== game.activePlayer) {
+        let moveRes = {};
         moveRes.valid = false;
         moveRes.reason = "You are not the active player";
         return moveRes;
     }
+
+    switch(moveType) {
+        case 'playTile':
+            moveFunction = playTileMove;
+            break;
+        case 'exchange':
+            moveFunction = exchangeTileMove;
+            break;
+        case 'pass':
+        default: 
+            moveFunction = passMove;
+            break;
+    }
+
+    let res = moveFunction(game, moveRequest);
+    
+    if (res.valid) {
+        game.turns.push(moveRequest);
+    } 
+
+    return res;
+ 
+}
+
+function playTileMove(game, moveRequest) {
+
+    let tiles = moveRequest.tiles;
+    let moves = moveRequest.moves;
+    let from = moveRequest.from;
+
+    let moveRes = {};
 
     if (tiles.length != moves.length) {
         moveRes.valid = false;
@@ -663,7 +699,18 @@ function makeMove(game, moveRequest) {
     game.firstTurn = false;
 
     return moveRes;
- 
+}
+
+function exchangeTileMove(game, moveRequest) {
+    let tiles = moveRequest.tiles;
+    exchangeTiles(game, tiles);
+    
+    return {valid: true};
+
+}
+
+function passMove(game, moveRequest) {
+    return {valid: true};
 }
 
 //Method for creating the dictionary from a local file
