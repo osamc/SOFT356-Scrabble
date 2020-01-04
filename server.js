@@ -89,6 +89,10 @@ io.on('connection', socket => {
     let player = {};
    
     function updateRooms() {
+        let toSend = JSON.parse(JSON.stringify(rooms));
+        toSend.forEach(room => {
+            delete room.game;
+        })
         io.emit('rooms', rooms);
     }
 
@@ -174,10 +178,19 @@ io.on('connection', socket => {
 
         if (res.valid) {
             game.changeTurn(room.game);
-            
-            let message = {contents: 'Player: ' + toBroadcast.playerName + " has played: " + res.words.join(', ') + " to score: " + res.score + " points.", from: "Server" };
-            io.to(moveReq.roomId).emit('message', message);
-            
+            let message = {contents: '', from: "Server"};
+
+            if (moveReq.moveType === 'playTile') {
+                message.contents = 'Player: ' + toBroadcast.playerName + " has played: " + res.words.join(', ') + " to score: " + res.score + " points.";
+            } else if (moveReq.moveType === 'pass') {
+                message.contents = 'Player: ' + toBroadcast.playerName + ' has passed their turn.';
+            } else if (moveReq.moveType === 'exchange') {
+                message.contents = 'Player: ' + toBroadcast.playerName + ' has exchanged tiles.';
+            }
+
+            io.to(moveReq.roomId).emit('message', message);    
+
+          
         }
 
         updateGame(room);
@@ -204,7 +217,7 @@ io.on('connection', socket => {
     })
 
     //Once we connect we want to get a list of all rooms
-    io.emit('rooms', rooms);
+    updateRooms();
 
     console.log('Socket' + socket.id + 'has connected');
 

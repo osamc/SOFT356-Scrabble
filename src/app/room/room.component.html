@@ -1,6 +1,6 @@
 <div id="main">
     <button class="btn btn-dark chatbutton" (click)="toggleChat()"><i class="fas fa-comment"></i></button>
-    <button class="btn btn-primary" (click)="startGame()">Start</button>
+    <button class="btn btn-primary" id="startGame" (click)="startGame()">Start</button>
     
     <div>
         <app-game> </app-game>
@@ -10,12 +10,13 @@
 
 
 
-<div id="myChatbar" class="chatbar">
+<div id="myChatbar" [ngClass]="showChat ? 'chatbarShown' : 'chatbarHide'">
     
-    <button class="btn btn-dark" (click)="toggleChat()">&times;</button>
+    <button class="btn btn-dark" id="toggleChat" (click)="toggleChat()">&times;</button>
 
-    <div class="messages" id="messageView" #messageView>
-        <div class="message" *ngFor="let message of websocket.activeRoom.messages;">
+
+    <div class="messages" id="messageView" #messageView *ngIf="websocket.activeRoom.messages">
+        <div class="message" *ngFor="let message of websocket.activeRoom.messages">
             <div class="from">
                 {{message.from}}:
             </div> {{message.contents}}
@@ -25,7 +26,7 @@
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Message" #message (keyup.enter)="sendMessage(message)">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="sendMessage(message)">Send Message</button>
+            <button class="btn btn-outline-secondary" type="button" id='sendMessage' (click)="sendMessage(message)">Send Message</button>
           </div>
     </div>
 

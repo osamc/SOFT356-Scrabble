@@ -10,7 +10,7 @@ import { Room } from '../models/room';
 })
 export class RoomComponent implements OnInit, AfterViewInit{
 
-  private showChat = false;
+  public showChat = false;
 
   @ViewChildren('messageView') messageView: QueryList<any>;
 
@@ -32,17 +32,17 @@ export class RoomComponent implements OnInit, AfterViewInit{
   }
 
   toggleChat() {
-    let chatbar = document.getElementById('myChatbar')
-    let main = document.getElementById('main'); 
+    // let chatbar = document.getElementById('myChatbar')
+    // let main = document.getElementById('main'); 
    
-    if (this.showChat) {
-      chatbar.style.width = "0";
-      chatbar.style.padding = "0";
-      main.style.marginLeft = '0';
-    } else {
-      chatbar.style.width = "25%";
-      chatbar.style.padding = "1rem";
-    }
+    // if (this.showChat) {
+    //   chatbar.style.width = "0";
+    //   chatbar.style.padding = "0";
+    //   main.style.marginLeft = '0';
+    // } else {
+    //   chatbar.style.width = "25%";
+    //   chatbar.style.padding = "1rem";
+    // }
 
     this.showChat = !this.showChat;
 
@@ -50,7 +50,6 @@ export class RoomComponent implements OnInit, AfterViewInit{
 
 
   startGame() {
-
     this.websocket.startGame();
   }
 
