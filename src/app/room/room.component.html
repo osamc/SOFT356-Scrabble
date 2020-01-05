@@ -9,11 +9,9 @@
 </div>
 
 
-
 <div id="myChatbar" [ngClass]="showChat ? 'chatbarShown' : 'chatbarHide'">
     
     <button class="btn btn-dark" id="toggleChat" (click)="toggleChat()">&times;</button>
-
 
     <div class="messages" id="messageView" #messageView *ngIf="websocket.activeRoom.messages">
         <div class="message" *ngFor="let message of websocket.activeRoom.messages">

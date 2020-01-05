@@ -79,7 +79,21 @@ app.post('/updatePlayer', (req, res) => {
     db.updatePlayer(req.body).then(() => {
         res.send();
     })
-})
+});
+
+setInterval(() => {
+    for (let i = rooms.length; i >= 0; i--) {
+        let room = rooms[i];
+        if (room) {
+            if (room.players == 0 || (room.game && room.game.state === 'end')) {
+                console.log('Removing room: ' + room.id);
+                rooms.splice(i,1);
+            }
+        }
+       
+    }
+    io.emit('rooms', rooms);
+}, 6000);
 
 //we want to enable cors for testing
 io.set('origins', '*:*');
@@ -120,6 +134,21 @@ io.on('connection', socket => {
         }
     }
 
+    function gameOver(room) {
+        console.log(room);
+        io.to(room.roomId).emit('Game Over', '');
+        
+        let winner = room.players[0];
+        for (let i = 0; i < room.players; i++) {
+                if (winner.score < room.players[i].score) {
+                    winner = room.players[i];
+                }
+        }
+
+        io.to(room.id).emit('message', {from: 'server', contents: 'Player: ' + winner.playerName + ' has won with a score of: ' + winner.score});
+
+    }
+
     
     function leave(){
         if (player.activeRoom) {
@@ -135,6 +164,8 @@ io.on('connection', socket => {
 
     socket.on('createRoom', room => {
         room.messages = [];
+        room.createDate = new Date();
+        console.log(JSON.stringify(room));
         rooms.push(room)
         updateRooms();
     });
@@ -161,7 +192,6 @@ io.on('connection', socket => {
     socket.on('startGame', roomId => {
         let room = rooms.find(o => o.id === roomId);
         room.game = game.initialSetup(room.players, 8);
-
         try {
            updateGame(room);
         } catch (err) {
@@ -173,7 +203,6 @@ io.on('connection', socket => {
         let room = rooms.find(r => r.id == moveReq.roomId);
         let res = game.makeMove(room.game, moveReq);
         let toBroadcast =  room.game.players.find(player => player.playerId === moveReq.from);
-
         console.log(res);
 
         if (res.valid) {
@@ -189,18 +218,19 @@ io.on('connection', socket => {
             }
 
             io.to(moveReq.roomId).emit('message', message);    
+            game.determineEnd(room.game);
+        }
 
-          
+        if (room.game.state === 'end') {
+            gameOver(room);
         }
 
         updateGame(room);
-
     });
 
     socket.on('leaveRoom', any => {
         leave();
     });
-
 
     socket.on('messageRoom', message => {
         console.log(player.activeRoom);

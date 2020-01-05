@@ -25,7 +25,7 @@ export class WebsocketService {
   constructor(private router: Router,
     private storage: PersistanceService) {
     this.socket = io(this.base + "/");
-    
+    this.rooms = [];
     let fromStorage = this.storage.retrievePlayer();
 
     if (fromStorage) {

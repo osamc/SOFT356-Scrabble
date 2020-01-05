@@ -23,10 +23,10 @@
             </div>
             
         
-            <button class="btn btn-primary" (click)="makeMove()">Play</button>
-            <button class="btn btn-primary" (click)="passTurn()">Pass</button>
-            <button class="btn btn-primary" (click)="exchangeTiles()">{{exchangeMode ? "Disable" : "Enable"}} Exchange Mode</button>
-            <button class="btn btn-primary" (click)="exchangeTurn()" [disabled]="!exchangeMode">Exchange Selected</button>
+            <button class="btn btn-primary" id="makeMove" (click)="makeMove()">Play</button>
+            <button class="btn btn-primary" id="passTurn" (click)="passTurn()">Pass</button>
+            <button class="btn btn-primary" id="exchangeTiles" (click)="exchangeTiles()">{{exchangeMode ? "Disable" : "Enable"}} Exchange Mode</button>
+            <button class="btn btn-primary" id="exchangeTurnBtn" (click)="exchangeTurn()" [disabled]="!exchangeMode">Exchange Selected</button>
         
         </div>
     </div>

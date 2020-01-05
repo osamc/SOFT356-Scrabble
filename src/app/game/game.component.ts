@@ -11,8 +11,8 @@ import { ToasterService, ToastType } from '../services/toaster.service';
 })
 export class GameComponent implements OnInit {
 
-  constructor(private websocket: WebsocketService,
-    private toaster: ToasterService) { }
+  constructor(public websocket: WebsocketService,
+    public toaster: ToasterService) { }
 
   ngOnInit() {
   }
@@ -23,6 +23,7 @@ export class GameComponent implements OnInit {
   moves = [];
 
   makeMove() {
+
     let moveRequest: any = {};
 
     let moves = JSON.parse(JSON.stringify(this.moves));
@@ -78,7 +79,10 @@ export class GameComponent implements OnInit {
 
     this.tiles = [];
     this.moves = [];
+    console.log(this.exchangeMode);
     this.exchangeMode = !this.exchangeMode;
+    console.log(this.exchangeMode);
+
 
   }
 
@@ -116,7 +120,6 @@ export class GameComponent implements OnInit {
   } 
 
   placeTile(x: any, y: any) {
-
     if (this.websocket.activeRoom.game.yourTurn) {
 
       if (!this.exchangeMode) {
@@ -175,7 +178,6 @@ export class GameComponent implements OnInit {
   }
 
   selectTile(tile: GameTile) {
-
     //if we have previously selected a tile then we must unselect it
     if (this.activeTile) {
       this.activeTile.selected = false;
