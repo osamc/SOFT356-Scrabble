@@ -17,7 +17,7 @@
 
             <h5>Players in game:</h5>
             <h6 *ngFor='let player of room.players'>{{player.playerName}}</h6>
-            <button class="btn btn-primary" (click)="joinRoom(room)">Join Room </button>
+            <button class="btn btn-primary" (click)="joinRoom(room)" [disabled]="room.game?.state === 'active'">Join Room</button>
           </div>
     </div>
 </div>

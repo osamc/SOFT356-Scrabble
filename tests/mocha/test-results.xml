@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="4.633" tests="31" failures="0">
-  <testsuite name="Root Suite" timestamp="2020-01-05T02:58:46" tests="0" failures="0" time="0">
+<testsuites name="Mocha Tests" time="5.895" tests="31" failures="0">
+  <testsuite name="Root Suite" timestamp="2020-01-06T01:08:30" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="Game Logic Test" timestamp="2020-01-05T02:58:46" tests="31" file="E:\SOFT356-Scrabble\server\gameLogic\test.js" failures="0" time="4.633">
+  <testsuite name="Game Logic Test" timestamp="2020-01-06T01:08:30" tests="31" file="E:\SOFT356-Scrabble\server\gameLogic\test.js" failures="0" time="5.895">
     <testcase name="Game Logic Test The game should be able to produce default pool options" time="0.003" classname="The game should be able to produce default pool options">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to generate a tile pool based on default options" time="0.001" classname="The game should be able to generate a tile pool based on default options">
+    <testcase name="Game Logic Test The game should be able to generate a tile pool based on default options" time="0.013" classname="The game should be able to generate a tile pool based on default options">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to shuffle a group of tiles" time="0.001" classname="The game should be able to shuffle a group of tiles">
+    <testcase name="Game Logic Test The game should be able to shuffle a group of tiles" time="0" classname="The game should be able to shuffle a group of tiles">
     </testcase>
     <testcase name="Game Logic Test The game should be able to deal a hand of X size" time="0.005" classname="The game should be able to deal a hand of X size">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to allow the player draw X number of tile" time="0.003" classname="The game should be able to allow the player draw X number of tile">
+    <testcase name="Game Logic Test The game should be able to allow the player draw X number of tile" time="0.015" classname="The game should be able to allow the player draw X number of tile">
     </testcase>
     <testcase name="Game Logic Test The game should be able to create the game board" time="0.001" classname="The game should be able to create the game board">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to be setup" time="0.158" classname="The game should be able to be setup">
+    <testcase name="Game Logic Test The game should be able to be setup" time="0.145" classname="The game should be able to be setup">
     </testcase>
-    <testcase name="Game Logic Test The game shoud allow you to check if a tile placement valid is correct" time="0.11" classname="The game shoud allow you to check if a tile placement valid is correct">
+    <testcase name="Game Logic Test The game shoud allow you to check if a tile placement valid is correct" time="0.145" classname="The game shoud allow you to check if a tile placement valid is correct">
     </testcase>
-    <testcase name="Game Logic Test The game should allow you to place a tile" time="0.128" classname="The game should allow you to place a tile">
+    <testcase name="Game Logic Test The game should allow you to place a tile" time="0.138" classname="The game should allow you to place a tile">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to check if a move is valid (tile placement wise)" time="0.567" classname="The game should be able to check if a move is valid (tile placement wise)">
+    <testcase name="Game Logic Test The game should be able to check if a move is valid (tile placement wise)" time="0.453" classname="The game should be able to check if a move is valid (tile placement wise)">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to find a word if placed on board" time="0.274" classname="The game should be able to find a word if placed on board">
+    <testcase name="Game Logic Test The game should be able to find a word if placed on board" time="0.239" classname="The game should be able to find a word if placed on board">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to find multiple words if tiles already exist" time="0.201" classname="The game should be able to find multiple words if tiles already exist">
+    <testcase name="Game Logic Test The game should be able to find multiple words if tiles already exist" time="0.249" classname="The game should be able to find multiple words if tiles already exist">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to determine the score of a word" time="0.176" classname="The game should be able to determine the score of a word">
+    <testcase name="Game Logic Test The game should be able to determine the score of a word" time="0.227" classname="The game should be able to determine the score of a word">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to determine scores of multiple words" time="0.17" classname="The game should be able to determine scores of multiple words">
+    <testcase name="Game Logic Test The game should be able to determine scores of multiple words" time="0.177" classname="The game should be able to determine scores of multiple words">
     </testcase>
-    <testcase name="Game Logic Test The game should read in the dictionary correctly" time="0.116" classname="The game should read in the dictionary correctly">
+    <testcase name="Game Logic Test The game should read in the dictionary correctly" time="0.09" classname="The game should read in the dictionary correctly">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to determine if words are valid" time="0.126" classname="The game should be able to determine if words are valid">
+    <testcase name="Game Logic Test The game should be able to determine if words are valid" time="0.082" classname="The game should be able to determine if words are valid">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to allow moves to be made" time="0.249" classname="The game should be able to allow moves to be made">
+    <testcase name="Game Logic Test The game should be able to allow moves to be made" time="0.248" classname="The game should be able to allow moves to be made">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to emulate an actual game" time="0.412" classname="The game should be able to emulate an actual game">
+    <testcase name="Game Logic Test The game should be able to emulate an actual game" time="1.02" classname="The game should be able to emulate an actual game">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to change turn to the next player" time="0.109" classname="The game should be able to change turn to the next player">
+    <testcase name="Game Logic Test The game should be able to change turn to the next player" time="0.166" classname="The game should be able to change turn to the next player">
     </testcase>
-    <testcase name="Game Logic Test The game should be able to rotate between 3 players" time="0.081" classname="The game should be able to rotate between 3 players">
+    <testcase name="Game Logic Test The game should be able to rotate between 3 players" time="0.1" classname="The game should be able to rotate between 3 players">
     </testcase>
-    <testcase name="Game Logic Test The game should allow for players to exchange tiles" time="0.071" classname="The game should allow for players to exchange tiles">
+    <testcase name="Game Logic Test The game should allow for players to exchange tiles" time="0.082" classname="The game should allow for players to exchange tiles">
     </testcase>
-    <testcase name="Game Logic Test The game should determine a move that has a different number of locations and tiles invalid" time="0.074" classname="The game should determine a move that has a different number of locations and tiles invalid">
+    <testcase name="Game Logic Test The game should determine a move that has a different number of locations and tiles invalid" time="0.079" classname="The game should determine a move that has a different number of locations and tiles invalid">
     </testcase>
-    <testcase name="Game Logic Test The game should not be able to process move requests if they are not the active player" time="0.074" classname="The game should not be able to process move requests if they are not the active player">
+    <testcase name="Game Logic Test The game should not be able to process move requests if they are not the active player" time="0.075" classname="The game should not be able to process move requests if they are not the active player">
     </testcase>
-    <testcase name="Game Logic Test The game should remove tiles from the players hand once they&apos;re played" time="0.069" classname="The game should remove tiles from the players hand once they&apos;re played">
+    <testcase name="Game Logic Test The game should remove tiles from the players hand once they&apos;re played" time="0.078" classname="The game should remove tiles from the players hand once they&apos;re played">
     </testcase>
-    <testcase name="Game Logic Test The game should not allow moves that have diagonal placements" time="0.186" classname="The game should not allow moves that have diagonal placements">
+    <testcase name="Game Logic Test The game should not allow moves that have diagonal placements" time="0.262" classname="The game should not allow moves that have diagonal placements">
     </testcase>
-    <testcase name="Game Logic Test The game should work if a player decides to play 1 letter" time="0.382" classname="The game should work if a player decides to play 1 letter">
+    <testcase name="Game Logic Test The game should work if a player decides to play 1 letter" time="0.472" classname="The game should work if a player decides to play 1 letter">
     </testcase>
-    <testcase name="Game Logic Test The game should not give out empty tiles when there are no tiles left" time="0.08" classname="The game should not give out empty tiles when there are no tiles left">
+    <testcase name="Game Logic Test The game should not give out empty tiles when there are no tiles left" time="0.096" classname="The game should not give out empty tiles when there are no tiles left">
     </testcase>
-    <testcase name="Game Logic Test The game shoud allow for tiles on the boarder extremes" time="0.289" classname="The game shoud allow for tiles on the boarder extremes">
+    <testcase name="Game Logic Test The game shoud allow for tiles on the boarder extremes" time="0.298" classname="The game shoud allow for tiles on the boarder extremes">
     </testcase>
-    <testcase name="Game Logic Test The game shoud allow for tiles on the boarder minimums" time="0.288" classname="The game shoud allow for tiles on the boarder minimums">
+    <testcase name="Game Logic Test The game shoud allow for tiles on the boarder minimums" time="0.624" classname="The game shoud allow for tiles on the boarder minimums">
     </testcase>
-    <testcase name="Game Logic Test The game should end if a player passes two times in a row" time="0.122" classname="The game should end if a player passes two times in a row">
+    <testcase name="Game Logic Test The game should end if a player passes two times in a row" time="0.194" classname="The game should end if a player passes two times in a row">
     </testcase>
-    <testcase name="Game Logic Test Should end the game if a player passes twice in a row more than 3 turns" time="0.107" classname="Should end the game if a player passes twice in a row more than 3 turns">
+    <testcase name="Game Logic Test Should end the game if a player passes twice in a row more than 3 turns" time="0.119" classname="Should end the game if a player passes twice in a row more than 3 turns">
     </testcase>
   </testsuite>
 </testsuites>

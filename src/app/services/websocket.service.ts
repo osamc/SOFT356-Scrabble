@@ -7,6 +7,7 @@ import { Player } from "../models/player";
 import { Router } from "@angular/router";
 import { AppConstant } from "src/environments/constants";
 import { PersistanceService } from './persistance.service';
+import { ToastType, ToasterService } from './toaster.service';
 
 @Injectable({
   providedIn: "root"
@@ -23,7 +24,8 @@ export class WebsocketService {
   private base: string = AppConstant.BASE_URL;
 
   constructor(private router: Router,
-    private storage: PersistanceService) {
+    private storage: PersistanceService,
+    private toaster: ToasterService) {
     this.socket = io(this.base + "/");
     this.rooms = [];
     let fromStorage = this.storage.retrievePlayer();
@@ -40,6 +42,7 @@ export class WebsocketService {
       // of the rooms
       const roomObserver = new Observable(observer => {
         this.socket.on('rooms', data => {
+          console.log(data);
           this.rooms = data as Room[];
         });
       }).subscribe();
@@ -69,8 +72,15 @@ export class WebsocketService {
         });
       }).subscribe();
 
+      const notificationListener = new Observable(obs => {
+        this.socket.on('notification', notification => {
+          ToastType.SUCCESS
+          this.toaster.createToast(notification.text, notification.type);
+        });
+      }).subscribe();
      
       this.initiated = true;
+
     }
   }
 
@@ -113,6 +123,10 @@ export class WebsocketService {
 
   disconnect() {
     this.socket.emit('disconnect', '');
+  }
+
+  leaveRoom() {
+    this.socket.emit('leaveRoom', null);
   }
 
 }

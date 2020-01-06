@@ -5,11 +5,16 @@ var ObjectId = require('mongodb').ObjectId;
      return await schemas.player.findOne({"playerId":id});
  }
 
+ async function getPlayerViaLogin(id) {
+     return await schemas.player.findOne({loginName: id});
+ }
+
  async function deletePlayer(id) {
      return await schemas.player.deleteOne({"playerId": id});
  }
 
  async function createPlayer(player) {
+     console.log(player);
     return await schemas.player.create(player);
  }
 
@@ -37,3 +42,4 @@ var ObjectId = require('mongodb').ObjectId;
  module.exports.createPlayer = createPlayer;
  module.exports.deletePlayer = deletePlayer;
  module.exports.updatePlayer = updatePlayer;
+ module.exports.getPlayerViaLogin = getPlayerViaLogin;

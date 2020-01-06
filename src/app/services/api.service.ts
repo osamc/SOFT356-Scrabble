@@ -22,8 +22,8 @@ export class ApiService {
     return this.http.get(this.base + '/getPlayers');
   }
 
-  public createPlayer(name: string) {
-    const player: Player = {playerId: uuid().toString(), playerName: name};
+  public createPlayer(login: string, username: string, pass: string) {
+    const player: Player = {playerId: uuid().toString(), playerName: username, loginName: login, password: pass};
     return this.http.post(this.base + '/createPlayer', player);
   }
 
@@ -37,6 +37,10 @@ export class ApiService {
 
   public updatePlayer(player: Player) {
     return this.http.post(this.base + '/updatePlayer', player);
+  }
+
+  public login(username: string, password: string) {
+    return this.http.post(this.base + '/login', {'loginName': username, 'password': password});
   }
 
   public getRoomDetails(room: Room) {

@@ -40,8 +40,9 @@ describe('ApiService', () => {
     //Get the service
     const service: ApiService = TestBed.get(ApiService);
     //Create a player with timestamp
-    service.createPlayer(Date.now().toString()).subscribe(res => {
+    service.createPlayer(Date.now().toString(), Date.now().toString(), 'test').subscribe(result => {
       //Case the response to a Player object
+      let res: any = result;
       let player: Player = <Player> res;
       let size = accountsCreated.length;
       accountsCreated.push(player);
@@ -54,8 +55,9 @@ describe('ApiService', () => {
   it('Should be able to retrieve players', (done) => {
     console.log("The API should be able to retrieve players")
     const service: ApiService = TestBed.get(ApiService);
-    service.createPlayer('test').subscribe(res => {
-      let player = <Player> res;
+    service.createPlayer(Date.now().toString(), Date.now().toString(), 'test').subscribe(result => {
+      let res: any = result;
+      let player = <Player> res.player;
       console.log(res);
       accountsCreated.push(player);
       service.getPlayer(player.playerId).subscribe(got => {
@@ -76,7 +78,7 @@ describe('ApiService', () => {
   it('Should be able to delete players', (done) => {
     console.log("The API should be able to delete players");
     const service: ApiService = TestBed.get(ApiService);
-    service.createPlayer("test").subscribe(player => {
+    service.createPlayer(Date.now().toString(), Date.now().toString(), 'test').subscribe(player => {
       service.deletePlayer((<Player>player).playerId).subscribe(() => {
         service.getPlayer((<Player>player).playerId).subscribe(res => {
           expect(res).toEqual(null);
@@ -90,8 +92,9 @@ describe('ApiService', () => {
     console.log("The api should be able to update the player");
     const service: ApiService = TestBed.get(ApiService);
 
-    service.createPlayer('test').subscribe(result => {
-      let castResult = <Player> result;
+    service.createPlayer(Date.now().toString(), Date.now().toString(), 'test').subscribe(result => {
+      let res: any = result;
+      let castResult = res.player;
 
       service.getPlayer(castResult.playerId).subscribe(before => {
         let beforePlayer = <Player> before;
@@ -113,6 +116,22 @@ describe('ApiService', () => {
       });
     }); 
 
+  });
+
+  it ('Should allow you to login after creating an account', (done) => {
+    const service: ApiService = TestBed.get(ApiService);
+    let login = Date.now().toString();
+    service.createPlayer(login, login, 'test').subscribe(result => {
+      let res: any = result;
+      if (res.valid) {
+        service.login(login, 'test').subscribe(loginRes => {
+          let lRes: any = loginRes;
+          accountsCreated.push(lRes.player);
+          expect(lRes.valid).toBe(true);
+          done();
+        });
+      }
+    });
   })
 
 

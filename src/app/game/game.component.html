@@ -1,9 +1,9 @@
 
 <div *ngIf="websocket.activeRoom.game">
-    <div class="game">
+    <div class="game" [ngClass]="{'disabled': websocket.activeRoom.game.state === 'end'}">
         <div style="display: inline">
     
-            {{'Your turn? : ' + websocket.activeRoom.game.yourTurn}}
+            {{websocket.activeRoom.game.state === 'end' ? 'The game has ended' : ('Your turn? : ' + websocket.activeRoom.game.yourTurn)}}
         
             <table id="board">
                 <tr *ngFor="let row of websocket.activeRoom.game.board; let y = index">
@@ -22,11 +22,12 @@
                 </div>    
             </div>
             
-        
-            <button class="btn btn-primary" id="makeMove" (click)="makeMove()">Play</button>
-            <button class="btn btn-primary" id="passTurn" (click)="passTurn()">Pass</button>
-            <button class="btn btn-primary" id="exchangeTiles" (click)="exchangeTiles()">{{exchangeMode ? "Disable" : "Enable"}} Exchange Mode</button>
-            <button class="btn btn-primary" id="exchangeTurnBtn" (click)="exchangeTurn()" [disabled]="!exchangeMode">Exchange Selected</button>
+            <div *ngIf="websocket.activeRoom.state !== 'end'"> 
+                <button class="btn btn-primary" id="makeMove" (click)="makeMove()">Play</button>
+                <button class="btn btn-primary" id="passTurn" (click)="passTurn()">Pass</button>
+                <button class="btn btn-primary" id="exchangeTiles" (click)="exchangeTiles()">{{exchangeMode ? "Disable" : "Enable"}} Exchange Mode</button>
+                <button class="btn btn-primary" id="exchangeTurnBtn" (click)="exchangeTurn()" [disabled]="!exchangeMode">Exchange Selected</button>
+            </div>
         
         </div>
     </div>

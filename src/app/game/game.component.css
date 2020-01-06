@@ -9,8 +9,6 @@
 	user-select: none;
 }
 
-
-
 .tileLetter {
     text-transform: capitalize;
     font-size: 15px;
@@ -59,6 +57,12 @@
 	display: inline-block;
 	position: relative;
 	margin-left: 100px;
+}
+
+.disabled {
+	pointer-events: none;
+	background-color: grey;
+	opacity: 80%;
 }
 
 

@@ -2,21 +2,22 @@ const mongoose = require('mongoose');
 
 var player = mongoose.model('player', {
     playerId: String,
+    loginName: String,
     playerName: String,
+    password: String,
     socketId: String,
-    activeRoomId: String
+    activeRoomId: String,
+    gameHistory: [String]
 });
 
 
-
-var room = mongoose.model('room', {
-    id: String,
-    messages: [String],
-    maxPlayers: Number,
+var game = mongoose.model('game', {
+    gameId: String,
     players: [String],
+    turns : String
 });
 
 
 
 module.exports.player = player;
-module.exports.room = room; 
+module.exports.game = game; 

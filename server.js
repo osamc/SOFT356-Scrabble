@@ -47,8 +47,30 @@ const rooms = [];
 
 app.post("/createPlayer", (req, res) => {
     var player = req.body;
+    console.log(req.body);
     player.words = [];
-    db.createPlayer(player).then(res.send(player));
+    db.getPlayerViaLogin(player.loginName).then(p => {
+        if (p != null) {
+            res.send({valid: false, reason: 'player with login already exists'})
+        } else {
+            db.createPlayer(player).then(res.send({player: player, valid: true}));
+        }
+    });
+    
+});
+
+app.post('/login', (req, res) => {
+    var player = req.body;
+    db.getPlayerViaLogin(player.loginName).then(fromDb => {
+        console.log(player);
+        console.log(fromDb);
+        let response = {};
+        response.valid = player.password === fromDb.password;
+        if (response.valid) {
+            response.player = fromDb;
+        }
+        res.send(response);
+    });
 });
 
 app.get('/getPlayer/:id', (req, res) => {
@@ -85,7 +107,9 @@ setInterval(() => {
     for (let i = rooms.length; i >= 0; i--) {
         let room = rooms[i];
         if (room) {
-            if (room.players == 0 || (room.game && room.game.state === 'end')) {
+            //If the room is empty and it is older than a minute then remove it
+            //if the game has finished then remove it too
+            if ((room.players == 0 && new Date().getTime() - room.createDate.getTime() < 1000 * 60 * 1) || (room.game && room.game.state === 'end')) {
                 console.log('Removing room: ' + room.id);
                 rooms.splice(i,1);
             }
@@ -139,14 +163,15 @@ io.on('connection', socket => {
         io.to(room.roomId).emit('Game Over', '');
         
         let winner = room.players[0];
-        for (let i = 0; i < room.players; i++) {
+        for (let i = 0; i < room.players.length; i++) {
                 if (winner.score < room.players[i].score) {
                     winner = room.players[i];
                 }
         }
 
-        io.to(room.id).emit('message', {from: 'server', contents: 'Player: ' + winner.playerName + ' has won with a score of: ' + winner.score});
-
+        let message = 'Player: ' + winner.playerName + ' has won with a score of: ' + winner.score
+        io.to(room.id).emit('message', {from: 'Server', contents: message});
+        io.to(room.id).emit('notification', {type: 'success', contents: message});
     }
 
     
@@ -156,16 +181,29 @@ io.on('connection', socket => {
                 return o.id == player.activeRoom;
              });
 
-            room.players = room.players.filter(p => p != socket.id);
-            socket.leave(player.activeRoom);
+             console.log(room);
+
+            if (room) {
+                room.players = room.players.filter(p => p.playerId !== player.playerId);
+                socket.leave(player.activeRoom);
+
+                if (room.game) {
+                    room.game.players = room.game.players.filter(p => p.playerId !== player.playerId);
+                }
+            }
+
+            
+
             player.activeRoom = null;
+            
         }
+
+        updateRooms();
     }
 
     socket.on('createRoom', room => {
         room.messages = [];
         room.createDate = new Date();
-        console.log(JSON.stringify(room));
         rooms.push(room)
         updateRooms();
     });
@@ -177,23 +215,35 @@ io.on('connection', socket => {
            return o.id == roomId;
         });
 
-        if(room.players.filter(p => p === socket.id).length > 0) {
-            socket.emit('joinFailed', 'true');
-        } else {
-            room.players.push(player);
-            player.activeRoom = roomId;
-            socket.join(roomId);
-            updateRooms();
-            socket.emit('joinSuccess', player);
-        }
+        console.log(room);
 
+            if(room.players.filter(p => p.socketId === socket.id).length > 0 ) {
+                socket.emit('notification', {type: 'warning', text: 'You are already in this room'});
+            } else if (player.activeRoom != null) {
+                socket.emit('notification', {type: 'warning', text: 'You are already in a room'});
+            } else if (room.players.length == room.maxPlayers) {
+                socket.emit('notification', {type: 'warning', text: 'Room is full'});
+            } else if (room.game && room.game.state === 'active') {
+                socket.emit('notification', {type: 'warning', text: 'You are unable to join a game that has already started'});
+
+            } else {
+                room.players.push(player);
+                player.activeRoom = roomId;
+                socket.join(roomId);
+                updateRooms();
+                socket.emit('joinSuccess', player);
+            }
+        
+
+       
     });
 
     socket.on('startGame', roomId => {
         let room = rooms.find(o => o.id === roomId);
         room.game = game.initialSetup(room.players, 8);
         try {
-           updateGame(room);
+            updateGame(room);
+            socket.to(player.activeRoom).emit('notification', {type: 'success', text: 'Game Started'});
         } catch (err) {
             console.log(err);
         }
@@ -201,31 +251,38 @@ io.on('connection', socket => {
 
     socket.on('makeMove', moveReq => {
         let room = rooms.find(r => r.id == moveReq.roomId);
-        let res = game.makeMove(room.game, moveReq);
-        let toBroadcast =  room.game.players.find(player => player.playerId === moveReq.from);
-        console.log(res);
-
-        if (res.valid) {
-            game.changeTurn(room.game);
-            let message = {contents: '', from: "Server"};
-
-            if (moveReq.moveType === 'playTile') {
-                message.contents = 'Player: ' + toBroadcast.playerName + " has played: " + res.words.join(', ') + " to score: " + res.score + " points.";
-            } else if (moveReq.moveType === 'pass') {
-                message.contents = 'Player: ' + toBroadcast.playerName + ' has passed their turn.';
-            } else if (moveReq.moveType === 'exchange') {
-                message.contents = 'Player: ' + toBroadcast.playerName + ' has exchanged tiles.';
+        if (room) {
+            let res = game.makeMove(room.game, moveReq);
+            let toBroadcast =  room.game.players.find(player => player.playerId === moveReq.from);
+            console.log(res);
+    
+            if (res.valid) {
+                game.changeTurn(room.game);
+                let message = {contents: '', from: "Server"};
+                if (moveReq.moveType === 'playTile') {
+                    message.contents = 'Player: ' + toBroadcast.playerName + " has played: " + res.words.join(', ') + " to score: " + res.score + " points.";
+                } else if (moveReq.moveType === 'pass') {
+                    message.contents = 'Player: ' + toBroadcast.playerName + ' has passed their turn.';
+                } else if (moveReq.moveType === 'exchange') {
+                    message.contents = 'Player: ' + toBroadcast.playerName + ' has exchanged tiles.';
+                }
+    
+                io.to(moveReq.roomId).emit('notification', {type: 'success', text: message.contents});
+                io.to(moveReq.roomId).emit('message', message);    
+                game.determineEnd(room.game);
+            } else {
+                socket.emit('notification', {type: 'warning', text: res.reason});
             }
-
-            io.to(moveReq.roomId).emit('message', message);    
-            game.determineEnd(room.game);
+    
+            if (room.game.state === 'end') {
+                gameOver(room);
+            }
+    
+            updateGame(room);
+        } else {
+            socket.emit('notification', {type: 'danger', text: 'Unable to find room to make move'});
         }
-
-        if (room.game.state === 'end') {
-            gameOver(room);
-        }
-
-        updateGame(room);
+        
     });
 
     socket.on('leaveRoom', any => {
@@ -233,16 +290,16 @@ io.on('connection', socket => {
     });
 
     socket.on('messageRoom', message => {
-        console.log(player.activeRoom);
-        console.log(message);
-        socket.to(player.activeRoom).emit('message', message);
+        if (message.contents.length > 0) {
+            socket.to(player.activeRoom).emit('message', message);
+        }
     })
-
 
     socket.on('setPlayer', toSet => {
         toSet.socketId = socket.id;
         toSet.score = 0;
         player = toSet;
+        db.updatePlayer(toSet);
         socket.emit('rooms', rooms);
     })
 

@@ -105,7 +105,7 @@ function createPoolOptions() {
         pValue: 3,
 
         qCount: 1,
-        qValue: 1,
+        qValue: 10,
 
         rCount: 6,
         rValue: 1,
@@ -683,6 +683,9 @@ function playTileMove(game, moveRequest) {
         }
 
         playerToUpdate.score += moveRes.score;
+        if (!playerToUpdate.words) {
+            playerToUpdate.words = [];
+        }
 
         if (playerToUpdate.words.length == 0) {
             playerToUpdate.words = moveRes.words;

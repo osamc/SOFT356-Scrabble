@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WebsocketService } from '../services/websocket.service';
 import { GameTile } from '../models/game';
 import { ToasterComponent } from '../toaster/toaster.component';
@@ -9,12 +9,18 @@ import { ToasterService, ToastType } from '../services/toaster.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
+  
+  
 
   constructor(public websocket: WebsocketService,
     public toaster: ToasterService) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    this.websocket.leaveRoom();
   }
 
   exchangeMode = false;
@@ -45,8 +51,6 @@ export class GameComponent implements OnInit {
     moveRequest.tiles = tiles;
     moveRequest.roomId = this.websocket.activeRoom.id;
     moveRequest.moveType = 'playTile';
-
-    console.log(moveRequest);
 
     this.websocket.sendMove(moveRequest);
 
