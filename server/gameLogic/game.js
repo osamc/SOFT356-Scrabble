@@ -202,6 +202,7 @@ function initialSetup(players, handSize) {
 
     players.forEach(player => {
         player.hand = dealHand(handSize, pool);
+        player.score = 0;
     });
 
     let board = createBoard();
@@ -798,6 +799,34 @@ function determineEnd(game) {
 
 }
 
+//Delete everything that is not relevent for reconstructing the game
+function createDBstorableGame(gameToStore) {
+    let game = cloneObject(gameToStore);
+    delete game.def;
+    delete game.dictionary;
+    delete game.firstTurn;
+    delete game.activePlayer;
+    game.poolCount = game.pool.length;
+    delete game.pool;
+    delete game.board;
+    delete game.state;
+    return game;
+}
+
+function recreateBoard(game) {
+    game.board = createBoard();
+    
+    for (let i = 0; i < game.turns.length; i++) {
+        if(game.turns[i].moveType === 'playTile') {
+            for (let j = 0; j < game.turns[i].tiles.length; j++) {
+                placeTile(game, game.turns[i].tiles[j], game.turns[i].moves[j].x, game.turns[i].moves[j].y);
+            }
+           
+        }
+    }
+    
+}
+
 module.exports.generatePool = generatePool;
 module.exports.createPoolOptions = createPoolOptions;
 module.exports.shuffleTiles = shuffleTiles;
@@ -818,3 +847,5 @@ module.exports.makeMove = makeMove;
 module.exports.changeTurn = changeTurn;
 module.exports.exchangeTiles = exchangeTiles;
 module.exports.determineEnd = determineEnd;
+module.exports.createDBstorableGame = createDBstorableGame;
+module.exports.recreateBoard = recreateBoard;

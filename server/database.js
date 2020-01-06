@@ -36,6 +36,20 @@ var ObjectId = require('mongodb').ObjectId;
     });
  }
 
+ async function createFinishedGame(room) {
+     return await schemas.game.create(room);
+ }
+
+ async function getFinishedGame(toFind) {
+    return await schemas.game.findOne({id:toFind});
+ }
+
+ async function addGameToHistory(player, gameId) {
+   return await schemas.player.update({playerId: player}, {$push: {gameHistory: gameId}});
+ }
+
+
+
  module.exports.getPlayer = getPlayer;
  module.exports.getPlayers = getPlayers;
  module.exports.getPlayerCount = getPlayerCount;
@@ -43,3 +57,6 @@ var ObjectId = require('mongodb').ObjectId;
  module.exports.deletePlayer = deletePlayer;
  module.exports.updatePlayer = updatePlayer;
  module.exports.getPlayerViaLogin = getPlayerViaLogin;
+ module.exports.createFinishedGame = createFinishedGame;
+ module.exports.getFinishedGame = getFinishedGame;
+ module.exports.addGameToHistory = addGameToHistory;

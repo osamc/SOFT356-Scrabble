@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": " ng test & mocha '.\\server\\gameLogic\\test.js' --reporter mocha-junit-reporter --reporter-options mochaFile=tests/mocha/test-results.xml",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --configuration=production"
   },
   "private": true,
   "dependencies": {

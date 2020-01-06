@@ -12,9 +12,12 @@ var player = mongoose.model('player', {
 
 
 var game = mongoose.model('game', {
-    gameId: String,
+    id: String,
+    maxPlayers: Number,
+    name: String,
     players: [String],
-    turns : String
+    createDate: String,
+    game: String
 });
 
 

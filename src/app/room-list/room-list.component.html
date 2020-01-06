@@ -13,7 +13,7 @@
 <div class="card-columns" style="padding: 1rem">
     <div class="card" *ngFor="let room of webSockets.rooms">
         <div class="card-body">
-            <h3 class="card-title">{{room.id}}</h3>
+            <h3 class="card-title">{{room.name}}</h3>
 
             <h5>Players in game:</h5>
             <h6 *ngFor='let player of room.players'>{{player.playerName}}</h6>

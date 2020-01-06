@@ -737,6 +737,13 @@ describe('Game Logic Test', () => {
         expect(setup.state).equal('end');
     });
 
+    it ('The game should be able to recreate games from a set of turns', () => {
+        let toTest = {};
+        toTest.turns = JSON.parse('[{"moves":[{"x":7,"y":7,"moveId":0},{"x":8,"y":7,"moveId":1},{"x":9,"y":7,"moveId":2}],"tiles":[{"letter":"v","value":4,"selected":true,"moveId":0},{"letter":"a","value":1,"selected":true,"moveId":1},{"letter":"n","value":1,"selected":true,"moveId":2}],"roomId":"4b9c0568f01416f334cc8d5371850439","moveType":"playTile","from":"5b7c52fe-443e-44d1-9905-6e8e9f3e98e3"},{"roomId":"4b9c0568f01416f334cc8d5371850439","moveType":"pass","from":"5b7c52fe-443e-44d1-9905-6e8e9f3e98e3"},{"roomId":"4b9c0568f01416f334cc8d5371850439","moveType":"pass","from":"5b7c52fe-443e-44d1-9905-6e8e9f3e98e3"}]');
+        game.recreateBoard(toTest);
+
+        expect(toTest.board[7][7].tile.letter).equal('v');
+    });
 
     
 });

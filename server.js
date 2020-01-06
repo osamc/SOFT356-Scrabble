@@ -6,6 +6,9 @@ const db = require("./server/database")
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const game = require('./server/gameLogic/game');
+//for generating uuids
+const crypto = require("crypto");
+
 
 
 const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/test?retryWrites=true&w=majority"
@@ -103,6 +106,33 @@ app.post('/updatePlayer', (req, res) => {
     })
 });
 
+app.get('/getGame/:roomid', (req, res) => {
+    db.getFinishedGame(req.params.roomid).then(fromDb => {
+        //We want to find the game and clone it
+        let room = JSON.parse(JSON.stringify(fromDb));
+        //if we have a room we want to recreate the objects inside it
+        //as the database was used to store json strings
+        if (room) {
+            let players = JSON.parse(JSON.stringify(room.players));
+            room.players = [];
+    
+            //recreate the players
+            for(let i = 0; i < fromDb.players.length; i++) {
+                room.players.push(JSON.parse(fromDb.players[i]));
+            }
+    
+            //recreate the game
+            room.game = JSON.parse(fromDb.game);
+            //reconstruct the board for viewing end state
+            game.recreateBoard(room.game);
+            res.send(room);
+        } else {
+            res.statusCode = 400;
+            res.send(false);
+        }
+    });
+})
+
 setInterval(() => {
     for (let i = rooms.length; i >= 0; i--) {
         let room = rooms[i];
@@ -159,7 +189,6 @@ io.on('connection', socket => {
     }
 
     function gameOver(room) {
-        console.log(room);
         io.to(room.roomId).emit('Game Over', '');
         
         let winner = room.players[0];
@@ -169,12 +198,31 @@ io.on('connection', socket => {
                 }
         }
 
+        storeGame(room);
+
+        for (let i = 0; i < room.players.length; i++) {
+            db.addGameToHistory(player.playerId, room.id);
+        }
+
         let message = 'Player: ' + winner.playerName + ' has won with a score of: ' + winner.score
         io.to(room.id).emit('message', {from: 'Server', contents: message});
         io.to(room.id).emit('notification', {type: 'success', contents: message});
     }
 
-    
+    function storeGame(room) {
+        let toStore = JSON.parse(JSON.stringify(room));
+        toStore.game = game.createDBstorableGame(room.game);
+        delete toStore.messages;
+        let players = JSON.parse(JSON.stringify(toStore.players));
+        toStore.players = [];
+        for (let i = 0; i < players.length; i++) {
+            toStore.players.push(JSON.stringify(players[i]));
+        }
+        toStore.game = JSON.stringify(toStore.game);
+
+        db.createFinishedGame(toStore);
+    }
+
     function leave(){
         if (player.activeRoom) {
             let room = rooms.find(o => {
@@ -192,8 +240,6 @@ io.on('connection', socket => {
                 }
             }
 
-            
-
             player.activeRoom = null;
             
         }
@@ -201,9 +247,23 @@ io.on('connection', socket => {
         updateRooms();
     }
 
+    function sanitisePlayer(player) {
+        let toReturn = JSON.parse(JSON.stringify(player));
+        delete toReturn.password;
+        delete toReturn.loginName;
+        delete toReturn._id;
+        delete toReturn.__v;
+        return toReturn;
+    }
+
     socket.on('createRoom', room => {
         room.messages = [];
         room.createDate = new Date();
+        //The id the client sends us will actually be the room 
+        //name instead
+        room.name = '' + room.id;
+        //then we want to generate a uuid for the room id
+        room.id = crypto.randomBytes(16).toString('hex');
         rooms.push(room)
         updateRooms();
     });
@@ -227,7 +287,8 @@ io.on('connection', socket => {
                 socket.emit('notification', {type: 'warning', text: 'You are unable to join a game that has already started'});
 
             } else {
-                room.players.push(player);
+                let toPush = sanitisePlayer(player);
+                room.players.push(toPush);
                 player.activeRoom = roomId;
                 socket.join(roomId);
                 updateRooms();

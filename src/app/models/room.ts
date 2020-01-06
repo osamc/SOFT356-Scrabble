@@ -13,6 +13,7 @@ export enum GameState {
 export class Room {
 
     id:string;
+    name?: string;
     messages?: Message[] = [];
     maxPlayers?: Number = 8;
     players?: Player[] = [];
