@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
 
   createAccount(login: string, username: string, pw: string) {
     let hashed:string = '' + Md5.hashStr(pw);
-    if (login.length > 3 && username.length > 3 && pw.length > 3) {
+    if (login.length >= 3 && username.length >= 3 && pw.length >= 3) {
       this.api.createPlayer(login, username, hashed).subscribe(res => {
         console.log(res);
         let response: any = res;
@@ -60,6 +60,9 @@ export class LoginComponent implements OnInit {
        
       });
     } else {
+      console.log(login),
+      console.log(username);
+      console.log(pw);
       this.toaster.createToast('missing fields required', ToastType.DANGER);
     }
     

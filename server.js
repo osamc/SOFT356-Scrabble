@@ -31,12 +31,28 @@ app.get('/', (req, res) => {
     res.sendFile(angularApp + 'index.html');
 })
 
+const mongodbOptions = { 
+    server: { 
+      socketOptions: { 
+        keepAlive: 300000, connectTimeoutMS: 30000 
+      } 
+    }, 
+    replset: { 
+      socketOptions: { 
+        keepAlive: 300000, 
+        connectTimeoutMS : 30000 
+      } 
+    },
+    useNewUrlParser: true, 
+    useUnifiedTopology: true
+  };
+
 //Create app and listen on port
 let server = app.listen(port, () => {
     console.log(`listening on port ${port}!`);
     mongoose.set('useFindAndModify', false);
 
-    mongoose.connect(dbConnection, {useNewUrlParser: true, useUnifiedTopology: true}).then((test) => {
+    mongoose.connect(dbConnection, mongodbOptions).then((test) => {
         console.log("Connected to DB");
     });
 });
