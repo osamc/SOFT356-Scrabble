@@ -22,7 +22,7 @@
                 </div>    
             </div>
             
-            <div *ngIf="websocket.activeRoom.state !== 'end'"> 
+            <div *ngIf="websocket.activeRoom.game.state !== 'end'"> 
                 <button class="btn btn-primary" id="makeMove" (click)="makeMove()">Play</button>
                 <button class="btn btn-primary" id="passTurn" (click)="passTurn()">Pass</button>
                 <button class="btn btn-primary" id="exchangeTiles" (click)="exchangeTiles()">{{exchangeMode ? "Disable" : "Enable"}} Exchange Mode</button>

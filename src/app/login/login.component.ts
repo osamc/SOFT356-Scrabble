@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
 import { ApiService } from '../services/api.service';
 import { Player } from '../models/player';
@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
     private websocket: WebsocketService,
     private router: Router,
     private storage: PersistanceService,
-    private toaster: ToasterService) {}
+    private toaster: ToasterService,
+    private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     let player = this.storage.retrievePlayer();
@@ -65,7 +66,9 @@ export class LoginComponent implements OnInit {
 
   }
 
-
+  updateForm() {
+    this.changeDetector.markForCheck();
+  }
 
 
 }

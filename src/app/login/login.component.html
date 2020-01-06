@@ -28,25 +28,25 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" (keypress)="$scope.$apply()" placeholder="Login ID" required minlength="3" #newLog [ngClass]="{'is-invalid': 3 > ign.value.length, 'is-valid': ign.value.length > 3}">
+                    <input type="text" class="form-control" (keypress)="updateForm()" placeholder="Login ID" required minlength="3" #newLog [ngClass]="{'is-invalid': 3 > ign.value.length, 'is-valid': ign.value.length > 3}">
                 </div>
                 <div class="input-group form-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" (keypress)="$scope.$apply()" required minlength="3" placeholder="Ingame Name" #ign [ngClass]="{'is-invalid': 3 > ign.value.length, 'is-valid': ign.value.length > 3}">
+                    <input type="text" class="form-control" (keypress)="updateForm()" required minlength="3" placeholder="Ingame Name" #ign [ngClass]="{'is-invalid': 3 > ign.value.length, 'is-valid': ign.value.length > 3}">
                 </div>
                 <div class="input-group form-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input type="password" class="form-control" (keypress)="$scope.$apply()" required minlength="3" placeholder="password" #newPass [ngClass]="{'is-invalid': (passValid.value != newPass.value) || (3 > passValid.value), 'is-valid': passValid.value == newPass.value}">
+                    <input type="password" class="form-control" (keypress)="updateForm()" required minlength="3" placeholder="password" #newPass [ngClass]="{'is-invalid': (passValid.value != newPass.value) || (3 > passValid.value), 'is-valid': passValid.value == newPass.value}">
                 </div>
                 <div class="input-group form-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input type="password" class="form-control" (keypress)="$scope.$apply()" required minlength="3" placeholder="verify password" #passValid [ngClass]="{'is-invalid': (passValid.value != newPass.value) || (3 > passValid.value), 'is-valid': passValid.value == newPass.value}">
+                    <input type="password" class="form-control" (keypress)="updateForm()" required minlength="3" placeholder="verify password" #passValid [ngClass]="{'is-invalid': (passValid.value != newPass.value) || (3 > passValid.value), 'is-valid': passValid.value == newPass.value}">
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" [disabled]="!((passValid.value == newPass.value) && newLog.value.length > 0 && ign.value.length > 0)"  (click)="createAccount(newLog.value, ign.value, newPass.value)">
                     Create Account

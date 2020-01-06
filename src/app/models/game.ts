@@ -6,6 +6,7 @@ export class Game {
     yourTurn: boolean;
     firstTurn: boolean;
     hand: GameTile[];
+    state?: string;
 }
 
 
