@@ -88,6 +88,7 @@ export class GameComponent implements OnInit {
       moveRequest.tiles = this.tiles;
       this.websocket.sendMove(moveRequest);
       this.tiles = [];
+      this.moves = [];
     } else {
       this.toaster.createToast('You are unable to exchange 0 tiles', ToastType.DANGER);
     }
@@ -120,7 +121,7 @@ export class GameComponent implements OnInit {
 
         //If the tile is empty then we treat this is as a placement
         if (JSON.stringify(boardTile.tile) === '{}') {
-          if (this.activeTile) {
+          if (this.activeTile && !this.activeTile.used) {
             let cloned = JSON.parse(JSON.stringify(this.activeTile));
             cloned.moveId = this.moves.length;
             boardTile.tile = cloned;

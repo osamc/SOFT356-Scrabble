@@ -29,7 +29,7 @@ var ObjectId = require('mongodb').ObjectId;
     var update = {
     socketId: player.socketId,
     activeRoomId: player.activeRoomId};
-    return await schemas.player.update({"playerId" : player.playerId}, update, {upsert: true} ,function(err, doc) {
+    return await schemas.player.update({"playerId" : player.playerId}, update, {upsert: false} ,function(err, doc) {
         return doc;
     });
  }

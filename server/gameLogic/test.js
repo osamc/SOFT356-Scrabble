@@ -745,6 +745,29 @@ describe('Game Logic Test', () => {
         expect(toTest.board[7][7].tile.letter).equal('v');
     });
 
+    it ('Should allow for words to be found on the extremes', () => {
+        let players = [{hand: {}, playerId: '1', score: 0, words: []},
+        {hand: {}, playerId: '2', score: 0, words: []}];
+        let setup = game.initialSetup(players, 8);
+        let testPhrase = 'quizzing';
+        let tiles = [];
+        let moves = [];
+        for(let i = 0; i < testPhrase.length; i++) {
+         tiles.push(getTile(game, testPhrase[i]));
+         moves.push({x: 7, y: 7 + i})
+        }
+
+        let moveRequest = {};
+        moveRequest.from = players[0].playerId;
+        moveRequest.tiles = tiles;
+        moveRequest.moves = moves;
+
+        let res = game.makeMove(setup, moveRequest);
+
+        expecet(res.valid).equal(true);
+
+    })
+
     
 });
 

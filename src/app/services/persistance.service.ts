@@ -16,6 +16,10 @@ export class PersistanceService {
     let json = localStorage.getItem('player');
     return json ? <Player> JSON.parse(json) : null;
   }
+
+  clear() {
+    localStorage.clear();
+  }
  
 
 }

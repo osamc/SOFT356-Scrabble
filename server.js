@@ -142,7 +142,9 @@ setInterval(() => {
             //If the room is empty and it is older than a minute then remove it
             //if the game has finished then remove it too
             console.log(new Date().getTime() - new Date(room.createDate).getTime());
-            if ((room.players == 0 && ((new Date().getTime() - new Date(room.createDate).getTime()) > 1000 * 60 * 1)) || (room.game && room.game.state === 'end')) {
+            if ((room.players.length == 0 && ((new Date().getTime() - new Date(room.createDate).getTime()) > 1000 * 60 * 1)) || (room.game && room.game.state === 'end')) {
+                console.log('Room age:' + (new Date().getTime() - new Date(room.createDate).getTime()));
+                console.log('Room number of players: ' + room.players.length)
                 console.log('Removing room: ' + room.id);
                 rooms.splice(i,1);
             }

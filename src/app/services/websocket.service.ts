@@ -102,9 +102,13 @@ export class WebsocketService {
 
   // Send a message to a certain room
   sendMessage(msg: string) {
-    const message: Message = { contents: msg, from: this.player.playerName};
-    this.activeRoom.messages.push(message);
-    this.socket.emit('messageRoom', message);
+    
+    if (msg.length > 0) {
+      const message: Message = { contents: msg, from: this.player.playerName};
+      this.activeRoom.messages.push(message);
+      this.socket.emit('messageRoom', message);
+    }
+   
   }
 
   setPlayer(player: Player) {

@@ -485,7 +485,7 @@ function findWordsVert(game, pos) {
 
     let word = [];
 
-    while ((topMost + 1) != 15 && checkIfTileExists(game.board[topMost][pos.x])) {
+    while ((topMost + 1) != 16 && checkIfTileExists(game.board[topMost][pos.x])) {
         word.push(cloneObject(game.board[topMost][pos.x]));
         topMost++;
     }
@@ -504,7 +504,7 @@ function findWordsHoriz(game, pos) {
 
     let word = [];
 
-    while ((leftMost + 1) != 15 && checkIfTileExists(game.board[pos.y][leftMost])) {
+    while ((leftMost + 1) != 16 && checkIfTileExists(game.board[pos.y][leftMost])) {
         word.push(cloneObject(game.board[pos.y][leftMost]));
         leftMost++;
     }
@@ -824,7 +824,7 @@ function recreateBoard(game) {
            
         }
     }
-    
+
 }
 
 module.exports.generatePool = generatePool;

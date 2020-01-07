@@ -5,6 +5,7 @@ import { DebugElement, Directive } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WebsocketService } from '../services/websocket.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('RoomListComponent', () => {
   let component: RoomListComponent;
@@ -12,7 +13,7 @@ describe('RoomListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, HttpClientModule],
       declarations: [ RoomListComponent]
     })
     .compileComponents();

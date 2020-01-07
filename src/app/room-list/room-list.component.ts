@@ -3,6 +3,9 @@ import { WebsocketService } from '../services/websocket.service';
 import { Player } from '../models/player';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
+import { PersistanceService } from '../services/persistance.service';
+import { ApiService } from '../services/api.service';
+import { ToasterService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-room-list',
@@ -14,12 +17,27 @@ export class RoomListComponent implements OnInit {
   newRoomName: string;
 
   constructor(public webSockets: WebsocketService,
-      private router: Router) {}
+    private router: Router,
+    private persistance: PersistanceService,
+    private api: ApiService,
+    private toaster: ToasterService) { }
 
   ngOnInit() {
-    this.webSockets.init();
-    if (!this.webSockets.player) {
-      this.router.navigateByUrl('/')
+    let player = this.persistance.retrievePlayer();
+    console.log(player);
+    if (player) {
+      this.api.getPlayer(player.playerId).subscribe(res => {
+        console.log();
+        if (!res) {
+          this.persistance.clear();
+          this.router.navigateByUrl('/')
+        } else {
+          this.webSockets.init();
+          if (!this.webSockets.player) {
+            this.router.navigateByUrl('/')
+          }
+        }
+      })
     }
   }
 

@@ -95,6 +95,7 @@ describe('ApiService', () => {
     service.createPlayer(Date.now().toString(), Date.now().toString(), 'test').subscribe(result => {
       let res: any = result;
       let castResult = res.player;
+      
 
       service.getPlayer(castResult.playerId).subscribe(before => {
         let beforePlayer = <Player> before;

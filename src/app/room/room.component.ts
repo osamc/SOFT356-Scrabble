@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChildren, AfterViewInit, QueryList, OnDes
 import { WebsocketService } from '../services/websocket.service';
 import { Message } from '../models/message';
 import { Room } from '../models/room';
+import { ToasterService, ToastType } from '../services/toaster.service';
 
 @Component({
   selector: 'app-room',
@@ -14,7 +15,8 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('messageView') messageView: QueryList<any>;
 
-  constructor(public websocket: WebsocketService) { }
+  constructor(public websocket: WebsocketService,
+    private toaster: ToasterService) { }
 
   ngOnInit() {
   }
@@ -46,7 +48,11 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   startGame() {
-    this.websocket.startGame();
+    if (!this.websocket.activeRoom.game) {
+      this.websocket.startGame();
+    } else {
+      this.toaster.createToast('Unable to start game that has already started', ToastType.DANGER);
+    }
   }
 
 }
