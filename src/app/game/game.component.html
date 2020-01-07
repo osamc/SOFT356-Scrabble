@@ -1,5 +1,5 @@
 
-<div *ngIf="websocket.activeRoom.game">
+<div *ngIf="websocket.activeRoom?.game">
     <div class="game" [ngClass]="{'disabled': websocket.activeRoom.game.state === 'end'}">
         <div style="display: inline">
     

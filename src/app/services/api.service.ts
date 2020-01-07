@@ -10,6 +10,9 @@ import {AppConstant} from 'src/environments/constants'
 })
 export class ApiService {
 
+  //This base value will be different depending on
+  //where it is deployed. This is dealt with production
+  //and normal environment values
   private base: string = AppConstant.BASE_URL;
 
   constructor(private http: HttpClient) {}

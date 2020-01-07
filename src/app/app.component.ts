@@ -13,16 +13,20 @@ export class AppComponent {
   constructor(private router: Router,
     public websocket: WebsocketService) {}
 
+  //use the router to navigate to a specific coponent to allow
+  //for viewing of an account
   viewAcc() {
     this.router.navigateByUrl('/viewAcc')
   }
 
+  //allow the user to affectively logout
   logout() {
     localStorage.clear();
     this.websocket.disconnect();
     this.router.navigateByUrl('/');
   }
 
+  //navigate to the roomlist component
   viewRooms() {
     this.router.navigateByUrl('/listRooms')
   }

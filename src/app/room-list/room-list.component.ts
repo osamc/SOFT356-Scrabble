@@ -23,6 +23,9 @@ export class RoomListComponent implements OnInit {
     private toaster: ToasterService) { }
 
   ngOnInit() {
+    //Similar to other components, 
+    //if we're not logged in then we want to
+    //redirect them to the relevent place
     let player = this.persistance.retrievePlayer();
     console.log(player);
     if (player) {
@@ -40,7 +43,6 @@ export class RoomListComponent implements OnInit {
       })
     }
   }
-
 
   createRoom(name: string) {
     this.webSockets.createRoom(name, 4);

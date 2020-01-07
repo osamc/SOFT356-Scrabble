@@ -15,10 +15,15 @@ export class AccountComponent implements OnInit {
   constructor(public websocket: WebsocketService,
     private api: ApiService) { }
 
+  //Set up local variables for game history
+  //and a boolean to control is the section is shown or not
   gameHistory: any[] = [];
   showHistory: boolean = false;
 
   ngOnInit() {
+    //When the component loads, we want to get the most up to date version of the 
+    //player from the db. We then want to iterate over their gamehistory to create 
+    //an array of observables that we can fork join
     this.api.getPlayer(this.websocket.player.playerId).subscribe(res => {
       let response: any = res;
       this.websocket.player = response;
@@ -31,9 +36,13 @@ export class AccountComponent implements OnInit {
       }
 
       let join = forkJoin(obs);
+      
+      //We then subscribe to the set of observables,
+      //once we get a response we want to 
+      //parse the turn data and create user readable 
+      //turn data
       join.subscribe(jRes => {
-        let joinRes: any = jRes;
-        this.gameHistory = joinRes;
+        this.gameHistory = jRes;
         for (let i = 0; i < this.gameHistory.length; i++) {
           let game = this.gameHistory[i].game;
           game.parsedTurns = [];
@@ -41,17 +50,21 @@ export class AccountComponent implements OnInit {
             game.parsedTurns.push(this.convertTurnToString(game, game.turns[j]));
           }
         }
+        //We want to reverse this as the list would be shown oldest to newest
         this.gameHistory.reverse();
       });
 
     });
   }
 
+  //We want to be able to turn a move into a readable text
   convertTurnToString(game: Game, turn: Turn) {
+    //Get the player so we can link the id to a player name
     let player = game.players.filter(p => p.playerId.localeCompare(turn.from) == 0)[0];
     let turnString = "";
     if (player) {
       turnString = "Player: " + player.playerName + " has ";
+      //Then depending on movetype, we append a different piece of text
       switch (turn.moveType) {
         case 'pass':
           turnString += "passed their turn."
@@ -60,7 +73,7 @@ export class AccountComponent implements OnInit {
           turnString += "exchanged " + turn.tiles.length + " tiles.";
           break;
         case 'playTile':
-          turnString += 'has played: ';
+          turnString += 'played: ';
 
           for (let i = 0; i < turn.tiles.length; i++) {
             if (i != 0 && i != turn.tiles.length) {

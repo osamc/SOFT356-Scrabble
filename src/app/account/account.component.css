@@ -61,6 +61,7 @@
     border-radius: 5px;
     user-select: none;
     text-align: center;
+    margin-left: 3px;
 }
 
 .scores {

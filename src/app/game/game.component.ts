@@ -24,14 +24,18 @@ export class GameComponent implements OnInit {
 
   makeMove() {
 
+    //We want to create the moverequest
     let moveRequest: any = {};
-
     let moves = JSON.parse(JSON.stringify(this.moves));
     let tiles = [];
 
+    //we want to sort the x and y values into an
+    //increasing order so  that they are in order
     moves.sort((a, b) => a.x - b.x);
     moves.sort((a, b) => a.y - b.y);
 
+    //We then also iterate over the moves and place the tile that is
+    //corresponding to them into the right position for the move
     for (let i = 0; i < moves.length; i++) {
       for (let j = 0; j < moves.length; j++) {
         if (this.tiles[j].moveId === moves[i].moveId) {
@@ -41,19 +45,23 @@ export class GameComponent implements OnInit {
       }
     }
 
+    //set all the right values
     moveRequest.moves = moves;
     moveRequest.tiles = tiles;
     moveRequest.roomId = this.websocket.activeRoom.id;
     moveRequest.moveType = 'playTile';
 
+    //We send the move
     this.websocket.sendMove(moveRequest);
 
+    //Then we clear all previous moves
     this.moves = [];
     this.tiles = [];
 
   }
 
   passTurn() {
+    //Create a simple pass turn request
     let moveRequest: any = {};
     moveRequest.roomId = this.websocket.activeRoom.id;
     moveRequest.moveType = 'pass';
@@ -61,6 +69,7 @@ export class GameComponent implements OnInit {
   }
 
   exchangeTiles() {
+    
     if (!this.exchangeMode) {
       //When we toggle exchange mode we want to pick up all placed tiles
       for (let i = 0; i < this.moves.length; i++) {
@@ -68,6 +77,7 @@ export class GameComponent implements OnInit {
         this.activeTile = null;
       }
     } else {
+      //We want to clear the hand of any selected tiles or used tiles
       for (let i = 0; i < this.websocket.activeRoom.game.hand.length; i++) {
         this.websocket.activeRoom.game.hand[i].used = false;
         this.websocket.activeRoom.game.hand[i].selected = false;
@@ -81,7 +91,11 @@ export class GameComponent implements OnInit {
   }
 
   exchangeTurn() {
+    //if we have more than 0 tiles then that's a valid 
+    //exchange, we don't want the player wasting their turn
+    //if they made a mistake
     if (this.tiles.length > 0) {
+      //create a moverequest
       let moveRequest: any = {};
       moveRequest.roomId = this.websocket.activeRoom.id;
       moveRequest.moveType = 'exchange';
@@ -89,6 +103,7 @@ export class GameComponent implements OnInit {
       this.websocket.sendMove(moveRequest);
       this.tiles = [];
       this.moves = [];
+      this.exchangeMode = !this.exchangeMode;
     } else {
       this.toaster.createToast('You are unable to exchange 0 tiles', ToastType.DANGER);
     }
@@ -96,11 +111,13 @@ export class GameComponent implements OnInit {
   }
 
   pickUpTile(x: any, y: any) {
+    //if it is your turn
      if (this.websocket.activeRoom.game.yourTurn) {
        let boardTile = this.websocket.activeRoom.game.board[y][x];
 
        if (JSON.stringify(boardTile.tile) !== '{}') {
         let tileToAddToHand = JSON.parse(JSON.stringify(boardTile.tile));
+        console.log(tileToAddToHand);
         boardTile.tile = {};
         for (let i = 0; i < this.websocket.activeRoom.game.hand.length; i++) {
           if (this.websocket.activeRoom.game.hand[i].letter === tileToAddToHand.letter) {

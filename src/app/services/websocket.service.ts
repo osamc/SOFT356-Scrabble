@@ -14,6 +14,8 @@ import { ToastType, ToasterService } from './toaster.service';
 })
 export class WebsocketService {
 
+  //local variables used and shared throughout components that use
+  //this service
   socket: SocketIOClient.Socket;
   rooms: Room[];
   activeRoom: Room;
@@ -35,6 +37,8 @@ export class WebsocketService {
     }
   }
 
+  //When we initialise, we set up listeners for certain websocket
+  //commands/notifications
   public init() {
     if (!this.initiated) {
       // Whenever we get a rooms message,
@@ -65,12 +69,15 @@ export class WebsocketService {
         });
       }).subscribe();
 
+      //listener for starting a game
       const gameListener = new Observable(obs => {
         this.socket.on('setup', game => {
           this.activeRoom.game = game;
         });
       }).subscribe();
 
+      //for any sort of notifications, such as moves,
+      //lobby joined events etc
       const notificationListener = new Observable(obs => {
         this.socket.on('notification', notification => {
           ToastType.SUCCESS

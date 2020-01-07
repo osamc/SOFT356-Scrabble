@@ -29,9 +29,6 @@ describe('AccountComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 
   it ('Should create a new history item for each game', () => {
     component.showHistory = true;
@@ -83,6 +80,15 @@ describe('AccountComponent', () => {
     expect(history.length).toEqual(0);
 
   });
+
+  it ('The component should be able to parse turns into useful text', () => {
+    let turnString = component.convertTurnToString(game.game, game.game.turns[0]);
+    expect(turnString).toEqual('Player: test2 has played:  R , I , S , E , S ');
+    turnString = component.convertTurnToString(game.game, game.game.turns[2]);
+    expect(turnString).toEqual('Player: test2 has passed their turn.');
+  });
+
+
 
 
 });

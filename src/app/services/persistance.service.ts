@@ -17,6 +17,7 @@ export class PersistanceService {
     return json ? <Player> JSON.parse(json) : null;
   }
 
+  //Clear is used when we log out
   clear() {
     localStorage.clear();
   }

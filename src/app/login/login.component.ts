@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
     private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
+    //When the user navigates to the login page
+    //if they are logged in we want to ressurrect the
+    //the player and navigate them to the list rooms component
     let player = this.storage.retrievePlayer();
     if (player) {
       this.websocket.setPlayer(<Player> player);
@@ -32,13 +35,18 @@ export class LoginComponent implements OnInit {
     }
   }
 
+
   login(username: string, password: string) {
+    //We want to use the api service to perform a login request
     this.api.login(username, '' + sha256(password)).subscribe(res => {
       let response: any = res;
+      //if the login response is valid, then login
       if (response.valid) {
         this.storage.storePlayer(<Player> response.player);
         this.websocket.setPlayer(<Player> response.player);
         this.router.navigateByUrl('/listRooms');
+      } else {
+        this.toaster.createToast('Unsuccessful Login attempt', ToastType.DANGER);
       }
     })
   }
@@ -58,7 +66,12 @@ export class LoginComponent implements OnInit {
        
       });
     } else {
-      this.toaster.createToast('missing fields required', ToastType.DANGER);
+      if (login.length == 0 || username.length == 0 || pw.length == 0) {
+        this.toaster.createToast('Each parameter must be provided', ToastType.DANGER);
+      } else {
+        this.toaster.createToast('Each parameter must be 3 letters long', ToastType.DANGER);
+      }
+      
     }
     
 

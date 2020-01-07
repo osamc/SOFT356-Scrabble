@@ -1,6 +1,6 @@
 <div id="main">
     <button class="btn btn-dark chatbutton" (click)="toggleChat()"><i class="fas fa-comment"></i></button>
-    <button class="btn btn-primary" id="startGame" [disabled]="websocket.activeRoom.game" (click)="startGame()">Start</button>
+    <button class="btn btn-primary" id="startGame" [disabled]="websocket?.activeRoom?.game" (click)="startGame()">Start</button>
     
     <div>
         <app-game> </app-game>
@@ -13,7 +13,7 @@
     
     <button class="btn btn-dark" id="toggleChat" (click)="toggleChat()">&times;</button>
 
-    <div class="messages" id="messageView" #messageView *ngIf="websocket.activeRoom.messages">
+    <div class="messages" id="messageView" #messageView *ngIf="websocket.activeRoom?.messages">
         <div class="message" *ngFor="let message of websocket.activeRoom.messages">
             <div class="from">
                 {{message.from}}:
