@@ -33,15 +33,14 @@ export class LoginComponent implements OnInit {
   }
 
   login(username: string, password: string) {
-    alert(sha256(password));
-    // this.api.login(username, '' + sha256(password)).subscribe(res => {
-    //   let response: any = res;
-    //   if (response.valid) {
-    //     this.storage.storePlayer(<Player> response.player);
-    //     this.websocket.setPlayer(<Player> response.player);
-    //     this.router.navigateByUrl('/listRooms');
-    //   }
-    // })
+    this.api.login(username, '' + sha256(password)).subscribe(res => {
+      let response: any = res;
+      if (response.valid) {
+        this.storage.storePlayer(<Player> response.player);
+        this.websocket.setPlayer(<Player> response.player);
+        this.router.navigateByUrl('/listRooms');
+      }
+    })
   }
 
   createAccount(login: string, username: string, pw: string) {
