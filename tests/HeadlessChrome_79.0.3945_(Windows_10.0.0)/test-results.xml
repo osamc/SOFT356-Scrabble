@@ -1,61 +1,54 @@
 <?xml version="1.0"?>
-<testsuite name="HeadlessChrome 79.0.3945 (Windows 10.0.0)" package="" timestamp="2020-01-06T15:58:31" id="0" hostname="DESKTOP-JU1KODK" tests="21" errors="0" failures="0" time="1.535">
+<testsuite name="HeadlessChrome 79.0.3945 (Windows 10.0.0)" package="" timestamp="2020-01-07T01:29:49" id="0" hostname="DESKTOP-JU1KODK" tests="25" errors="0" failures="0" time="1.527">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/79.0.3945.88 Safari/537.36"/>
   </properties>
-  <testcase name="GameComponent The component should render the game board" time="0.069" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
-  <testcase name="GameComponent When the exchange tile button is pressed, the correct method should be called" time="0.059" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
-  <testcase name="GameComponent The hand should react properly when items are added or selected" time="0.07" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
-  <testcase name="GameComponent When a tile is placed, it should be shown on the board" time="0.05" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="GameComponent When play is pressed, the make move method should be called" time="0.074" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="GameComponent When pass turn is pressed, the make move method should be called" time="0.059" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="GameComponent When the exchange tile button is pressed, the correct method should be called" time="0.07" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="GameComponent The hand should react properly when items are added or selected" time="0.071" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="GameComponent When a tile is placed, it should be shown on the board" time="0.062" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="AccountComponent should create" time="0.053" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).AccountComponent"/>
+  <testcase name="AccountComponent Should create a new history item for each game" time="0.09" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).AccountComponent"/>
+  <testcase name="AccountComponent The history section should hide when the boolean is false" time="0.054" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).AccountComponent"/>
+  <testcase name="AccountComponent The button should toggle the history" time="0.054" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).AccountComponent"/>
+  <testcase name="RoomListComponent There should be x number of cards for x number of rooms" time="0.03" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomListComponent"/>
+  <testcase name="RoomComponent When the start game button is pressed, then the method should be called" time="0.047" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
+  <testcase name="RoomComponent When the toggle chat button is pressed, the toggle chat method should be called" time="0.048" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
+  <testcase name="RoomComponent When a message is sent, then the method should be called" time="0.047" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
+  <testcase name="RoomComponent The chat should show messages when they are there" time="0.039" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
+  <testcase name="RoomComponent The chat bar should show and hide when the local variable is changed" time="0.04" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
+  <testcase name="ApiService Should be able to retrieve players" time="0.099" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService should create players" time="0.041" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService Should be able to update a player" time="0.146" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService Should be able to delete players" time="0.1" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="ApiService Should allow you to login after creating an account" time="0.067" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
+  <testcase name="PersistanceService Should be able to retrieve and store a player" time="0.014" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).PersistanceService"/>
+  <testcase name="ToasterService should be created" time="0.007" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterService"/>
   <testcase name="ToasterComponent Should create a new toast when one is made" time="0.025" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterComponent"/>
-  <testcase name="ToasterComponent should create" time="0.017" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterComponent"/>
-  <testcase name="ApiService Should be able to update a player" time="0.198" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="ApiService Should be able to retrieve players" time="0.097" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="ApiService Should be able to delete players" time="0.137" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="ApiService should create players" time="0.063" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="ApiService Should allow you to login after creating an account" time="0.12" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ApiService"/>
-  <testcase name="RoomListComponent There should be x number of cards for x number of rooms" time="0.032" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomListComponent"/>
-  <testcase name="ToasterService should be created" time="0.009" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterService"/>
-  <testcase name="RoomComponent When the start game button is pressed, then the method should be called" time="0.107" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
-  <testcase name="RoomComponent When the toggle chat button is pressed, the toggle chat method should be called" time="0.056" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
-  <testcase name="RoomComponent The chat bar should show and hide when the local variable is changed" time="0.058" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
-  <testcase name="RoomComponent The chat should show messages when they are there" time="0.049" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
-  <testcase name="RoomComponent When a message is sent, then the method should be called" time="0.058" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).RoomComponent"/>
-  <testcase name="PersistanceService Should be able to retrieve and store a player" time="0.012" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).PersistanceService"/>
-  <testcase name="GameComponent When play is pressed, the make move method should be called" time="0.18" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
-  <testcase name="GameComponent When pass turn is pressed, the make move method should be called" time="0.069" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
+  <testcase name="ToasterComponent should create" time="0.02" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).ToasterComponent"/>
+  <testcase name="GameComponent The component should render the game board" time="0.17" classname="HeadlessChrome_79_0_3945_(Windows_10_0_0).GameComponent"/>
   <system-out>
-    <![CDATA[HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The api should be able to update the player'
+    <![CDATA[HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to retrieve players'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{player: Object{playerId: '0bab4c7c-7021-4a83-9f3c-0fcd7be1b008', playerName: '1578360590742', loginName: '1578360590742', password: 'test', words: []}, valid: true}
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"gameHistory":[],"_id":"5e1359279ebd0e50343c47a0","playerId":"9923a81d-73a8-4d34-85b0-21534b1f3020","playerName":"test2","loginName":"1578326311813","password":"test","__v":0}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"playerId":"0bab4c7c-7021-4a83-9f3c-0fcd7be1b008","playerName":"1578360590742","loginName":"1578360590742","password":"test","words":[]}'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"gameHistory":[],"_id":"5e1359279ebd0e50343c47a0","playerId":"9923a81d-73a8-4d34-85b0-21534b1f3020","playerName":"test2","loginName":"1578326311813","password":"test","__v":0,"activeRoomId":null,"socketId":null}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to retrieve players'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{player: Object{playerId: 'f1c101f3-a3e5-4373-8517-d15915032ee0', playerName: '1578326312012', loginName: '1578326312012', password: 'test', words: []}, valid: true}
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"playerId":"f1c101f3-a3e5-4373-8517-d15915032ee0","playerName":"1578326312012","loginName":"1578326312012","password":"test","words":[]}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"gameHistory":[],"_id":"5e1359289ebd0e50343c47a1","playerId":"f1c101f3-a3e5-4373-8517-d15915032ee0","playerName":"1578326312012","loginName":"1578326312012","password":"test","__v":0}'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to delete players'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"gameHistory":[],"_id":"5e13df0e6420012e7cf73218","playerId":"0bab4c7c-7021-4a83-9f3c-0fcd7be1b008","playerName":"1578360590742","loginName":"1578360590742","password":"test","__v":0}'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be created'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Expecting the number of accounts to be incramented by 1'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{chatbarHide: false, chatbarShown: true}
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'deleted all test accounts'
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
-,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: []
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The api should be able to update the player'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player before: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"gameHistory":[],"_id":"5e13df0e6420012e7cf7321a","playerId":"7d218e7b-f86b-4cc2-a7a2-e741e2536fad","playerName":"1578360590874","loginName":"1578360590874","password":"test","__v":0,"socketId":"test2"}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player after: '
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: '{"gameHistory":[],"_id":"5e13df0e6420012e7cf7321a","playerId":"7d218e7b-f86b-4cc2-a7a2-e741e2536fad","playerName":"1578360590874","loginName":"1578360590874","password":"test","__v":0,"activeRoomId":null,"socketId":"test2"}'
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'The API should be able to delete players'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Test to see if players can be stored in storage'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player we stored:'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{playerId: 'test', playerName: 'another'}
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'Player from storage:'
 ,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: Object{playerId: 'test', playerName: 'another'}
+,HeadlessChrome 79.0.3945 (Windows 10.0.0) LOG: 'deleted all test accounts'
 
 ]]>
   </system-out>

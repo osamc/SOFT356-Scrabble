@@ -1,0 +1,80 @@
+<div class="accountDetails">
+    Account Details:
+    <br>
+    <div class="row">
+        <div class="input-group col-sm-6">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Display Name</span>
+            </div>
+            <input type="text" [(ngModel)]="websocket.player.playerName" [disabled]="true" class="form-control"
+                placeholder="Username">
+        </div>
+
+        <div class="input-group col-sm-6">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Login Name</span>
+            </div>
+            <input type="text" [(ngModel)]="websocket.player.loginName" [disabled]="true" class="form-control"
+                placeholder="Username">
+        </div>
+
+
+    </div>
+
+    <br>
+    <br>
+
+    <button class="btn btn-primary" class="showHistory" (click)="showHistory = !showHistory">{{showHistory ? 'Hide History' : 'Show history'}}</button>
+
+    <br>
+
+    <div class="history" *ngIf="showHistory">
+        Match History:
+    
+        <div class="card" style="width: 90%; margin-left: 5%; margin-right: 5%; margin-top: 2%"
+            *ngFor="let match of gameHistory">
+            <div class="matchTitle">
+                <p>Match: {{match.name}}</p>
+                <p>Date: {{match.createDate | date:'medium'}}</p>
+    
+            </div>
+            <div class="card-body">
+                <table id="board" class="board">
+                    <tr *ngFor="let row of match.game.board; let y = index">
+                        <td *ngFor="let tile of row; let x = index" class="tile {{tile.type + '' + tile.multiplier}}">
+                            <div class="gamePiece" *ngIf="tile.tile.letter">
+                                <p class="tileLetter">{{tile.tile.letter}}</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+    
+    
+                <div class="scores">
+                    Scoreboard
+                    <table>
+                        <tr *ngFor="let player of match.game.players">{{player.playerName}} : {{player.score}}</tr>
+                    </table>
+                </div>
+    
+                <br>
+                <br>
+    
+                <div class="turnContainer">
+                    Turn History:
+                    <div class="turns">
+                        <p *ngFor="let turn of match.game.parsedTurns">{{turn}}</p>
+                    </div>
+                </div>
+    
+    
+            </div>
+    
+    
+    
+    
+        </div>
+    </div>
+
+</div>
+

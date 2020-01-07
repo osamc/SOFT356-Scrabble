@@ -1,2 +1,20 @@
+<div class="toolbar" [hidden]="!websocket.player">
+    
+
+    <div class="dropdown show item">
+        <button class="btn btn-secondary dropdown-toggle" id="accountDropDown" data-toggle="dropdown">
+          Account Options
+        </button>
+        <div class="dropdown-menu">
+          <button class="dropdown-item" (click)="viewAcc()">View Account</button>
+          <button class="dropdown-item" (click)="logout()">Logout</button>
+        </div>
+    </div>
+
+    <button class="btn btn-secondary item"  (click)="viewRooms()">View rooms </button>
+</div>
+
+
+
 <app-toaster></app-toaster>
 <router-outlet></router-outlet>

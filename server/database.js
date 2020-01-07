@@ -14,7 +14,6 @@ var ObjectId = require('mongodb').ObjectId;
  }
 
  async function createPlayer(player) {
-     console.log(player);
     return await schemas.player.create(player);
  }
 
@@ -27,10 +26,9 @@ var ObjectId = require('mongodb').ObjectId;
  }
 
  async function updatePlayer(player) {
-    var update = {playerName: player.playerName, 
+    var update = {
     socketId: player.socketId,
     activeRoomId: player.activeRoomId};
-    console.log(update);
     return await schemas.player.update({"playerId" : player.playerId}, update, {upsert: true} ,function(err, doc) {
         return doc;
     });

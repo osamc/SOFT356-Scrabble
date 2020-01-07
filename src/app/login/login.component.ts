@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {Md5} from 'ts-md5/dist/md5';
+import { sha256 } from 'js-sha256'
 import { ApiService } from '../services/api.service';
 import { Player } from '../models/player';
 import { WebsocketService } from '../services/websocket.service';
@@ -33,22 +33,21 @@ export class LoginComponent implements OnInit {
   }
 
   login(username: string, password: string) {
-    this.api.login(username, '' + Md5.hashStr(password)).subscribe(res => {
-      console.log(res);
-      let response: any = res;
-      if (response.valid) {
-        this.storage.storePlayer(<Player> response.player);
-        this.websocket.setPlayer(<Player> response.player);
-        this.router.navigateByUrl('/listRooms');
-      }
-    })
+    alert(sha256(password));
+    // this.api.login(username, '' + sha256(password)).subscribe(res => {
+    //   let response: any = res;
+    //   if (response.valid) {
+    //     this.storage.storePlayer(<Player> response.player);
+    //     this.websocket.setPlayer(<Player> response.player);
+    //     this.router.navigateByUrl('/listRooms');
+    //   }
+    // })
   }
 
   createAccount(login: string, username: string, pw: string) {
-    let hashed:string = '' + Md5.hashStr(pw);
+    let hashed:string = sha256(pw);
     if (login.length >= 3 && username.length >= 3 && pw.length >= 3) {
       this.api.createPlayer(login, username, hashed).subscribe(res => {
-        console.log(res);
         let response: any = res;
         if (response.valid) {
           this.storage.storePlayer(<Player> response.player);
@@ -60,9 +59,6 @@ export class LoginComponent implements OnInit {
        
       });
     } else {
-      console.log(login),
-      console.log(username);
-      console.log(pw);
       this.toaster.createToast('missing fields required', ToastType.DANGER);
     }
     

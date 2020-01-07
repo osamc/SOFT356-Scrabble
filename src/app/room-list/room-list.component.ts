@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from '../services/websocket.service';
 import { Player } from '../models/player';
 import { Room } from '../models/room';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-list',
@@ -12,10 +13,14 @@ export class RoomListComponent implements OnInit {
 
   newRoomName: string;
 
-  constructor(public webSockets: WebsocketService) {}
+  constructor(public webSockets: WebsocketService,
+      private router: Router) {}
 
   ngOnInit() {
     this.webSockets.init();
+    if (!this.webSockets.player) {
+      this.router.navigateByUrl('/')
+    }
   }
 
 
@@ -26,8 +31,5 @@ export class RoomListComponent implements OnInit {
   joinRoom(room: Room) {
     this.webSockets.joinRoom(room.id);
   }
-
-
-
 
 }

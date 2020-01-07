@@ -1,5 +1,4 @@
 export class Game {
-
     players: any[];
     board: any[][];
     activePlayer: string;
@@ -7,8 +6,17 @@ export class Game {
     firstTurn: boolean;
     hand: GameTile[];
     state?: string;
+    turns?: Turn[];
+    parsedTurns?: string[];
 }
 
+export class Turn {
+    moves?: any[];
+    tiles?: any[];
+    roomId: string;
+    moveType: string;
+    from: string;
+}
 
 export class BoardTile {
     type: string;

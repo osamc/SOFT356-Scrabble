@@ -11,7 +11,7 @@ const crypto = require("crypto");
 
 
 
-const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/test?retryWrites=true&w=majority"
+const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/scrabble?retryWrites=true&w=majority"
 const port = process.env.PORT || 9000;
 
 //Locate the build folder of the angular app
@@ -32,20 +32,9 @@ app.get('/', (req, res) => {
 })
 
 const mongodbOptions = { 
-    server: { 
-      socketOptions: { 
-        keepAlive: 300000, connectTimeoutMS: 30000 
-      } 
-    }, 
-    replset: { 
-      socketOptions: { 
-        keepAlive: 300000, 
-        connectTimeoutMS : 30000 
-      } 
-    },
     useNewUrlParser: true, 
     useUnifiedTopology: true
-  };
+};
 
 //Create app and listen on port
 let server = app.listen(port, () => {
@@ -66,7 +55,6 @@ const rooms = [];
 
 app.post("/createPlayer", (req, res) => {
     var player = req.body;
-    console.log(req.body);
     player.words = [];
     db.getPlayerViaLogin(player.loginName).then(p => {
         if (p != null) {
@@ -81,8 +69,6 @@ app.post("/createPlayer", (req, res) => {
 app.post('/login', (req, res) => {
     var player = req.body;
     db.getPlayerViaLogin(player.loginName).then(fromDb => {
-        console.log(player);
-        console.log(fromDb);
         let response = {};
         response.valid = player.password === fromDb.password;
         if (response.valid) {
@@ -155,7 +141,8 @@ setInterval(() => {
         if (room) {
             //If the room is empty and it is older than a minute then remove it
             //if the game has finished then remove it too
-            if ((room.players == 0 && new Date().getTime() - room.createDate.getTime() < 1000 * 60 * 1) || (room.game && room.game.state === 'end')) {
+            console.log(new Date().getTime() - new Date(room.createDate).getTime());
+            if ((room.players == 0 && ((new Date().getTime() - new Date(room.createDate).getTime()) > 1000 * 60 * 1)) || (room.game && room.game.state === 'end')) {
                 console.log('Removing room: ' + room.id);
                 rooms.splice(i,1);
             }
@@ -217,12 +204,12 @@ io.on('connection', socket => {
         storeGame(room);
 
         for (let i = 0; i < room.players.length; i++) {
-            db.addGameToHistory(player.playerId, room.id);
+            db.addGameToHistory(room.players[i].playerId, room.id);
         }
 
         let message = 'Player: ' + winner.playerName + ' has won with a score of: ' + winner.score
         io.to(room.id).emit('message', {from: 'Server', contents: message});
-        io.to(room.id).emit('notification', {type: 'success', contents: message});
+        io.to(room.id).emit('notification', {type: 'success', text: message});
     }
 
     function storeGame(room) {
@@ -272,6 +259,7 @@ io.on('connection', socket => {
         return toReturn;
     }
 
+
     socket.on('createRoom', room => {
         room.messages = [];
         room.createDate = new Date();
@@ -293,7 +281,7 @@ io.on('connection', socket => {
 
         console.log(room);
 
-            if(room.players.filter(p => p.socketId === socket.id).length > 0 ) {
+            if(room.players.filter(p => p.socketId === socket.id).length > 0  || (room.players.filter(p => p.playerId === player.playerId).length > 0)) {
                 socket.emit('notification', {type: 'warning', text: 'You are already in this room'});
             } else if (player.activeRoom != null) {
                 socket.emit('notification', {type: 'warning', text: 'You are already in a room'});
@@ -301,7 +289,6 @@ io.on('connection', socket => {
                 socket.emit('notification', {type: 'warning', text: 'Room is full'});
             } else if (room.game && room.game.state === 'active') {
                 socket.emit('notification', {type: 'warning', text: 'You are unable to join a game that has already started'});
-
             } else {
                 let toPush = sanitisePlayer(player);
                 room.players.push(toPush);
@@ -320,7 +307,7 @@ io.on('connection', socket => {
         room.game = game.initialSetup(room.players, 8);
         try {
             updateGame(room);
-            socket.to(player.activeRoom).emit('notification', {type: 'success', text: 'Game Started'});
+            io.to(player.activeRoom).emit('notification', {type: 'success', text: 'Game Started'});
         } catch (err) {
             console.log(err);
         }
@@ -385,4 +372,5 @@ io.on('connection', socket => {
 
     console.log('Socket' + socket.id + 'has connected');
 
-})
+});
+

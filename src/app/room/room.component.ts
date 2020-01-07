@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, AfterViewInit, QueryList, OnDestroy, HostListener } from '@angular/core';
 import { WebsocketService } from '../services/websocket.service';
 import { Message } from '../models/message';
 import { Room } from '../models/room';
@@ -8,7 +8,7 @@ import { Room } from '../models/room';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css']
 })
-export class RoomComponent implements OnInit, AfterViewInit{
+export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public showChat = false;
 
@@ -26,26 +26,22 @@ export class RoomComponent implements OnInit, AfterViewInit{
     });
   }
 
+  ngOnDestroy(): void {
+    this.websocket.leaveRoom();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  handleBeforeUnload(event) {
+    this.websocket.leaveRoom();
+  }
+
   sendMessage(message: any) {
     this.websocket.sendMessage(message.value);
     message.value = "";
   }
 
   toggleChat() {
-    // let chatbar = document.getElementById('myChatbar')
-    // let main = document.getElementById('main'); 
-   
-    // if (this.showChat) {
-    //   chatbar.style.width = "0";
-    //   chatbar.style.padding = "0";
-    //   main.style.marginLeft = '0';
-    // } else {
-    //   chatbar.style.width = "25%";
-    //   chatbar.style.padding = "1rem";
-    // }
-
     this.showChat = !this.showChat;
-
   }
 
 

@@ -1,0 +1,90 @@
+
+.turns { 
+    overflow-y: scroll; 
+}
+
+.accountDetails {
+    padding: 5rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 50px;
+    box-shadow: 5px 5px;
+}
+
+
+.history {
+    padding-top: 50px;
+}
+
+.turnContainer {
+    width: 500px; 
+    height: 100px; 
+    margin-left: 100px; 
+    display: inline-block
+}
+
+.turnContainer .turns {
+    width: 500px; 
+    height: 100px; 
+    display: inline-block
+}
+
+.board {
+    float:left;
+}
+
+.matchTitle {
+    margin-left: 2rem;
+    margin-top: 2rem;
+}
+
+
+.tile {
+	width: 25px;
+	height: 25px;
+	margin: 3px;
+	border: 1px solid black;
+	text-align: center;
+    vertical-align: middle;
+	user-select: none;
+}
+
+.tileLetter {
+    text-transform: capitalize;
+    font-size: 10px;
+}
+
+.gamePiece {
+	width: 15px;
+	height: 15px;
+	background-color: #f2e1c7;
+    border-radius: 5px;
+    user-select: none;
+    text-align: center;
+}
+
+.scores {
+	display: inline-block;
+	position: relative;
+	margin-left: 100px;
+}
+
+.word2 {
+	background-color: #D1A592;
+}
+
+.word3 {
+	background-color: #DE674C;
+}
+
+.letter2 {
+	background-color: #C9D9E1;
+}
+
+.letter3 {
+	background-color: #00468b;	
+}
+
+.none0 {
+	background-color: #C8C1A4;
+}

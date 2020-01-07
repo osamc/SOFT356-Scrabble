@@ -17,7 +17,6 @@ export class Room {
     messages?: Message[] = [];
     maxPlayers?: Number = 8;
     players?: Player[] = [];
-
     game?: Game;
 
 }

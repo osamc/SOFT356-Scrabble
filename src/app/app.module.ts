@@ -10,6 +10,9 @@ import { ApiService } from './services/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GameComponent } from './game/game.component';
 import { ToasterComponent } from './toaster/toaster.component';
+import { AccountComponent } from './account/account.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -18,12 +21,14 @@ import { ToasterComponent } from './toaster/toaster.component';
     RoomComponent,
     LoginComponent,
     GameComponent,
-    ToasterComponent
+    ToasterComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -43,8 +43,9 @@ export class ApiService {
     return this.http.post(this.base + '/login', {'loginName': username, 'password': password});
   }
 
-  public getRoomDetails(room: Room) {
-    
+  public getGame(roomId) {
+    return this.http.get(this.base + '/getGame/' + roomId);
   }
+
 
 }

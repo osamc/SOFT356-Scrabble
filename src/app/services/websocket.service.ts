@@ -42,7 +42,6 @@ export class WebsocketService {
       // of the rooms
       const roomObserver = new Observable(observer => {
         this.socket.on('rooms', data => {
-          console.log(data);
           this.rooms = data as Room[];
         });
       }).subscribe();
@@ -92,7 +91,6 @@ export class WebsocketService {
 
   startGame() {
     if (this.activeRoom){
-      console.log(this.activeRoom.id);
       this.socket.emit('startGame', this.activeRoom.id);
     }
   }
@@ -117,7 +115,6 @@ export class WebsocketService {
 
   sendMove(move: any) {
     move.from = this.player.playerId;
-    console.log(move);
     this.socket.emit('makeMove', move);
   }
 

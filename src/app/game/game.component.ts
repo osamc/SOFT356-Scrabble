@@ -9,18 +9,12 @@ import { ToasterService, ToastType } from '../services/toaster.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class GameComponent implements OnInit {
   
-  
-
   constructor(public websocket: WebsocketService,
     public toaster: ToasterService) { }
 
   ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
-    this.websocket.leaveRoom();
   }
 
   exchangeMode = false;
@@ -83,11 +77,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
     this.tiles = [];
     this.moves = [];
-    console.log(this.exchangeMode);
     this.exchangeMode = !this.exchangeMode;
-    console.log(this.exchangeMode);
-
-
   }
 
   exchangeTurn() {
@@ -110,7 +100,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
        if (JSON.stringify(boardTile.tile) !== '{}') {
         let tileToAddToHand = JSON.parse(JSON.stringify(boardTile.tile));
-        console.log(tileToAddToHand);
         boardTile.tile = {};
         for (let i = 0; i < this.websocket.activeRoom.game.hand.length; i++) {
           if (this.websocket.activeRoom.game.hand[i].letter === tileToAddToHand.letter) {

@@ -34,8 +34,6 @@ describe('RoomComponent', () => {
     let chatbar: DebugElement = fixture.debugElement.query(By.css('.chatbarShown'));
     let t = chatbar.nativeElement;
 
-    console.log(chatbar.classes);
-
     expect(chatbar.classes['chatbarShown']).toBeTruthy();
 
     component.showChat = false;

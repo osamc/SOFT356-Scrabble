@@ -98,8 +98,8 @@ describe('ApiService', () => {
 
       service.getPlayer(castResult.playerId).subscribe(before => {
         let beforePlayer = <Player> before;
-        let oldName = beforePlayer.playerName;
-        beforePlayer.playerName = "test2";
+        let oldName = beforePlayer.socketId;
+        beforePlayer.socketId = "test2";
         service.updatePlayer(beforePlayer).subscribe(() => {
           service.getPlayer(beforePlayer.playerId).subscribe(after => {
             let afterPlayer = <Player> after;
@@ -107,8 +107,8 @@ describe('ApiService', () => {
             console.log(JSON.stringify(beforePlayer));
             console.log("Player after: ");
             console.log(JSON.stringify(afterPlayer));
-            expect(afterPlayer.playerName !== oldName).toBeTruthy();
-            expect(afterPlayer.playerName === 'test2');
+            expect(afterPlayer.socketId !== oldName).toBeTruthy();
+            expect(afterPlayer.socketId === 'test2');
             accountsCreated.push(afterPlayer);
             done();
           })

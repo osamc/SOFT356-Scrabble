@@ -6,6 +6,6 @@ export class Player {
     password?: string
     socketId?: string;
     activeRoomId?: string;
-
+    gameHistory?: string[];
 }
 
