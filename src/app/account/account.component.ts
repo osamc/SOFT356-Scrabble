@@ -26,34 +26,38 @@ export class AccountComponent implements OnInit {
     //an array of observables that we can fork join
     this.api.getPlayer(this.websocket.player.playerId).subscribe(res => {
       let response: any = res;
-      this.websocket.player = response;
 
-      let obs: Observable<any>[] = [];
+      if (res) {
+        this.websocket.player = response;
 
-      for (let i = 0; i < this.websocket.player.gameHistory.length; i++) {
-        let game = this.websocket.player.gameHistory[i];
-        obs.push(this.api.getGame(game));
-      }
-
-      let join = forkJoin(obs);
-      
-      //We then subscribe to the set of observables,
-      //once we get a response we want to 
-      //parse the turn data and create user readable 
-      //turn data
-      join.subscribe(jRes => {
-        this.gameHistory = jRes;
-        for (let i = 0; i < this.gameHistory.length; i++) {
-          let game = this.gameHistory[i].game;
-          game.parsedTurns = [];
-          for (let j = 0; j < game.turns.length; j++) {
-            game.parsedTurns.push(this.convertTurnToString(game, game.turns[j]));
+        let obs: Observable<any>[] = [];
+  
+        if (this.websocket.player.gameHistory) {
+          for (let i = 0; i < this.websocket.player.gameHistory.length; i++) {
+            let game = this.websocket.player.gameHistory[i];
+            obs.push(this.api.getGame(game));
           }
+    
+          let join = forkJoin(obs);
+          
+          //We then subscribe to the set of observables,
+          //once we get a response we want to 
+          //parse the turn data and create user readable 
+          //turn data
+          join.subscribe(jRes => {
+            this.gameHistory = jRes;
+            for (let i = 0; i < this.gameHistory.length; i++) {
+              let game = this.gameHistory[i].game;
+              game.parsedTurns = [];
+              for (let j = 0; j < game.turns.length; j++) {
+                game.parsedTurns.push(this.convertTurnToString(game, game.turns[j]));
+              }
+            }
+            //We want to reverse this as the list would be shown oldest to newest
+            this.gameHistory.reverse();
+          });
         }
-        //We want to reverse this as the list would be shown oldest to newest
-        this.gameHistory.reverse();
-      });
-
+      }
     });
   }
 

@@ -26,11 +26,14 @@ describe('AccountComponent', () => {
     fixture = TestBed.createComponent(AccountComponent);
     component = fixture.componentInstance;
     component.websocket.player = {playerId: 'test', playerName: 'test'};
+    component.websocket.activeRoom = {id: 'test'};
+    component.websocket.initiated = true;
+    component.gameHistory = [];
     fixture.detectChanges();
   });
 
 
-  it ('Should create a new history item for each game', () => {
+  it('Should create a new history item for each game', () => {
     component.showHistory = true;
     component.gameHistory.push(game);
   
@@ -64,7 +67,7 @@ describe('AccountComponent', () => {
 
   });
 
-  it ('The button should toggle the history', () => {
+  it('The button should toggle the history', () => {
     let historyButton: DebugElement = fixture.debugElement.query(By.css('.showHistory'));
     component.showHistory = true;
     fixture.detectChanges();
@@ -81,7 +84,7 @@ describe('AccountComponent', () => {
 
   });
 
-  it ('The component should be able to parse turns into useful text', () => {
+  it('The component should be able to parse turns into useful text', () => {
     let turnString = component.convertTurnToString(game.game, game.game.turns[0]);
     expect(turnString).toEqual('Player: test2 has played:  R , I , S , E , S ');
     turnString = component.convertTurnToString(game.game, game.game.turns[2]);

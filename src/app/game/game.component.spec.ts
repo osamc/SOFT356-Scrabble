@@ -30,6 +30,7 @@ describe('GameComponent', () => {
 
   it ('The component should render the game board', () => {
     fixture.detectChanges();
+
     let tiles: DebugElement[] = fixture.debugElement.queryAll(By.css('.tile'));
     expect(tiles.length).toEqual(225);
   });

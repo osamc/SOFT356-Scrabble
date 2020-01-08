@@ -17,9 +17,9 @@ export class WebsocketService {
   //local variables used and shared throughout components that use
   //this service
   socket: SocketIOClient.Socket;
-  rooms: Room[];
+  rooms: Room[] = [];
   activeRoom: Room;
-  player: Player;
+  player: Player = {playerId: ''};
   test: boolean = false;
 
   initiated: boolean = false;

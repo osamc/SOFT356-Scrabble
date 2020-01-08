@@ -14,26 +14,6 @@ describe('ApiService', () => {
 
   beforeEach(() => TestBed.configureTestingModule({imports: [HttpClientModule]}));
 
-  afterAll(() => {
-    const service: ApiService = TestBed.get(ApiService);
-
-    try {
-      let obs = [];
-      accountsCreated.forEach(acc => {
-        obs.push(service.deletePlayer(acc.playerId));
-      });
-  
-      let deleteAll = forkJoin(obs);
-      deleteAll.subscribe(() => {
-        console.log("deleted all test accounts");
-      });
-    } catch (err) {
-      console.log(err);
-    }
-    
-
-  });
-
   //The service should be able to create 
   it('should create players', (done) => {
     console.log("Test to see if players can be created");
@@ -46,6 +26,7 @@ describe('ApiService', () => {
       let player: Player = <Player> res;
       let size = accountsCreated.length;
       accountsCreated.push(player);
+      service.deletePlayer(player.playerId).subscribe();
       console.log("Expecting the number of accounts to be incramented by 1")
       expect(accountsCreated.length).toBe(size+1);
       done();
@@ -59,7 +40,6 @@ describe('ApiService', () => {
       let res: any = result;
       let player = <Player> res.player;
       console.log(res);
-      accountsCreated.push(player);
       service.getPlayer(player.playerId).subscribe(got => {
         console.log("Player before: ");
         console.log(JSON.stringify(player));
@@ -67,6 +47,7 @@ describe('ApiService', () => {
         console.log(JSON.stringify(got));
         expect((<Player>got).playerId === player.playerId).toBeTruthy();
         expect((<Player>got).playerName === player.playerName).toBeTruthy();
+        service.deletePlayer(player.playerId).subscribe();
         done();
       }, err => {
         console.log(err);
@@ -110,7 +91,7 @@ describe('ApiService', () => {
             console.log(JSON.stringify(afterPlayer));
             expect(afterPlayer.socketId !== oldName).toBeTruthy();
             expect(afterPlayer.socketId === 'test2');
-            accountsCreated.push(afterPlayer);
+            service.deletePlayer(afterPlayer.playerId).subscribe();
             done();
           })
         });
@@ -129,6 +110,7 @@ describe('ApiService', () => {
           let lRes: any = loginRes;
           accountsCreated.push(lRes.player);
           expect(lRes.valid).toBe(true);
+          service.deletePlayer(lRes.playerId).subscribe();
           done();
         });
       }

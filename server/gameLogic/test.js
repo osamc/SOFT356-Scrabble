@@ -764,7 +764,7 @@ describe('Game Logic Test', () => {
 
         let res = game.makeMove(setup, moveRequest);
 
-        expecet(res.valid).equal(true);
+        expect(res.valid).equal(true);
 
     })
 
