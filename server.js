@@ -45,6 +45,7 @@ let server = app.listen(port, () => {
     mongoose.connect(dbConnection, mongodbOptions).then((test) => {
         console.log("Connected to DB");
     });
+    
 });
 
 //Initialise socket io
@@ -166,7 +167,6 @@ setInterval(() => {
         if (room) {
             //If the room is empty and it is older than a minute then remove it
             //if the game has finished then remove it too
-            console.log(new Date().getTime() - new Date(room.createDate).getTime());
             if ((room.players.length == 0 && ((new Date().getTime() - new Date(room.createDate).getTime()) > 1000 * 60 * 1)) || (room.game && room.game.state === 'end')) {
                 rooms.splice(i, 1);
             }
