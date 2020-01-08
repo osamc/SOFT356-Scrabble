@@ -17,6 +17,7 @@ export class GameComponent implements OnInit {
   ngOnInit() {
   }
 
+  //local variables
   exchangeMode = false;
   activeTile: any = null;
   tiles = [];
@@ -111,13 +112,15 @@ export class GameComponent implements OnInit {
   }
 
   pickUpTile(x: any, y: any) {
-    //if it is your turn
+    //if it is your turn and you select a tile,
+    //then we should pick it up
      if (this.websocket.activeRoom.game.yourTurn) {
        let boardTile = this.websocket.activeRoom.game.board[y][x];
 
+       //if the square isn't empty then we take a copy, 
+       //and go iterate over the hand and make the tile playable again
        if (JSON.stringify(boardTile.tile) !== '{}') {
         let tileToAddToHand = JSON.parse(JSON.stringify(boardTile.tile));
-        console.log(tileToAddToHand);
         boardTile.tile = {};
         for (let i = 0; i < this.websocket.activeRoom.game.hand.length; i++) {
           if (this.websocket.activeRoom.game.hand[i].letter === tileToAddToHand.letter) {
@@ -133,6 +136,8 @@ export class GameComponent implements OnInit {
   placeTile(x: any, y: any) {
     if (this.websocket.activeRoom.game.yourTurn) {
 
+      //If we're in exchange mode, then we should let the player know that they are
+      //are unable to play the tile
       if (!this.exchangeMode) {
         let boardTile = this.websocket.activeRoom.game.board[y][x];
 
@@ -163,7 +168,6 @@ export class GameComponent implements OnInit {
               }
             }
 
-
             for (let i = 0; i < hand.length; i++) {
               if (hand[i].letter == tileToFind.letter && hand[i].used == true) {
                 hand[i].used = false;
@@ -193,7 +197,6 @@ export class GameComponent implements OnInit {
     if (this.activeTile) {
       this.activeTile.selected = false;
     }
-
 
     if (this.exchangeMode) {
       if (!this.tiles.includes(tile)) {

@@ -9,7 +9,7 @@ const game = require('./server/gameLogic/game');
 //for generating uuids
 const crypto = require("crypto");
 
-const dbConnection = "mongodb+srv://sam:password.0@scrabble-hs60n.mongodb.net/scrabble?retryWrites=true&w=majority"
+const dbConnection = "mongodb+srv://sam:password.0@coursework-p9otl.mongodb.net/scrabble?retryWrites=true&w=majority"
 const port = process.env.PORT || 9000;
 
 //Locate the build folder of the angular app

@@ -467,8 +467,6 @@ function findWords(game, tiles, moves) {
 
     }
 
-    console.log(convertTilesToStrings(foundWords));
-
     return foundWords;
 
 }
