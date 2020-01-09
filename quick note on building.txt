@@ -1,0 +1,5 @@
+to run the project you will need to use the following commands
+npm install
+ng build
+npm run
+navigate to: localhost:9000
