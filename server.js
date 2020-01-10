@@ -9,7 +9,7 @@ const game = require('./server/gameLogic/game');
 //for generating uuids
 const crypto = require("crypto");
 
-const dbConnection = "mongodb+srv://sam:@coursework-p9otl.mongodb.net/test?retryWrites=true&w=majority"
+const dbConnection = "mongodb+srv://sam:password.0@coursework-p9otl.mongodb.net/test?retryWrites=true&w=majority"
 const port = process.env.PORT || 9000;
 
 //Locate the build folder of the angular app
@@ -305,6 +305,7 @@ io.on('connection', socket => {
     socket.on('createRoom', room => {
         room.messages = [];
         room.createDate = new Date();
+        
         //The id the client sends us will actually be the room 
         //name instead
         room.name = '' + room.id;

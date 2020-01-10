@@ -92,7 +92,7 @@ export class WebsocketService {
 
   // We want to be able to create a room
   createRoom(roomName: string, playerNumber: number) {
-    const room: Room = { id: roomName, maxPlayers: 4, messages: [], players: [] };
+    const room: Room = { id: roomName, maxPlayers: 8, messages: [], players: [] };
     this.socket.emit('createRoom', room);
   }
 
