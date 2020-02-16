@@ -84,6 +84,14 @@ export class WebsocketService {
           this.toaster.createToast(notification.text, notification.type);
         });
       }).subscribe();
+	  
+	  
+	  const pingPong = new Observable(obs => { 
+	  this.socket.on('ping', ping => {
+      console.log('ping');
+      this.socket.emit('pong', 'pong');
+      });
+	  }).subscribe();
      
       this.initiated = true;
 

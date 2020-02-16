@@ -436,6 +436,15 @@ io.on('connection', socket => {
     //every time a socket connects we want to log it just 
     //to keep track
     console.log('Socket' + socket.id + 'has connected');
+  	
+    socket.on('pong', pong => {
+	console.log('pong');
+    });
+	
+    setInterval(() => {
+        console.log('ping');
+	socket.emit('ping', 'ping');
+    }, 30000);
 
 });
 

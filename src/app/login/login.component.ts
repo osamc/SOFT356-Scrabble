@@ -52,15 +52,20 @@ export class LoginComponent implements OnInit {
   }
 
   createAccount(login: string, username: string, pw: string) {
+    //We want to hash the password so we're not storing plain text
     let hashed:string = sha256(pw);
+    //if everything is the right length
     if (login.length >= 3 && username.length >= 3 && pw.length >= 3) {
+      //then we want to create the player
       this.api.createPlayer(login, username, hashed).subscribe(res => {
         let response: any = res;
+        //if all is well, we navigate to the listroom component
         if (response.valid) {
           this.storage.storePlayer(<Player> response.player);
           this.websocket.setPlayer(<Player> response.player);
           this.router.navigateByUrl('/listRooms');
         } else {
+          //else we let the user know
           this.toaster.createToast(response.reason, ToastType.WARNING);
         }
        
@@ -73,7 +78,6 @@ export class LoginComponent implements OnInit {
       }
       
     }
-    
 
   }
 

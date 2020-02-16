@@ -27,10 +27,8 @@ export class RoomListComponent implements OnInit {
     //if we're not logged in then we want to
     //redirect them to the relevent place
     let player = this.persistance.retrievePlayer();
-    console.log(player);
     if (player) {
       this.api.getPlayer(player.playerId).subscribe(res => {
-        console.log();
         if (!res) {
           this.persistance.clear();
           this.router.navigateByUrl('/')
